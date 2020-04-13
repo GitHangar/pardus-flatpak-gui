@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-13 16:16+0300\n"
+"POT-Creation-Date: 2020-04-13 16:20+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -339,23 +339,23 @@ msgid "Remote Name: "
 msgstr ""
 
 #: pardusflatpakgui/uninstallwindow.py:74
-msgid "Uninstalling "
+#: pardusflatpakgui/uninstallwindow.py:87
+msgid "Uninstalling..."
 msgstr ""
 
-#: pardusflatpakgui/uninstallwindow.py:88
-#: pardusflatpakgui/uninstallwindow.py:182
-msgid "Uninstalling: "
-msgstr ""
-
-#: pardusflatpakgui/uninstallwindow.py:111
+#: pardusflatpakgui/uninstallwindow.py:110
 msgid "Error at uninstallation!"
 msgstr ""
 
-#: pardusflatpakgui/uninstallwindow.py:120
+#: pardusflatpakgui/uninstallwindow.py:119
 msgid "Uninstalling completed!"
 msgstr ""
 
-#: pardusflatpakgui/uninstallwindow.py:204
+#: pardusflatpakgui/uninstallwindow.py:181
+msgid "Uninstalling: "
+msgstr ""
+
+#: pardusflatpakgui/uninstallwindow.py:203
 msgid "Not uninstalled: "
 msgstr ""
 

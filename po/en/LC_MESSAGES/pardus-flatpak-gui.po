@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flatpak GUI 1.0-rc1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-13 16:16+0300\n"
-"PO-Revision-Date: 2020-04-13 14:08+0300\n"
+"POT-Creation-Date: 2020-04-13 16:20+0300\n"
+"PO-Revision-Date: 2020-04-13 16:20+0300\n"
 "Last-Translator: Erdem Ersoy <<erdem.ersoy@pardus.org.tr>>\n"
 "Language-Team: Erdem Ersoy <erdem.ersoy@pardus.org.tr>\n"
 "Language: en\n"
@@ -346,23 +346,23 @@ msgid "Remote Name: "
 msgstr "Remote Name: "
 
 #: pardusflatpakgui/uninstallwindow.py:74
-msgid "Uninstalling "
-msgstr "Uninstalling "
+#: pardusflatpakgui/uninstallwindow.py:87
+msgid "Uninstalling..."
+msgstr "Uninstalling..."
 
-#: pardusflatpakgui/uninstallwindow.py:88
-#: pardusflatpakgui/uninstallwindow.py:182
-msgid "Uninstalling: "
-msgstr "Uninstalling: "
-
-#: pardusflatpakgui/uninstallwindow.py:111
+#: pardusflatpakgui/uninstallwindow.py:110
 msgid "Error at uninstallation!"
 msgstr "Error at uninstallation!"
 
-#: pardusflatpakgui/uninstallwindow.py:120
+#: pardusflatpakgui/uninstallwindow.py:119
 msgid "Uninstalling completed!"
 msgstr "Uninstalling completed!"
 
-#: pardusflatpakgui/uninstallwindow.py:204
+#: pardusflatpakgui/uninstallwindow.py:181
+msgid "Uninstalling: "
+msgstr "Uninstalling: "
+
+#: pardusflatpakgui/uninstallwindow.py:203
 msgid "Not uninstalled: "
 msgstr "Not uninstalled: "
 
@@ -385,6 +385,9 @@ msgstr "Updated: "
 #: pardusflatpakgui/updateallwindow.py:123
 msgid "Updating completed!"
 msgstr "Updating completed!"
+
+#~ msgid "Uninstalling "
+#~ msgstr "Uninstalling "
 
 #~ msgid "A GUI for Flatpak"
 #~ msgstr "A GUI for Flatpak"

@@ -71,8 +71,7 @@ class UninstallWindow(object):
 
         self.UninstallWindow = UninstallBuilder.get_object("ActionWindow")
         self.UninstallWindow.set_application(application)
-        self.UninstallWindow.set_title(_("Uninstalling ") +
-                                       self.AppToUninstallRealName)
+        self.UninstallWindow.set_title(_("Uninstalling..."))
         self.UninstallWindow.show()
 
         self.UninstallProgressBar = UninstallBuilder.get_object(
@@ -85,7 +84,7 @@ class UninstallWindow(object):
                                        "ActionTextBuffer")
 
         self.UninstallTextBuffer.set_text("\0", -1)
-        self.StatusText = _("Uninstalling: ") + self.AppToUninstallRealName
+        self.StatusText = _("Uninstalling...")
         self.UninstallLabel.set_text(self.StatusText)
         self.UninstallTextBuffer.set_text(self.StatusText)
 
@@ -178,15 +177,15 @@ class UninstallWindow(object):
     def UninstallProgressCallback(self, *args):
         self.RefToUninstall = Flatpak.Ref.parse(args[1].get_ref())
         self.RefToUninstallRealName = self.RefToUninstall.get_name()
-        if self.RefToUninstallRealName != self.AppToUninstallRealName:
-            statustext = _("Uninstalling: ") + self.RefToUninstallRealName
-            self.StatusText = self.StatusText + "\n" + statustext
-            GLib.idle_add(self.UninstallLabel.set_text,
-                          statustext,
-                          priority=GLib.PRIORITY_DEFAULT)
-            GLib.idle_add(self.UninstallTextBuffer.set_text,
-                          self.StatusText,
-                          priority=GLib.PRIORITY_DEFAULT)
+
+        statustext = _("Uninstalling: ") + self.RefToUninstallRealName
+        self.StatusText = self.StatusText + "\n" + statustext
+        GLib.idle_add(self.UninstallLabel.set_text,
+                      statustext,
+                      priority=GLib.PRIORITY_DEFAULT)
+        GLib.idle_add(self.UninstallTextBuffer.set_text,
+                      self.StatusText,
+                      priority=GLib.PRIORITY_DEFAULT)
 
         self.TransactionProgress = args[2]
         self.TransactionProgress.set_update_frequency(200)
@@ -200,15 +199,17 @@ class UninstallWindow(object):
     def UninstallProgressCallbackError(self, *args):
         self.RefToUninstall = Flatpak.Ref.parse(args[1].get_ref())
         self.RefToUninstallRealName = self.RefToUninstall.get_name()
+
+        statustext = _("Not uninstalled: ") + self.RefToUninstallRealName
+        self.StatusText = self.StatusText + "\n" + statustext
+        GLib.idle_add(self.UninstallLabel.set_text,
+                      statustext,
+                      priority=GLib.PRIORITY_DEFAULT)
+        GLib.idle_add(self.UninstallTextBuffer.set_text,
+                      self.StatusText,
+                      priority=GLib.PRIORITY_DEFAULT)
+
         if self.RefToUninstallRealName != self.AppToUninstallRealName:
-            statustext = _("Not uninstalled: ") + self.RefToUninstallRealName
-            self.StatusText = self.StatusText + "\n" + statustext
-            GLib.idle_add(self.UninstallLabel.set_text,
-                          statustext,
-                          priority=GLib.PRIORITY_DEFAULT)
-            GLib.idle_add(self.UninstallTextBuffer.set_text,
-                          self.StatusText,
-                          priority=GLib.PRIORITY_DEFAULT)
             return True
         else:
             return False
