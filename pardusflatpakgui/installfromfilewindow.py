@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Pardus Flatpak GUI install from file input window module
+# Pardus Flatpak GUI install from file first window module
 # Copyright (C) 2020 Erdem Ersoy
 #
 # This program is free software: you can redistribute it and/or modify
