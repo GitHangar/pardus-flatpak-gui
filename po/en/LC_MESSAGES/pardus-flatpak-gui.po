@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flatpak GUI 1.0-rc1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-13 16:20+0300\n"
-"PO-Revision-Date: 2020-04-13 16:20+0300\n"
+"POT-Creation-Date: 2020-04-13 17:45+0300\n"
+"PO-Revision-Date: 2020-04-13 17:46+0300\n"
 "Last-Translator: Erdem Ersoy <<erdem.ersoy@pardus.org.tr>>\n"
 "Language-Team: Erdem Ersoy <erdem.ersoy@pardus.org.tr>\n"
 "Language: en\n"
@@ -56,7 +56,7 @@ msgstr "There are too many arguments. Argument count: "
 #: pardusflatpakgui/installfromfilewindow.py:48
 #: pardusflatpakgui/installwindow.py:77 pardusflatpakgui/mainwindow.py:53
 #: pardusflatpakgui/uninstallwindow.py:69
-#: pardusflatpakgui/updateallwindow.py:57
+#: pardusflatpakgui/updateallwindow.py:69
 msgid "Error reading GUI file: "
 msgstr "Error reading GUI file: "
 
@@ -83,6 +83,7 @@ msgstr "Error at installation!"
 #: pardusflatpakgui/installfromentrywindow_2.py:122
 #: pardusflatpakgui/installfromfilewindow_2.py:125
 #: pardusflatpakgui/installwindow.py:127
+#: pardusflatpakgui/updateallwindow.py:119
 msgid "Installing completed!"
 msgstr "Installing completed!"
 
@@ -366,25 +367,31 @@ msgstr "Uninstalling: "
 msgid "Not uninstalled: "
 msgstr "Not uninstalled: "
 
-#: pardusflatpakgui/updateallwindow.py:62
+#: pardusflatpakgui/updateallwindow.py:74
 msgid "Updating All"
 msgstr "Updating All"
 
-#: pardusflatpakgui/updateallwindow.py:75
+#: pardusflatpakgui/updateallwindow.py:87
 msgid "Updating..."
 msgstr "Updating..."
 
-#: pardusflatpakgui/updateallwindow.py:104
+#: pardusflatpakgui/updateallwindow.py:110
+msgid "Error at updating!"
+msgstr "Error at updating!"
+
+#: pardusflatpakgui/updateallwindow.py:181
+msgid "Updating: "
+msgstr "Updating: "
+
+#: pardusflatpakgui/updateallwindow.py:203
 msgid "Not updated: "
 msgstr "Not updated: "
 
-#: pardusflatpakgui/updateallwindow.py:113
-msgid "Updated: "
-msgstr "Updated: "
+#~ msgid "Updated: "
+#~ msgstr "Updated: "
 
-#: pardusflatpakgui/updateallwindow.py:123
-msgid "Updating completed!"
-msgstr "Updating completed!"
+#~ msgid "Updating completed!"
+#~ msgstr "Updating completed!"
 
 #~ msgid "Uninstalling "
 #~ msgstr "Uninstalling "

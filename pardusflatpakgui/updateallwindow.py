@@ -37,17 +37,29 @@ gettext.install("pardus-flatpak-gui", "po/")
 class UpdateAllWindow(object):
     def __init__(self, application, flatpakinstallation, liststore):
         self.Application = application
-        self.FlatpakInstallation = flatpakinstallation
-        self.ListStoreMain = liststore
-        self.FlatpakRefsList = self.FlatpakInstallation.list_installed_refs()
-        self.FlatHubRefsList = self.FlatpakInstallation.list_remote_refs_sync(
-                                   "flathub", Gio.Cancellable.new())
 
-        for item in self.FlatpakRefsList:
-            for item2 in self.FlatHubRefsList:
-                if item.get_name() == item2.get_name():
-                    self.FlatHubRefsList.remove(item2)
-        self.FlatpakRefsList = self.FlatpakRefsList + self.FlatHubRefsList
+        self.FlatpakInstallation = flatpakinstallation
+
+        self.FlatpakInstallation = flatpakinstallation
+        self.RefsToUpdate = flatpakinstallation.list_installed_refs_for_update(Gio.Cancellable.new())
+        self.FlatpakTransaction = \
+            Flatpak.Transaction.new_for_installation(
+                self.FlatpakInstallation,
+                Gio.Cancellable.new())
+        self.FlatpakTransaction.set_default_arch(Flatpak.get_default_arch())
+        self.FlatpakTransaction.set_disable_dependencies(False)
+        self.FlatpakTransaction.set_disable_prune(False)
+        self.FlatpakTransaction.set_disable_related(False)
+        self.FlatpakTransaction.set_disable_static_deltas(False)
+        self.FlatpakTransaction.set_no_deploy(False)
+        self.FlatpakTransaction.set_no_pull(False)
+        for ref_to_update in self.RefsToUpdate:
+            self.FlatpakTransaction.add_update(
+                ref_to_update,
+                None,
+                None)
+
+        self.ListStoreMain = liststore
 
         try:
             UpdateAllGUIFile = "ui/actionwindow.glade"
@@ -83,51 +95,40 @@ class UpdateAllWindow(object):
         GLib.threads_init()
 
     def UpdateAll(self):
-        for listitem in self.FlatpakRefsList:
-            if listitem not in self.FlatHubRefsList:
-                try:
-                    self.ListItem = listitem
-                    self.FlatpakInstallation.update(
-                                Flatpak.UpdateFlags.NONE,
-                                listitem.get_kind(),
-                                listitem.get_name(),
-                                listitem.get_arch(),
-                                listitem.get_branch(),
-                                self.UpdateAllProgressCallback(
-                                    "",
-                                    self.ProgressBarValue,
-                                    False,
-                                    listitem),
-                                None,
-                                Gio.Cancellable.new())
-                except GLib.Error:
-                    statustext = _("Not updated: ") + listitem.get_name()
-                    self.StatusText = self.StatusText + "\n" + statustext
-                    GLib.idle_add(self.UpdateAllLabel.set_text,
-                                  statustext,
-                                  priority=GLib.PRIORITY_DEFAULT)
-                    GLib.idle_add(self.UpdateAllTextBuffer.set_text,
-                                  self.StatusText,
-                                  priority=GLib.PRIORITY_DEFAULT)
-                else:
-                    statustext = _("Updated: ") + listitem.get_name()
-                    self.StatusText = self.StatusText + "\n" + statustext
-                    GLib.idle_add(self.UpdateAllLabel.set_text,
-                                  statustext,
-                                  priority=GLib.PRIORITY_DEFAULT)
-                    GLib.idle_add(self.UpdateAllTextBuffer.set_text,
-                                  self.StatusText,
-                                  priority=GLib.PRIORITY_DEFAULT)
-                time.sleep(0.5)
+        self.handler_id = self.FlatpakTransaction.connect(
+            "new-operation",
+            self.UpdateAllProgressCallback)
+        self.handler_id_2 = self.FlatpakTransaction.connect(
+            "operation-done",
+            self.UpdateAllProgressCallbackDisconnect)
+        self.handler_id_error = self.FlatpakTransaction.connect(
+            "operation-error",
+            self.UpdateAllProgressCallbackError)
+        try:
+            self.FlatpakTransaction.run(Gio.Cancellable.new())
+        except GLib.Error:
+            statustext = _("Error at updating!")
+            self.StatusText = self.StatusText + "\n" + statustext
+            GLib.idle_add(self.UpdateAllLabel.set_text,
+                          statustext,
+                          priority=GLib.PRIORITY_DEFAULT)
+            GLib.idle_add(self.UpdateAllTextBuffer.set_text,
+                          self.StatusText,
+                          priority=GLib.PRIORITY_DEFAULT)
+        else:
+            statustext = _("Installing completed!")
+            self.StatusText = self.StatusText + "\n" + statustext
+            GLib.idle_add(self.UpdateAllLabel.set_text,
+                          statustext,
+                          priority=GLib.PRIORITY_DEFAULT)
+            GLib.idle_add(self.UpdateAllTextBuffer.set_text,
+                          self.StatusText,
+                          priority=GLib.PRIORITY_DEFAULT)
+        self.FlatpakTransaction.disconnect(self.handler_id)
+        self.FlatpakTransaction.disconnect(self.handler_id_2)
+        self.FlatpakTransaction.disconnect(self.handler_id_error)
+        time.sleep(0.5)
 
-        statustext = _("Updating completed!")
-        self.StatusText = self.StatusText + "\n" + statustext
-        GLib.idle_add(self.UpdateAllLabel.set_text,
-                      statustext,
-                      priority=GLib.PRIORITY_DEFAULT)
-        GLib.idle_add(self.UpdateAllTextBuffer.set_text,
-                      self.StatusText,
-                      priority=GLib.PRIORITY_DEFAULT)
         GLib.idle_add(self.ListStoreMain.clear,
                       data=None,
                       priority=GLib.PRIORITY_DEFAULT)
@@ -136,7 +137,7 @@ class UpdateAllWindow(object):
             self.FlatpakInstallation.list_installed_refs()
         flathubrefslist = \
             self.FlatpakInstallation.list_remote_refs_sync(
-                                   "flathub", Gio.Cancellable.new())
+                "flathub", Gio.Cancellable.new())
 
         for item in flatpakrefslist:
             for item2 in flathubrefslist:
@@ -146,7 +147,7 @@ class UpdateAllWindow(object):
 
         for listitem in flatpakrefslist:
             if listitem.get_kind() == Flatpak.RefKind.APP and \
-               listitem.get_arch() == Flatpak.get_default_arch():
+                    listitem.get_arch() == Flatpak.get_default_arch():
                 if listitem in flathubrefslist:
                     RemoteName = "flathub"
                     DownloadSize = listitem.get_download_size()
@@ -164,20 +165,56 @@ class UpdateAllWindow(object):
                     f"{InstalledSizeMiB:.2f}" + " MiB"
 
                 self.ListStoreMain.append([listitem.get_name(),
-                                          listitem.get_arch(),
-                                          listitem.get_branch(),
-                                          RemoteName,
-                                          InstalledSizeMiBAsString,
-                                          DownloadSizeMiBAsString,
-                                          Name])
+                                           listitem.get_arch(),
+                                           listitem.get_branch(),
+                                           RemoteName,
+                                           InstalledSizeMiBAsString,
+                                           DownloadSizeMiBAsString,
+                                           Name])
             else:
                 continue
 
-    def UpdateAllProgressCallback(self, *args, **kwargs):
-        self.ProgressBarValue = self.ProgressBarValue + \
-            100 / len(self.FlatpakInstallation.list_installed_refs())
-        self.UpdateAllProgressBar.set_fraction(
-            float(self.ProgressBarValue) / 100.0)
+    def UpdateAllProgressCallback(self, *args):
+        self.RefToUpdate = Flatpak.Ref.parse(args[1].get_ref())
+        self.RefToUpdateRealName = self.RefToUpdate.get_name()
+
+        statustext = _("Updating: ") + self.RefToUpdateRealName
+        self.StatusText = self.StatusText + "\n" + statustext
+        GLib.idle_add(self.UpdateAllLabel.set_text,
+                      statustext,
+                      priority=GLib.PRIORITY_DEFAULT)
+        GLib.idle_add(self.UpdateAllTextBuffer.set_text,
+                      self.StatusText,
+                      priority=GLib.PRIORITY_DEFAULT)
+
+        self.TransactionProgress = args[2]
+        self.TransactionProgress.set_update_frequency(200)
+        self.handler_id_progress = self.TransactionProgress.connect(
+            "changed",
+            self.ProgressBarUpdate)
+
+    def UpdateAllProgressCallbackDisconnect(self, *args):
+        self.TransactionProgress.disconnect(self.handler_id_progress)
+
+    def UpdateAllProgressCallbackError(self, *args):
+        self.RefToUpdate = Flatpak.Ref.parse(args[1].get_ref())
+        self.RefToUpdateRealName = self.RefToUpdate.get_name()
+
+        statustext = _("Not updated: ") + self.RefToUpdateRealName
+        self.StatusText = self.StatusText + "\n" + statustext
+        GLib.idle_add(self.UpdateAllLabel.set_text,
+                      statustext,
+                      priority=GLib.PRIORITY_DEFAULT)
+        GLib.idle_add(self.UpdateAllTextBuffer.set_text,
+                      self.StatusText,
+                      priority=GLib.PRIORITY_DEFAULT)
+
+        return True
+
+    def ProgressBarUpdate(self, transaction_progress):
+        GLib.idle_add(self.UpdateAllProgressBar.set_fraction,
+                      float(transaction_progress.get_progress()) / 100.0,
+                      priority=GLib.PRIORITY_DEFAULT)
 
     def onDestroy(self, *args):
         self.UpdateAllWindow.destroy()
