@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Flatpak GUI update all window module
+# Pardus Flatpak GUI update all window module
 # Copyright (C) 2020 Erdem Ersoy
 #
 # This program is free software: you can redistribute it and/or modify
@@ -28,10 +28,10 @@ gi.require_version('Gio', '2.0')
 from gi.repository import Gtk, GLib, Flatpak, Gio
 
 locale.setlocale(locale.LC_ALL, "")
-gettext.bindtextdomain("flatpak-gui", "po/")
-gettext.textdomain("flatpak-gui")
+gettext.bindtextdomain("pardus-flatpak-gui", "po/")
+gettext.textdomain("pardus-flatpak-gui")
 _ = gettext.gettext
-gettext.install("flatpak-gui", "po/")
+gettext.install("pardus-flatpak-gui", "po/")
 
 
 class UpdateAllWindow(object):

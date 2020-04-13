@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Flatpak GUI Application module
+# Pardus Flatpak GUI Application module
 # Copyright (C) 2020 Erdem Ersoy
 #
 # This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from flatpakgui.mainwindow import MainWindow
-from flatpakgui.installwindow import InstallWindow
+from pardusflatpakgui.mainwindow import MainWindow
+from pardusflatpakgui.installwindow import InstallWindow
 
 import gettext
 import locale
@@ -30,10 +30,10 @@ gi.require_version('Gio', '2.0')
 from gi.repository import Gtk, GLib, Flatpak, Gio
 
 locale.setlocale(locale.LC_ALL, "")
-gettext.bindtextdomain("flatpak-gui", "po/")
-gettext.textdomain("flatpak-gui")
+gettext.bindtextdomain("pardus-flatpak-gui", "po/")
+gettext.textdomain("pardus-flatpak-gui")
 _ = gettext.gettext
-gettext.install("flatpak-gui", "po/")
+gettext.install("pardus-flatpak-gui", "po/")
 
 
 class FlatpakGUIApp(Gtk.Application):

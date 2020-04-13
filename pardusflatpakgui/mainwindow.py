@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Flatpak GUI main window module
+# Pardus Flatpak GUI main window module
 # Copyright (C) 2020 Erdem Ersoy
 #
 # This program is free software: you can redistribute it and/or modify
@@ -16,12 +16,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from flatpakgui.infowindow import InfoWindow
-from flatpakgui.installdirectwindow import InstallDirectWindow
-from flatpakgui.installinputwindow import InstallInputWindow
-from flatpakgui.installfromfileinputwindow import InstallFromFileInputWindow
-from flatpakgui.uninstallwindow import UninstallWindow
-from flatpakgui.updateallwindow import UpdateAllWindow
+from pardusflatpakgui.infowindow import InfoWindow
+from pardusflatpakgui.installdirectwindow import InstallDirectWindow
+from pardusflatpakgui.installinputwindow import InstallInputWindow
+from pardusflatpakgui.installfromfileinputwindow import InstallFromFileInputWindow
+from pardusflatpakgui.uninstallwindow import UninstallWindow
+from pardusflatpakgui.updateallwindow import UpdateAllWindow
 
 import gettext
 import locale
@@ -33,10 +33,10 @@ gi.require_version('Gio', '2.0')
 from gi.repository import Gtk, GLib, Flatpak, Gio
 
 locale.setlocale(locale.LC_ALL, "")
-gettext.bindtextdomain("flatpak-gui", "po/")
-gettext.textdomain("flatpak-gui")
+gettext.bindtextdomain("pardus-flatpak-gui", "po/")
+gettext.textdomain("pardus-flatpak-gui")
 _ = gettext.gettext
-gettext.install("flatpak-gui", "po/")
+gettext.install("pardus-flatpak-gui", "po/")
 
 
 class MainWindow(object):
@@ -74,8 +74,8 @@ class MainWindow(object):
         self.MainWindow.set_application(application)
 
         self.HeaderBarMain = MainBuilder.get_object("HeaderBarMain")
-        self.HeaderBarMain.set_title(_("Flatpak GUI"))
-        self.HeaderBarMain.set_subtitle(_("Manage Flatpak softwares via GUI"))
+        self.HeaderBarMain.set_title(_("Pardus Flatpak GUI"))
+        self.HeaderBarMain.set_subtitle(_("Manage Flatpak softwares via GUI on Pardus"))
 
         self.RunMenuItem = MainBuilder.get_object("RunMenuItem")
         self.RunMenuItem.set_label(_("_Run"))
@@ -180,10 +180,10 @@ class MainWindow(object):
         self.TreeViewMain = MainBuilder.get_object("TreeViewMain")
 
         self.AboutDialog = AboutBuilder.get_object("AboutDialog")
-        self.AboutDialog.set_comments(_("A GUI for Flatpak"))
+        self.AboutDialog.set_comments(_("Flatpak GUI for Pardus"))
         self.AboutDialog.set_copyright(_("Copyright (C) 2020 Erdem Ersoy"))
-        self.AboutDialog.set_program_name(_("Flatpak GUI"))
-        self.AboutDialog.set_website_label(_("Flatpak GUI Web Site"))
+        self.AboutDialog.set_program_name(_("Pardus Flatpak GUI"))
+        self.AboutDialog.set_website_label(_("Pardus Flatpak GUI Web Site"))
 
         self.MessageDialogError = MessagesBuilder.get_object(
             "MessageDialogError")

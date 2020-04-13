@@ -1,4 +1,4 @@
-# Roadmap for Flatpak GUI
+# Roadmap for Pardus Flatpak GUI
 
 ## TODOs for 1.0:
 * Fix pycodestyle linting errors left
@@ -8,4 +8,4 @@
 * Add screenshot for README.md
 * Implement setup.py
 * Implement Pardus (Debian) packaging
-* Test Flatpak GUI on clean English and Turkish latest Pardus 19.x installations
+* Test Pardus Flatpak GUI on clean English and Turkish latest Pardus 19.x installations

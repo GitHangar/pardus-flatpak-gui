@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Flatpak GUI install from file input window module
+# Pardus Flatpak GUI install from file input window module
 # Copyright (C) 2020 Erdem Ersoy
 #
 # This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from .installfromfilewindow import InstallFromFileWindow
+from pardusflatpakgui.installfromfilewindow import InstallFromFileWindow
 
 import gettext
 import locale
@@ -27,10 +27,10 @@ gi.require_version('GLib', '2.0')
 from gi.repository import Gtk, Flatpak, GLib
 
 locale.setlocale(locale.LC_ALL, "")
-gettext.bindtextdomain("flatpak-gui", "po/")
-gettext.textdomain("flatpak-gui")
+gettext.bindtextdomain("pardus-flatpak-gui", "po/")
+gettext.textdomain("pardus-flatpak-gui")
 _ = gettext.gettext
-gettext.install("flatpak-gui", "po/")
+gettext.install("pardus-flatpak-gui", "po/")
 
 
 class InstallFromFileInputWindow(object):

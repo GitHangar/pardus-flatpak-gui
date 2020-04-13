@@ -33,12 +33,12 @@ Author: Erdem Ersoy
     <property name="resizable">False</property>
     <property name="modal">True</property>
     <property name="type_hint">dialog</property>
-    <property name="program_name">Flatpak GUI</property>
+    <property name="program_name">Pardus Flatpak GUI</property>
     <property name="version">1.0-rc1</property>
     <property name="copyright" translatable="yes">Copyright (C) 2020 Erdem Ersoy</property>
-    <property name="comments" translatable="yes">A GUI for Flatpak</property>
+    <property name="comments" translatable="yes">Flatpak GUI for Pardus</property>
     <property name="website">https://www.pardus.org.tr/</property>
-    <property name="website_label" translatable="yes">Flatpak GUI Web Site</property>
+    <property name="website_label" translatable="yes">Pardus Flatpak GUI Web Site</property>
     <property name="authors">Erdem Ersoy</property>
     <property name="documenters">Erdem Ersoy</property>
     <property name="translator_credits" translatable="yes">Erdem Ersoy</property>

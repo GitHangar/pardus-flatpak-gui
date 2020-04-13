@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.1
+Type=Application
+Name=Pardus Flatpak GUI
+Name[tr]=Pardus Flatpak GUI
+GenericName=Flatpak GUI for Pardus
+GenericName[tr]=Pardus için Flatpak GUI
+Comment=Manage Flatpak softwares via GUI on Pardus
+Comment[tr]=Pardus'ta GUI ile Flatpak yazılımlarını yönet
+TryExec=pardus-flatpak-gui
+Exec=pardus-flatpak-gui %f
+Icon=applications-system
+MimeType=application/vnd.flatpak.ref
+Terminal=false
+Categories=Settings;Utility;PackageManager;GTK;

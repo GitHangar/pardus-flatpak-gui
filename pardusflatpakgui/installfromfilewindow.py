@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Flatpak GUI uninstall from file window module
+# Pardus Flatpak GUI install from file window module
 # Copyright (C) 2020 Erdem Ersoy
 #
 # This program is free software: you can redistribute it and/or modify
@@ -18,111 +18,116 @@
 
 import gettext
 import locale
+import sys
 import threading
 import time
 import gi
 gi.require_version('Gtk', '3.0')
-gi.require_version('GLib', '2.0')
 gi.require_version('Flatpak', '1.0')
+gi.require_version('GLib', '2.0')
 gi.require_version('Gio', '2.0')
-from gi.repository import Gtk, GLib, Flatpak, Gio
+from gi.repository import Gtk, Flatpak, GLib, Gio
 
 locale.setlocale(locale.LC_ALL, "")
-gettext.bindtextdomain("flatpak-gui", "po/")
-gettext.textdomain("flatpak-gui")
+gettext.bindtextdomain("pardus-flatpak-gui", "po/")
+gettext.textdomain("pardus-flatpak-gui")
 _ = gettext.gettext
-gettext.install("flatpak-gui", "po/")
+gettext.install("pardus-flatpak-gui", "po/")
 
 
-class UninstallWindow(object):
-    def __init__(self, application, realname, arch, branch,
-                 flatpakinstallation, liststore):
+class InstallFromFileWindow(object):
+    def __init__(self, application, flatpakinstallation, fileflatpakrefname,
+                 liststore):
         self.Application = application
-
-        self.AppToUninstallRealName = realname
-        self.AppToUninstallArch = arch
-        self.AppToUninstallBranch = branch
-
         self.FlatpakInstallation = flatpakinstallation
+
+        self.FileFlatpakRefName = fileflatpakrefname
+        self.FileFlatpakRef = open(self.FileFlatpakRefName, "r")
+        self.FileFlatpakRefContents = self.FileFlatpakRef.read(-1)
+        self.FileFlatpakRefContentsAsBytes = bytes(
+            self.FileFlatpakRefContents, "utf-8")
+        self.FileFlatpakRefContentsAsGLibBytes = GLib.Bytes.new(
+            self.FileFlatpakRefContentsAsBytes)
+
         self.FlatpakTransaction = \
             Flatpak.Transaction.new_for_installation(
                 self.FlatpakInstallation,
                 Gio.Cancellable.new())
-        self.FlatpakTransaction.set_default_arch(self.AppToUninstallArch)
         self.FlatpakTransaction.set_disable_dependencies(False)
         self.FlatpakTransaction.set_disable_prune(False)
         self.FlatpakTransaction.set_disable_related(False)
         self.FlatpakTransaction.set_disable_static_deltas(False)
         self.FlatpakTransaction.set_no_deploy(False)
         self.FlatpakTransaction.set_no_pull(False)
-        self.FlatpakTransaction.add_uninstall(
-            "app/" + self.AppToUninstallRealName + "/" +
-            self.AppToUninstallArch + "/" + self.AppToUninstallBranch)
+        self.FlatpakTransaction.add_install_flatpakref(
+            self.FileFlatpakRefContentsAsGLibBytes)
 
         self.ListStoreMain = liststore
 
         try:
-            UninstallGUIFile = "ui/actionwindow.glade"
-            UninstallBuilder = Gtk.Builder.new_from_file(UninstallGUIFile)
-            UninstallBuilder.connect_signals(self)
+            InstallFromFileGUIFile = "ui/actionwindow.glade"
+            InstallFromFileBuilder = Gtk.Builder.new_from_file(
+                                         InstallFromFileGUIFile)
+            InstallFromFileBuilder.connect_signals(self)
         except GLib.GError:
-            print(_("Error reading GUI file: ") + UninstallGUIFile)
+            print(_("Error reading GUI file: ") + InstallFromFileGUIFile)
             raise
 
-        self.UninstallWindow = UninstallBuilder.get_object("ActionWindow")
-        self.UninstallWindow.set_application(application)
-        self.UninstallWindow.set_title(_("Uninstalling ") +
-                                       self.AppToUninstallRealName)
-        self.UninstallWindow.show()
+        self.InstallFromFileWindow = InstallFromFileBuilder.get_object(
+                                         "ActionWindow")
+        self.InstallFromFileWindow.set_application(application)
+        self.InstallFromFileWindow.set_title(_("Installing from file..."))
+        self.InstallFromFileWindow.show()
 
-        self.UninstallProgressBar = UninstallBuilder.get_object(
-                                        "ActionProgressBar")
+        self.InstallFromFileProgressBar = InstallFromFileBuilder.get_object(
+                                              "ActionProgressBar")
         self.ProgressBarValue = int(
-            self.UninstallProgressBar.get_fraction() * 100)
+            self.InstallFromFileProgressBar.get_fraction() * 100)
 
-        self.UninstallLabel = UninstallBuilder.get_object("ActionLabel")
-        self.UninstallTextBuffer = UninstallBuilder.get_object(
-                                       "ActionTextBuffer")
+        self.InstallFromFileLabel = InstallFromFileBuilder.get_object(
+                                        "ActionLabel")
+        self.InstallFromFileTextBuffer = InstallFromFileBuilder.get_object(
+                                             "ActionTextBuffer")
 
-        self.UninstallTextBuffer.set_text("\0", -1)
-        self.StatusText = _("Uninstalling: ") + self.AppToUninstallRealName
-        self.UninstallLabel.set_text(self.StatusText)
-        self.UninstallTextBuffer.set_text(self.StatusText)
+        self.InstallFromFileTextBuffer.set_text("\0", -1)
+        self.StatusText = _("Installing from file...")
+        self.InstallFromFileLabel.set_text(self.StatusText)
+        self.InstallFromFileTextBuffer.set_text(self.StatusText)
 
-        self.UninstallThread = threading.Thread(
-                           target=self.Uninstall,
-                           args=())
-        self.UninstallThread.start()
+        self.InstallFromFileThread = threading.Thread(
+                                         target=self.InstallFromFile,
+                                         args=())
+        self.InstallFromFileThread.start()
         GLib.threads_init()
 
-    def Uninstall(self):
+    def InstallFromFile(self):
         self.handler_id = self.FlatpakTransaction.connect(
                         "new-operation",
-                        self.UninstallProgressCallback)
+                        self.InstallProgressCallback)
         self.handler_id_2 = self.FlatpakTransaction.connect(
                         "operation-done",
-                        self.UninstallProgressCallbackDisconnect)
+                        self.InstallProgressCallbackDisconnect)
         self.handler_id_error = self.FlatpakTransaction.connect(
                         "operation-error",
-                        self.UninstallProgressCallbackError)
+                        self.InstallProgressCallbackError)
         try:
             self.FlatpakTransaction.run(Gio.Cancellable.new())
         except GLib.Error:
-            statustext = _("Error at uninstallation!")
+            statustext = _("Error at installation!")
             self.StatusText = self.StatusText + "\n" + statustext
-            GLib.idle_add(self.UninstallLabel.set_text,
+            GLib.idle_add(self.InstallFromFileLabel.set_text,
                           statustext,
                           priority=GLib.PRIORITY_DEFAULT)
-            GLib.idle_add(self.UninstallTextBuffer.set_text,
+            GLib.idle_add(self.InstallFromFileTextBuffer.set_text,
                           self.StatusText,
                           priority=GLib.PRIORITY_DEFAULT)
         else:
-            statustext = _("Uninstalling completed!")
+            statustext = _("Installing completed!")
             self.StatusText = self.StatusText + "\n" + statustext
-            GLib.idle_add(self.UninstallLabel.set_text,
+            GLib.idle_add(self.InstallFromFileLabel.set_text,
                           statustext,
                           priority=GLib.PRIORITY_DEFAULT)
-            GLib.idle_add(self.UninstallTextBuffer.set_text,
+            GLib.idle_add(self.InstallFromFileTextBuffer.set_text,
                           self.StatusText,
                           priority=GLib.PRIORITY_DEFAULT)
         self.FlatpakTransaction.disconnect(self.handler_id)
@@ -175,18 +180,22 @@ class UninstallWindow(object):
             else:
                 continue
 
-    def UninstallProgressCallback(self, *args):
-        self.RefToUninstall = Flatpak.Ref.parse(args[1].get_ref())
-        self.RefToUninstallRealName = self.RefToUninstall.get_name()
-        if self.RefToUninstallRealName != self.AppToUninstallRealName:
-            statustext = _("Uninstalling: ") + self.RefToUninstallRealName
-            self.StatusText = self.StatusText + "\n" + statustext
-            GLib.idle_add(self.UninstallLabel.set_text,
-                          statustext,
-                          priority=GLib.PRIORITY_DEFAULT)
-            GLib.idle_add(self.UninstallTextBuffer.set_text,
-                          self.StatusText,
-                          priority=GLib.PRIORITY_DEFAULT)
+    def InstallProgressCallback(self, *args):
+        self.RefToInstall = Flatpak.Ref.parse(args[1].get_ref())
+        self.RefToInstallRealName = self.RefToInstall.get_name()
+        self.RefToInstallArch = self.RefToInstall.get_arch()
+        self.RefToInstallBranch = self.RefToInstall.get_branch()
+
+        self.FlatpakTransaction.set_default_arch(self.RefToInstallArch)
+
+        statustext = _("Installing: ") + self.RefToInstallRealName
+        self.StatusText = self.StatusText + "\n" + statustext
+        GLib.idle_add(self.InstallFromFileLabel.set_text,
+                      statustext,
+                      priority=GLib.PRIORITY_DEFAULT)
+        GLib.idle_add(self.InstallFromFileTextBuffer.set_text,
+                      self.StatusText,
+                      priority=GLib.PRIORITY_DEFAULT)
 
         self.TransactionProgress = args[2]
         self.TransactionProgress.set_update_frequency(200)
@@ -194,19 +203,19 @@ class UninstallWindow(object):
                                       "changed",
                                       self.ProgressBarUpdate)
 
-    def UninstallProgressCallbackDisconnect(self, *args):
+    def InstallProgressCallbackDisconnect(self, *args):
         self.TransactionProgress.disconnect(self.handler_id_progress)
 
-    def UninstallProgressCallbackError(self, *args):
-        self.RefToUninstall = Flatpak.Ref.parse(args[1].get_ref())
-        self.RefToUninstallRealName = self.RefToUninstall.get_name()
-        if self.RefToUninstallRealName != self.AppToUninstallRealName:
-            statustext = _("Not uninstalled: ") + self.RefToUninstallRealName
+    def InstallProgressCallbackError(self, *args):
+        self.RefToInstall = Flatpak.Ref.parse(args[1].get_ref())
+        self.RefToInstallRealName = self.RefToInstall.get_name()
+        if self.RefToInstallRealName != self.AppToInstallRealName:
+            statustext = _("Not installed: ") + self.RefToInstallRealName
             self.StatusText = self.StatusText + "\n" + statustext
-            GLib.idle_add(self.UninstallLabel.set_text,
+            GLib.idle_add(self.InstallLabel.set_text,
                           statustext,
                           priority=GLib.PRIORITY_DEFAULT)
-            GLib.idle_add(self.UninstallTextBuffer.set_text,
+            GLib.idle_add(self.InstallTextBuffer.set_text,
                           self.StatusText,
                           priority=GLib.PRIORITY_DEFAULT)
             return True
@@ -214,9 +223,9 @@ class UninstallWindow(object):
             return False
 
     def ProgressBarUpdate(self, transaction_progress):
-        GLib.idle_add(self.InstallProgressBar.set_fraction,
+        GLib.idle_add(self.InstallFromFileProgressBar.set_fraction,
                       float(transaction_progress.get_progress()) / 100.0,
                       priority=GLib.PRIORITY_DEFAULT)
 
     def onDestroy(self, *args):
-        self.UninstallWindow.destroy()
+        self.InstallFromFileWindow.destroy()
