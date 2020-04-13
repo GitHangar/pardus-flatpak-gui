@@ -18,6 +18,7 @@
 
 from pardusflatpakgui.flatpakguiapp import FlatpakGUIApp
 
+import sys
 import gi
 gi.require_version('Gio', '2.0')
 from gi.repository import Gio
@@ -26,8 +27,9 @@ from gi.repository import Gio
 def main():
     app = FlatpakGUIApp("tr.org.pardus.pardus-flatpak-gui",
                         Gio.ApplicationFlags.FLAGS_NONE)
-    app.run()
+    return app.run()
 
 
 if __name__ == "__main__":
-    main()
+    exit_status = main()
+    sys.exit(exit_status)
