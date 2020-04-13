@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 
+
+Copyright (C) 2020 Erdem Ersoy
+
+This file is part of Flatpak GUI.
+
+Flatpak GUI is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Flatpak GUI is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Flatpak GUI.  If not, see <http://www.gnu.org/licenses/>.
+
+Author: Erdem Ersoy
+
+-->
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <!-- interface-license-type gplv3 -->
+  <!-- interface-name Flatpak GUI -->
+  <!-- interface-description A GUI for Flatpak -->
+  <!-- interface-copyright 2020 Erdem Ersoy -->
+  <!-- interface-authors Erdem Ersoy -->
+  <object class="GtkImage" id="AboutImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-about</property>
+  </object>
+  <object class="GtkImage" id="InfoImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-info</property>
+  </object>
+  <object class="GtkImage" id="InstallFromEntryImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-save</property>
+  </object>
+  <object class="GtkImage" id="InstallFromFileImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-save</property>
+  </object>
+  <object class="GtkImage" id="InstallImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-save</property>
+  </object>
+  <object class="GtkListStore" id="ListStoreMain">
+    <columns>
+      <!-- column-name RealName -->
+      <column type="gchararray"/>
+      <!-- column-name Arch -->
+      <column type="gchararray"/>
+      <!-- column-name Branch -->
+      <column type="gchararray"/>
+      <!-- column-name RemoteName -->
+      <column type="gchararray"/>
+      <!-- column-name InstalledSize -->
+      <column type="gchararray"/>
+      <!-- column-name DownloadSize -->
+      <column type="gchararray"/>
+      <!-- column-name Name -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkImage" id="RunImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-execute</property>
+  </object>
+  <object class="GtkImage" id="UninstallImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-remove</property>
+  </object>
+  <object class="GtkImage" id="UpdateAllImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-go-up</property>
+  </object>
+  <object class="GtkMenu" id="HeaderBarMenu">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkImageMenuItem" id="RunMenuItem">
+        <property name="label" translatable="yes">_Run</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="image">RunImage</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="onRun" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="InfoMenuItem">
+        <property name="label" translatable="yes">_Info</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="image">InfoImage</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="onInfo" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="UninstallMenuItem">
+        <property name="label" translatable="yes">_Uninstall</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="image">UninstallImage</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="onUninstall" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="Separator1MenuItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="InstallMenuItem">
+        <property name="label" translatable="yes">I_nstall</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="image">InstallImage</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="onInstall" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="InstallFromEntryMenuItem">
+        <property name="label" translatable="yes">Install From _Entry</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="image">InstallFromEntryImage</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="onInstallFromEntry" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="InstallFromFileMenuItem">
+        <property name="label" translatable="yes">Install _From File</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="image">InstallFromFileImage</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="onInstallFromFile" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="Separator2MenuItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="UpdateAllMenuItem">
+        <property name="label" translatable="yes">Up_date All</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="image">UpdateAllImage</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="onUpdateAll" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="Separator3MenuItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="AboutMenuItem">
+        <property name="label" translatable="yes">_About</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="image">AboutImage</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="onAbout" swapped="no"/>
+      </object>
+    </child>
+  </object>
+  <object class="GtkApplicationWindow" id="MainWindow">
+    <property name="can_focus">False</property>
+    <property name="default_width">780</property>
+    <property name="default_height">480</property>
+    <property name="icon_name">applications-system</property>
+    <property name="show_menubar">False</property>
+    <signal name="destroy" handler="onDestroy" swapped="no"/>
+    <child type="titlebar">
+      <object class="GtkHeaderBar" id="HeaderBarMain">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="title" translatable="yes">Flatpak GUI</property>
+        <property name="subtitle" translatable="yes">Manage Flatpak softwares via GUI</property>
+        <property name="show_close_button">True</property>
+        <child>
+          <object class="GtkMenuButton" id="HeaderBarMenuButton">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="popup">HeaderBarMenu</property>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkScrolledWindow" id="ScrolledWindowMain">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="shadow_type">in</property>
+        <child>
+          <object class="GtkTreeView" id="TreeViewMain">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="model">ListStoreMain</property>
+            <property name="reorderable">True</property>
+            <property name="search_column">0</property>
+            <property name="activate_on_single_click">True</property>
+            <child internal-child="selection">
+              <object class="GtkTreeSelection" id="TreeSelectionMain">
+                <signal name="changed" handler="onSelectionChanged" swapped="no"/>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="TreeViewColumnRealName">
+                <property name="resizable">True</property>
+                <property name="fixed_width">270</property>
+                <property name="title" translatable="yes">Real Name</property>
+                <property name="clickable">True</property>
+                <property name="reorderable">True</property>
+                <property name="sort_indicator">True</property>
+                <property name="sort_column_id">0</property>
+                <child>
+                  <object class="GtkCellRendererText" id="CellRendererTextRealName"/>
+                  <attributes>
+                    <attribute name="text">0</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="TreeViewColumnArch">
+                <property name="resizable">True</property>
+                <property name="title" translatable="yes">Arch</property>
+                <property name="clickable">True</property>
+                <property name="reorderable">True</property>
+                <child>
+                  <object class="GtkCellRendererText" id="CellRendererTextArch"/>
+                  <attributes>
+                    <attribute name="text">1</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="TreeViewColumnBranch">
+                <property name="resizable">True</property>
+                <property name="title" translatable="yes">Branch</property>
+                <property name="clickable">True</property>
+                <property name="reorderable">True</property>
+                <child>
+                  <object class="GtkCellRendererText" id="CellRendererTextBranch"/>
+                  <attributes>
+                    <attribute name="text">2</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="TreeViewColumnRemoteName">
+                <property name="resizable">True</property>
+                <property name="title" translatable="yes">Remote Name</property>
+                <property name="clickable">True</property>
+                <property name="reorderable">True</property>
+                <child>
+                  <object class="GtkCellRendererText" id="CellRendererTextRemoteName"/>
+                  <attributes>
+                    <attribute name="text">3</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="TreeViewColumnInstalledSize">
+                <property name="resizable">True</property>
+                <property name="title" translatable="yes">Installed Size</property>
+                <property name="clickable">True</property>
+                <property name="reorderable">True</property>
+                <child>
+                  <object class="GtkCellRendererText" id="CellRendererTextInstalledSize"/>
+                  <attributes>
+                    <attribute name="text">4</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="TreeViewColumnDownloadSize">
+                <property name="resizable">True</property>
+                <property name="title" translatable="yes">Download Size</property>
+                <property name="clickable">True</property>
+                <property name="reorderable">True</property>
+                <child>
+                  <object class="GtkCellRendererText" id="CellRendererTextDownloadSize"/>
+                  <attributes>
+                    <attribute name="text">5</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="TreeViewColumnName">
+                <property name="resizable">True</property>
+                <property name="title" translatable="yes">Name</property>
+                <property name="clickable">True</property>
+                <property name="reorderable">True</property>
+                <child>
+                  <object class="GtkCellRendererText" id="CellRendererTextName"/>
+                  <attributes>
+                    <attribute name="text">6</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
