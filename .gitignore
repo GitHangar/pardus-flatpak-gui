@@ -1,5 +1,6 @@
-flatpakgui/__pycache__/
+pardusflatpakgui/__pycache__/
 *.po~
+*.glade~
 
 # For PyCharm IDE
 venv/
