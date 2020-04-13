@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Pardus Flatpak GUI direct install window module
+# Pardus Flatpak GUI install window module
 # Copyright (C) 2020 Erdem Ersoy
 #
 # This program is free software: you can redistribute it and/or modify
@@ -29,26 +29,21 @@ gi.require_version('Gio', '2.0')
 from gi.repository import Gtk, Flatpak, GLib, Gio
 
 locale.setlocale(locale.LC_ALL, "")
-gettext.bindtextdomain("flatpak-gui", "po/")
-gettext.textdomain("flatpak-gui")
+gettext.bindtextdomain("pardus-flatpak-gui", "po/")
+gettext.textdomain("pardus-flatpak-gui")
 _ = gettext.gettext
-gettext.install("flatpak-gui", "po/")
+gettext.install("pardus-flatpak-gui", "po/")
 
 
-class InstallDirectWindow(object):
-    def __init__(self, application, apptoinstrealname, apptoinstarch,
-                 apptoinstbranch, apptoinstremote, flatpakinstallation,
+class InstallFromEntryWindow2(object):
+    def __init__(self, application, apptoinst, flatpakinstallation,
                  liststore):
         self.Application = application
 
-        self.AppToInstallRealName = apptoinstrealname
-        self.AppToInstallArch = apptoinstarch
-        self.AppToInstallBranch = apptoinstbranch
-        self.AppToInstallRemote = apptoinstremote
-        self.AppToInstall = Flatpak.Ref.parse("app/" +
-                                self.AppToInstallRealName + "/" +
-                                self.AppToInstallArch + "/" +
-                                self.AppToInstallBranch)
+        self.AppToInstall = apptoinst
+        self.AppToInstallRealName = self.AppToInstall.get_name()
+        self.AppToInstallArch = self.AppToInstall.get_arch()
+        self.AppToInstallBranch = self.AppToInstall.get_branch()
 
         self.FlatpakInstallation = flatpakinstallation
         self.FlatpakTransaction = \
@@ -63,7 +58,7 @@ class InstallDirectWindow(object):
         self.FlatpakTransaction.set_no_deploy(False)
         self.FlatpakTransaction.set_no_pull(False)
         self.FlatpakTransaction.add_install(
-            self.AppToInstallRemote,
+            self.AppToInstall.get_remote_name(),
             self.AppToInstall.format_ref(),
             None)
 
@@ -79,7 +74,7 @@ class InstallDirectWindow(object):
 
         self.InstallWindow = InstallBuilder.get_object("ActionWindow")
         self.InstallWindow.set_application(application)
-        self.InstallWindow.set_title(_("Installing: ") + self.AppToInstallRealName)
+        self.InstallWindow.set_title(_("Installing..."))
         self.InstallWindow.show()
 
         self.InstallProgressBar = InstallBuilder.get_object(
@@ -92,7 +87,7 @@ class InstallDirectWindow(object):
                                        "ActionTextBuffer")
 
         self.InstallTextBuffer.set_text("\0", -1)
-        self.StatusText = _("Installing: ") + self.AppToInstallRealName
+        self.StatusText = _("Installing...")
         self.InstallLabel.set_text(self.StatusText)
         self.InstallTextBuffer.set_text(self.StatusText)
 
@@ -185,15 +180,15 @@ class InstallDirectWindow(object):
     def InstallProgressCallback(self, *args):
         self.RefToInstall = Flatpak.Ref.parse(args[1].get_ref())
         self.RefToInstallRealName = self.RefToInstall.get_name()
-        if self.RefToInstallRealName != self.AppToInstallRealName:
-            statustext = _("Installing: ") + self.RefToInstallRealName
-            self.StatusText = self.StatusText + "\n" + statustext
-            GLib.idle_add(self.InstallLabel.set_text,
-                          statustext,
-                          priority=GLib.PRIORITY_DEFAULT)
-            GLib.idle_add(self.InstallTextBuffer.set_text,
-                          self.StatusText,
-                          priority=GLib.PRIORITY_DEFAULT)
+
+        statustext = _("Installing: ") + self.RefToInstallRealName
+        self.StatusText = self.StatusText + "\n" + statustext
+        GLib.idle_add(self.InstallLabel.set_text,
+                      statustext,
+                      priority=GLib.PRIORITY_DEFAULT)
+        GLib.idle_add(self.InstallTextBuffer.set_text,
+                      self.StatusText,
+                      priority=GLib.PRIORITY_DEFAULT)
 
         self.TransactionProgress = args[2]
         self.TransactionProgress.set_update_frequency(200)
@@ -207,15 +202,17 @@ class InstallDirectWindow(object):
     def InstallProgressCallbackError(self, *args):
         self.RefToInstall = Flatpak.Ref.parse(args[1].get_ref())
         self.RefToInstallRealName = self.RefToInstall.get_name()
+
+        statustext = _("Not installed: ") + self.RefToInstallRealName
+        self.StatusText = self.StatusText + "\n" + statustext
+        GLib.idle_add(self.InstallLabel.set_text,
+                      statustext,
+                      priority=GLib.PRIORITY_DEFAULT)
+        GLib.idle_add(self.InstallTextBuffer.set_text,
+                      self.StatusText,
+                      priority=GLib.PRIORITY_DEFAULT)
+
         if self.RefToInstallRealName != self.AppToInstallRealName:
-            statustext = _("Not installed: ") + self.RefToInstallRealName
-            self.StatusText = self.StatusText + "\n" + statustext
-            GLib.idle_add(self.InstallLabel.set_text,
-                          statustext,
-                          priority=GLib.PRIORITY_DEFAULT)
-            GLib.idle_add(self.InstallTextBuffer.set_text,
-                          self.StatusText,
-                          priority=GLib.PRIORITY_DEFAULT)
             return True
         else:
             return False

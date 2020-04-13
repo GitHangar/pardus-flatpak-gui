@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Pardus Flatpak GUI direct install window module
+# Pardus Flatpak GUI install from file window module
 # Copyright (C) 2020 Erdem Ersoy
 #
 # This program is free software: you can redistribute it and/or modify
@@ -29,80 +29,78 @@ gi.require_version('Gio', '2.0')
 from gi.repository import Gtk, Flatpak, GLib, Gio
 
 locale.setlocale(locale.LC_ALL, "")
-gettext.bindtextdomain("flatpak-gui", "po/")
-gettext.textdomain("flatpak-gui")
+gettext.bindtextdomain("pardus-flatpak-gui", "po/")
+gettext.textdomain("pardus-flatpak-gui")
 _ = gettext.gettext
-gettext.install("flatpak-gui", "po/")
+gettext.install("pardus-flatpak-gui", "po/")
 
 
-class InstallWindow(object):
-    def __init__(self, application, apptoinstrealname, apptoinstarch,
-                 apptoinstbranch, apptoinstremote, flatpakinstallation,
+class InstallFromFileWindow2(object):
+    def __init__(self, application, flatpakinstallation, fileflatpakrefname,
                  liststore):
         self.Application = application
-
-        self.AppToInstallRealName = apptoinstrealname
-        self.AppToInstallArch = apptoinstarch
-        self.AppToInstallBranch = apptoinstbranch
-        self.AppToInstallRemote = apptoinstremote
-        self.AppToInstall = Flatpak.Ref.parse("app/" +
-                                self.AppToInstallRealName + "/" +
-                                self.AppToInstallArch + "/" +
-                                self.AppToInstallBranch)
-
         self.FlatpakInstallation = flatpakinstallation
+
+        self.FileFlatpakRefName = fileflatpakrefname
+        self.FileFlatpakRef = open(self.FileFlatpakRefName, "r")
+        self.FileFlatpakRefContents = self.FileFlatpakRef.read(-1)
+        self.FileFlatpakRefContentsAsBytes = bytes(
+            self.FileFlatpakRefContents, "utf-8")
+        self.FileFlatpakRefContentsAsGLibBytes = GLib.Bytes.new(
+            self.FileFlatpakRefContentsAsBytes)
+
         self.FlatpakTransaction = \
             Flatpak.Transaction.new_for_installation(
                 self.FlatpakInstallation,
                 Gio.Cancellable.new())
-        self.FlatpakTransaction.set_default_arch(self.AppToInstallArch)
         self.FlatpakTransaction.set_disable_dependencies(False)
         self.FlatpakTransaction.set_disable_prune(False)
         self.FlatpakTransaction.set_disable_related(False)
         self.FlatpakTransaction.set_disable_static_deltas(False)
         self.FlatpakTransaction.set_no_deploy(False)
         self.FlatpakTransaction.set_no_pull(False)
-        self.FlatpakTransaction.add_install(
-            self.AppToInstallRemote,
-            self.AppToInstall.format_ref(),
-            None)
+        self.FlatpakTransaction.add_install_flatpakref(
+            self.FileFlatpakRefContentsAsGLibBytes)
 
         self.ListStoreMain = liststore
 
         try:
-            InstallGUIFile = "ui/actionwindow.glade"
-            InstallBuilder = Gtk.Builder.new_from_file(InstallGUIFile)
-            InstallBuilder.connect_signals(self)
+            InstallFromFileGUIFile = "ui/actionwindow.glade"
+            InstallFromFileBuilder = Gtk.Builder.new_from_file(
+                                         InstallFromFileGUIFile)
+            InstallFromFileBuilder.connect_signals(self)
         except GLib.GError:
-            print(_("Error reading GUI file: ") + InstallGUIFile)
+            print(_("Error reading GUI file: ") + InstallFromFileGUIFile)
             raise
 
-        self.InstallWindow = InstallBuilder.get_object("ActionWindow")
-        self.InstallWindow.set_application(application)
-        self.InstallWindow.set_title(_("Installing..."))
-        self.InstallWindow.show()
+        self.InstallFromFileWindow = InstallFromFileBuilder.get_object(
+                                         "ActionWindow")
+        self.InstallFromFileWindow.set_application(application)
+        self.InstallFromFileWindow.set_title(_("Installing from file..."))
+        self.InstallFromFileWindow.show()
 
-        self.InstallProgressBar = InstallBuilder.get_object(
-                                        "ActionProgressBar")
+        self.InstallFromFileProgressBar = InstallFromFileBuilder.get_object(
+                                              "ActionProgressBar")
         self.ProgressBarValue = int(
-            self.InstallProgressBar.get_fraction() * 100)
+            self.InstallFromFileProgressBar.get_fraction() * 100)
 
-        self.InstallLabel = InstallBuilder.get_object("ActionLabel")
-        self.InstallTextBuffer = InstallBuilder.get_object(
-                                       "ActionTextBuffer")
+        self.InstallFromFileLabel = InstallFromFileBuilder.get_object(
+                                        "ActionLabel")
+        self.InstallFromFileTextBuffer = InstallFromFileBuilder.get_object(
+                                             "ActionTextBuffer")
 
-        self.InstallTextBuffer.set_text("\0", -1)
-        self.StatusText = _("Installing...")
-        self.InstallLabel.set_text(self.StatusText)
-        self.InstallTextBuffer.set_text(self.StatusText)
+        self.InstallFromFileTextBuffer.set_text("\0", -1)
+        self.StatusText = _("Installing from file...")
+        self.InstallFromFileLabel.set_text(self.StatusText)
+        self.InstallFromFileTextBuffer.set_text(self.StatusText)
 
-        self.InstallThread = threading.Thread(
-                           target=self.Install,
-                           args=())
-        self.InstallThread.start()
+        self.InstallFromFileThread = threading.Thread(
+                                         target=self.InstallFromFile,
+                                         args=())
+        self.InstallFromFileThread.start()
         GLib.threads_init()
 
-    def Install(self):
+    def InstallFromFile(self):
         self.handler_id = self.FlatpakTransaction.connect(
                         "new-operation",
                         self.InstallProgressCallback)
@@ -117,19 +115,19 @@ class InstallWindow(object):
         except GLib.Error:
             statustext = _("Error at installation!")
             self.StatusText = self.StatusText + "\n" + statustext
-            GLib.idle_add(self.InstallLabel.set_text,
+            GLib.idle_add(self.InstallFromFileLabel.set_text,
                           statustext,
                           priority=GLib.PRIORITY_DEFAULT)
-            GLib.idle_add(self.InstallTextBuffer.set_text,
+            GLib.idle_add(self.InstallFromFileTextBuffer.set_text,
                           self.StatusText,
                           priority=GLib.PRIORITY_DEFAULT)
         else:
             statustext = _("Installing completed!")
             self.StatusText = self.StatusText + "\n" + statustext
-            GLib.idle_add(self.InstallLabel.set_text,
+            GLib.idle_add(self.InstallFromFileLabel.set_text,
                           statustext,
                           priority=GLib.PRIORITY_DEFAULT)
-            GLib.idle_add(self.InstallTextBuffer.set_text,
+            GLib.idle_add(self.InstallFromFileTextBuffer.set_text,
                           self.StatusText,
                           priority=GLib.PRIORITY_DEFAULT)
         self.FlatpakTransaction.disconnect(self.handler_id)
@@ -185,13 +183,17 @@ class InstallWindow(object):
     def InstallProgressCallback(self, *args):
         self.RefToInstall = Flatpak.Ref.parse(args[1].get_ref())
         self.RefToInstallRealName = self.RefToInstall.get_name()
+        self.RefToInstallArch = self.RefToInstall.get_arch()
+        self.RefToInstallBranch = self.RefToInstall.get_branch()
+
+        self.FlatpakTransaction.set_default_arch(self.RefToInstallArch)
 
         statustext = _("Installing: ") + self.RefToInstallRealName
         self.StatusText = self.StatusText + "\n" + statustext
-        GLib.idle_add(self.InstallLabel.set_text,
+        GLib.idle_add(self.InstallFromFileLabel.set_text,
                       statustext,
                       priority=GLib.PRIORITY_DEFAULT)
-        GLib.idle_add(self.InstallTextBuffer.set_text,
+        GLib.idle_add(self.InstallFromFileTextBuffer.set_text,
                       self.StatusText,
                       priority=GLib.PRIORITY_DEFAULT)
 
@@ -223,9 +225,9 @@ class InstallWindow(object):
             return False
 
     def ProgressBarUpdate(self, transaction_progress):
-        GLib.idle_add(self.InstallProgressBar.set_fraction,
+        GLib.idle_add(self.InstallFromFileProgressBar.set_fraction,
                       float(transaction_progress.get_progress()) / 100.0,
                       priority=GLib.PRIORITY_DEFAULT)
 
     def onDestroy(self, *args):
-        self.InstallWindow.destroy()
+        self.InstallFromFileWindow.destroy()

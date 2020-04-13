@@ -17,9 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from pardusflatpakgui.infowindow import InfoWindow
-from pardusflatpakgui.installdirectwindow import InstallDirectWindow
-from pardusflatpakgui.installinputwindow import InstallInputWindow
-from pardusflatpakgui.installfromfileinputwindow import InstallFromFileInputWindow
+from pardusflatpakgui.installwindow import InstallWindow
+from pardusflatpakgui.installfromentrywindow import InstallFromEntryWindow
+from pardusflatpakgui.installfromfilewindow import InstallFromFileWindow
 from pardusflatpakgui.uninstallwindow import UninstallWindow
 from pardusflatpakgui.updateallwindow import UpdateAllWindow
 
@@ -466,18 +466,18 @@ class MainWindow(object):
                 App = item
                 break
 
-        InstallDirectWindow(self.Application, AppToInstallRealName,
-                            AppToInstallArch, AppToInstallBranch,
-                            AppToInstallRemote, self.FlatpakInstallation,
-                            self.ListStoreMain)
+        InstallWindow(self.Application, AppToInstallRealName,
+                      AppToInstallArch, AppToInstallBranch,
+                      AppToInstallRemote, self.FlatpakInstallation,
+                      self.ListStoreMain)
 
     def onInstallFromEntry(self, menuitem):
-        InstallInputWindow(self.Application, self.FlatpakInstallation,
-                           self.ListStoreMain)
+        InstallFromEntryWindow(self.Application, self.FlatpakInstallation,
+                               self.ListStoreMain)
 
     def onInstallFromFile(self, menuitem):
-        InstallFromFileInputWindow(self.Application, self.FlatpakInstallation,
-                                   self.ListStoreMain)
+        InstallFromFileWindow(self.Application, self.FlatpakInstallation,
+                               self.ListStoreMain)
 
     def onUpdateAll(self, menuitem):
         UpdateAllWindow(self.Application, self.FlatpakInstallation,

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flatpak GUI 1.0-rc1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-13 14:06+0300\n"
+"POT-Creation-Date: 2020-04-13 16:16+0300\n"
 "PO-Revision-Date: 2020-04-13 14:08+0300\n"
 "Last-Translator: Erdem Ersoy <<erdem.ersoy@pardus.org.tr>>\n"
 "Language-Team: Erdem Ersoy <erdem.ersoy@pardus.org.tr>\n"
@@ -20,7 +20,8 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: pardusflatpakgui/flatpakguiapp.py:49
-#: pardusflatpakgui/installinputwindow.py:57 pardusflatpakgui/mainwindow.py:69
+#: pardusflatpakgui/installfromentrywindow.py:57
+#: pardusflatpakgui/mainwindow.py:69
 msgid "Error reading message dialogs GUI file: "
 msgstr "Error reading message dialogs GUI file: "
 
@@ -48,11 +49,12 @@ msgstr "<big><b>Argument Error</b></big>"
 msgid "There are too many arguments. Argument count: "
 msgstr "There are too many arguments. Argument count: "
 
-#: pardusflatpakgui/infowindow.py:45 pardusflatpakgui/installdirectwindow.py:77
-#: pardusflatpakgui/installfromfileinputwindow.py:48
-#: pardusflatpakgui/installfromfilewindow.py:73
-#: pardusflatpakgui/installinputwindow.py:49
-#: pardusflatpakgui/installwindow.py:72 pardusflatpakgui/mainwindow.py:53
+#: pardusflatpakgui/infowindow.py:45
+#: pardusflatpakgui/installfromentrywindow_2.py:72
+#: pardusflatpakgui/installfromentrywindow.py:49
+#: pardusflatpakgui/installfromfilewindow_2.py:73
+#: pardusflatpakgui/installfromfilewindow.py:48
+#: pardusflatpakgui/installwindow.py:77 pardusflatpakgui/mainwindow.py:53
 #: pardusflatpakgui/uninstallwindow.py:69
 #: pardusflatpakgui/updateallwindow.py:57
 msgid "Error reading GUI file: "
@@ -66,39 +68,46 @@ msgstr "_Copy to Clipboard"
 msgid "Info About "
 msgstr "Info About "
 
-#: pardusflatpakgui/installdirectwindow.py:82
-#: pardusflatpakgui/installdirectwindow.py:95
-#: pardusflatpakgui/installdirectwindow.py:189
-#: pardusflatpakgui/installfromfilewindow.py:191
-#: pardusflatpakgui/installwindow.py:77 pardusflatpakgui/installwindow.py:90
-#: pardusflatpakgui/installwindow.py:184
-msgid "Installing: "
-msgstr "Installing: "
+#: pardusflatpakgui/installfromentrywindow_2.py:77
+#: pardusflatpakgui/installfromentrywindow_2.py:90
+#: pardusflatpakgui/installwindow.py:82 pardusflatpakgui/installwindow.py:95
+msgid "Installing..."
+msgstr "Installing..."
 
-#: pardusflatpakgui/installdirectwindow.py:118
-#: pardusflatpakgui/installfromfilewindow.py:116
-#: pardusflatpakgui/installwindow.py:113
+#: pardusflatpakgui/installfromentrywindow_2.py:113
+#: pardusflatpakgui/installfromfilewindow_2.py:116
+#: pardusflatpakgui/installwindow.py:118
 msgid "Error at installation!"
 msgstr "Error at installation!"
 
-#: pardusflatpakgui/installdirectwindow.py:127
-#: pardusflatpakgui/installfromfilewindow.py:125
-#: pardusflatpakgui/installwindow.py:122
+#: pardusflatpakgui/installfromentrywindow_2.py:122
+#: pardusflatpakgui/installfromfilewindow_2.py:125
+#: pardusflatpakgui/installwindow.py:127
 msgid "Installing completed!"
 msgstr "Installing completed!"
 
-#: pardusflatpakgui/installdirectwindow.py:211
-#: pardusflatpakgui/installfromfilewindow.py:213
-#: pardusflatpakgui/installwindow.py:206
+#: pardusflatpakgui/installfromentrywindow_2.py:184
+#: pardusflatpakgui/installfromfilewindow_2.py:191
+#: pardusflatpakgui/installwindow.py:189
+msgid "Installing: "
+msgstr "Installing: "
+
+#: pardusflatpakgui/installfromentrywindow_2.py:206
+#: pardusflatpakgui/installfromfilewindow_2.py:213
+#: pardusflatpakgui/installwindow.py:211
 msgid "Not installed: "
 msgstr "Not installed: "
 
-#: pardusflatpakgui/installfromfileinputwindow.py:55
-msgid "Please choose a Flatpak reference file."
-msgstr "Please choose a Flatpak reference file."
+#: pardusflatpakgui/installfromentrywindow.py:67
+msgid ""
+"Please enter an application name (Ex: org.libreoffice.LibreOffice) what you "
+"want to install from Flathub."
+msgstr ""
+"Please enter an application name (Ex: org.libreoffice.LibreOffice) what you "
+"want to install from Flathub."
 
-#: pardusflatpakgui/installfromfileinputwindow.py:61
-#: pardusflatpakgui/installinputwindow.py:72
+#: pardusflatpakgui/installfromentrywindow.py:72
+#: pardusflatpakgui/installfromfilewindow.py:61
 msgid ""
 "NOTE: Installing an application from third party remote repositories isn't "
 "secured as installing an application from official repositories of your "
@@ -108,39 +117,36 @@ msgstr ""
 "secured as installing an application from official repositories of your "
 "distribution."
 
-#: pardusflatpakgui/installfromfileinputwindow.py:66
-#: pardusflatpakgui/installinputwindow.py:76 pardusflatpakgui/mainwindow.py:90
+#: pardusflatpakgui/installfromentrywindow.py:76
+#: pardusflatpakgui/installfromfilewindow.py:66
+#: pardusflatpakgui/mainwindow.py:90
 msgid "I_nstall"
 msgstr "I_nstall"
 
-#: pardusflatpakgui/installfromfileinputwindow.py:71
-msgid "Choose a file"
-msgstr "Choose a file"
-
-#: pardusflatpakgui/installfromfilewindow.py:79
-#: pardusflatpakgui/installfromfilewindow.py:93
-msgid "Installing from file..."
-msgstr "Installing from file..."
-
-#: pardusflatpakgui/installinputwindow.py:67
-msgid ""
-"Please enter an application name (Ex: org.libreoffice.LibreOffice) what you "
-"want to install from Flathub."
-msgstr ""
-"Please enter an application name (Ex: org.libreoffice.LibreOffice) what you "
-"want to install from Flathub."
-
-#: pardusflatpakgui/installinputwindow.py:80
+#: pardusflatpakgui/installfromentrywindow.py:80
 msgid "Enter an application name"
 msgstr "Enter an application name"
 
-#: pardusflatpakgui/installinputwindow.py:90
+#: pardusflatpakgui/installfromentrywindow.py:90
 msgid "<big><b>Input Error</b></big>"
 msgstr "<big><b>Input Error</b></big>"
 
-#: pardusflatpakgui/installinputwindow.py:92
+#: pardusflatpakgui/installfromentrywindow.py:92
 msgid "Input entered is invalid."
 msgstr "Input entered is invalid."
+
+#: pardusflatpakgui/installfromfilewindow_2.py:79
+#: pardusflatpakgui/installfromfilewindow_2.py:93
+msgid "Installing from file..."
+msgstr "Installing from file..."
+
+#: pardusflatpakgui/installfromfilewindow.py:55
+msgid "Please choose a Flatpak reference file."
+msgstr "Please choose a Flatpak reference file."
+
+#: pardusflatpakgui/installfromfilewindow.py:71
+msgid "Choose a file"
+msgstr "Choose a file"
 
 #: pardusflatpakgui/mainwindow.py:61
 msgid "Error reading About dialog GUI file: "
@@ -406,9 +412,6 @@ msgstr "Updating completed!"
 
 #~ msgid "Installed from entry!"
 #~ msgstr "Installed from entry!"
-
-#~ msgid "Installing..."
-#~ msgstr "Installing..."
 
 #~ msgid "Version"
 #~ msgstr "Version"

@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pardusflatpakgui.installwindow import InstallWindow
+from pardusflatpakgui.installfromentrywindow_2 import InstallFromEntryWindow2
 
 import gettext
 import locale
@@ -34,7 +34,7 @@ _ = gettext.gettext
 gettext.install("pardus-flatpak-gui", "po/")
 
 
-class InstallInputWindow(object):
+class InstallFromEntryWindow(object):
     def __init__(self, application, flatpakinstallation, liststore):
         self.Application = application
         self.FlatpakInstallation = flatpakinstallation
@@ -113,8 +113,8 @@ class InstallInputWindow(object):
                 self.AppToInstall = listitem
 
         self.InstallInputEntry.set_text("")
-        InstallWindow(self.Application, self.AppToInstall,
-                      self.FlatpakInstallation, self.ListStoreMain)
+        InstallFromEntryWindow2(self.Application, self.AppToInstall,
+                                self.FlatpakInstallation, self.ListStoreMain)
         self.onDestroy()
 
     def onDestroy(self, *args):

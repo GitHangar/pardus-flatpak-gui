@@ -93,7 +93,7 @@ class FlatpakGUIApp(Gtk.Application):
                     return None
 
                 InstallWindow(self, self.AppToInstall,
-                              self.FlatpakInstallation, None)
+                                        self.FlatpakInstallation, None)
         else:
             self.MessageDialogError.set_markup(
                 _("<big><b>Argument Error</b></big>"))
