@@ -1,2 +1,6 @@
 flatpakgui/__pycache__/
 *.po~
+
+# For PyCharm IDE
+venv/
+.idea/
