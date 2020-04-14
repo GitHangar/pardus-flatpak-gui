@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flatpak GUI 1.0-rc1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-13 17:45+0300\n"
-"PO-Revision-Date: 2020-04-13 17:46+0300\n"
+"POT-Creation-Date: 2020-04-14 12:31+0300\n"
+"PO-Revision-Date: 2020-04-14 12:33+0300\n"
 "Last-Translator: Erdem Ersoy <<erdem.ersoy@pardus.org.tr>>\n"
 "Language-Team: Erdem Ersoy <erdem.ersoy@pardus.org.tr>\n"
 "Language: en\n"
@@ -153,7 +153,7 @@ msgstr "Choose a file"
 msgid "Error reading About dialog GUI file: "
 msgstr "Error reading About dialog GUI file: "
 
-#: pardusflatpakgui/mainwindow.py:77 pardusflatpakgui/mainwindow.py:185
+#: pardusflatpakgui/mainwindow.py:77 pardusflatpakgui/mainwindow.py:190
 msgid "Pardus Flatpak GUI"
 msgstr "Pardus Flatpak GUI"
 
@@ -217,132 +217,132 @@ msgstr "Download Size"
 msgid "Name"
 msgstr "Name"
 
-#: pardusflatpakgui/mainwindow.py:183
+#: pardusflatpakgui/mainwindow.py:188
 msgid "Flatpak GUI for Pardus"
 msgstr "Flatpak GUI for Pardus"
 
-#: pardusflatpakgui/mainwindow.py:184
+#: pardusflatpakgui/mainwindow.py:189
 msgid "Copyright (C) 2020 Erdem Ersoy"
 msgstr "Copyright (C) 2020 Erdem Ersoy"
 
-#: pardusflatpakgui/mainwindow.py:186
+#: pardusflatpakgui/mainwindow.py:191
 msgid "Pardus Flatpak GUI Web Site"
 msgstr "Pardus Flatpak GUI Web Site"
 
-#: pardusflatpakgui/mainwindow.py:221 pardusflatpakgui/mainwindow.py:261
-#: pardusflatpakgui/mainwindow.py:420 pardusflatpakgui/mainwindow.py:450
+#: pardusflatpakgui/mainwindow.py:241 pardusflatpakgui/mainwindow.py:281
+#: pardusflatpakgui/mainwindow.py:440 pardusflatpakgui/mainwindow.py:470
 msgid "<big><b>Selection Error</b></big>"
 msgstr "<big><b>Selection Error</b></big>"
 
-#: pardusflatpakgui/mainwindow.py:223 pardusflatpakgui/mainwindow.py:263
-#: pardusflatpakgui/mainwindow.py:422 pardusflatpakgui/mainwindow.py:452
+#: pardusflatpakgui/mainwindow.py:243 pardusflatpakgui/mainwindow.py:283
+#: pardusflatpakgui/mainwindow.py:442 pardusflatpakgui/mainwindow.py:472
 msgid "None of the applications are selected."
 msgstr "None of the applications are selected."
 
-#: pardusflatpakgui/mainwindow.py:250
+#: pardusflatpakgui/mainwindow.py:270
 msgid "<big><b>Running Error</b></big>"
 msgstr "<big><b>Running Error</b></big>"
 
-#: pardusflatpakgui/mainwindow.py:252
+#: pardusflatpakgui/mainwindow.py:272
 msgid "The selected application couldn't run."
 msgstr "The selected application couldn't run."
 
-#: pardusflatpakgui/mainwindow.py:291 pardusflatpakgui/mainwindow.py:308
-#: pardusflatpakgui/mainwindow.py:312 pardusflatpakgui/mainwindow.py:316
-#: pardusflatpakgui/mainwindow.py:320 pardusflatpakgui/mainwindow.py:324
-#: pardusflatpakgui/mainwindow.py:328 pardusflatpakgui/mainwindow.py:332
-#: pardusflatpakgui/mainwindow.py:346 pardusflatpakgui/mainwindow.py:350
-#: pardusflatpakgui/mainwindow.py:354 pardusflatpakgui/mainwindow.py:387
-#: pardusflatpakgui/mainwindow.py:391 pardusflatpakgui/mainwindow.py:399
+#: pardusflatpakgui/mainwindow.py:311 pardusflatpakgui/mainwindow.py:328
+#: pardusflatpakgui/mainwindow.py:332 pardusflatpakgui/mainwindow.py:336
+#: pardusflatpakgui/mainwindow.py:340 pardusflatpakgui/mainwindow.py:344
+#: pardusflatpakgui/mainwindow.py:348 pardusflatpakgui/mainwindow.py:352
+#: pardusflatpakgui/mainwindow.py:366 pardusflatpakgui/mainwindow.py:370
+#: pardusflatpakgui/mainwindow.py:374 pardusflatpakgui/mainwindow.py:407
+#: pardusflatpakgui/mainwindow.py:411 pardusflatpakgui/mainwindow.py:419
 msgid "None"
 msgstr "None"
 
-#: pardusflatpakgui/mainwindow.py:340 pardusflatpakgui/mainwindow.py:366
-#: pardusflatpakgui/mainwindow.py:406
+#: pardusflatpakgui/mainwindow.py:360 pardusflatpakgui/mainwindow.py:386
+#: pardusflatpakgui/mainwindow.py:426
 msgid "Yes"
 msgstr "Yes"
 
-#: pardusflatpakgui/mainwindow.py:342
+#: pardusflatpakgui/mainwindow.py:362
 msgid "No"
 msgstr "No"
 
-#: pardusflatpakgui/mainwindow.py:361 pardusflatpakgui/mainwindow.py:401
+#: pardusflatpakgui/mainwindow.py:381 pardusflatpakgui/mainwindow.py:421
 msgid "Real Name: "
 msgstr "Real Name: "
 
-#: pardusflatpakgui/mainwindow.py:362 pardusflatpakgui/mainwindow.py:402
+#: pardusflatpakgui/mainwindow.py:382 pardusflatpakgui/mainwindow.py:422
 msgid "Arch: "
 msgstr "Arch: "
 
-#: pardusflatpakgui/mainwindow.py:363 pardusflatpakgui/mainwindow.py:403
+#: pardusflatpakgui/mainwindow.py:383 pardusflatpakgui/mainwindow.py:423
 msgid "Branch: "
 msgstr "Branch: "
 
-#: pardusflatpakgui/mainwindow.py:364 pardusflatpakgui/mainwindow.py:404
+#: pardusflatpakgui/mainwindow.py:384 pardusflatpakgui/mainwindow.py:424
 msgid "Collection ID: "
 msgstr "Collection ID: "
 
-#: pardusflatpakgui/mainwindow.py:365 pardusflatpakgui/mainwindow.py:405
+#: pardusflatpakgui/mainwindow.py:385 pardusflatpakgui/mainwindow.py:425
 msgid "Commit: "
 msgstr "Commit: "
 
-#: pardusflatpakgui/mainwindow.py:366 pardusflatpakgui/mainwindow.py:406
+#: pardusflatpakgui/mainwindow.py:386 pardusflatpakgui/mainwindow.py:426
 msgid "Is Installed: "
 msgstr "Is Installed: "
 
-#: pardusflatpakgui/mainwindow.py:367
+#: pardusflatpakgui/mainwindow.py:387
 msgid "License: "
 msgstr "License: "
 
-#: pardusflatpakgui/mainwindow.py:368
+#: pardusflatpakgui/mainwindow.py:388
 msgid "Name: "
 msgstr "Name: "
 
-#: pardusflatpakgui/mainwindow.py:369
+#: pardusflatpakgui/mainwindow.py:389
 msgid "Summary: "
 msgstr "Summary: "
 
-#: pardusflatpakgui/mainwindow.py:370
+#: pardusflatpakgui/mainwindow.py:390
 msgid "Version: "
 msgstr "Version: "
 
-#: pardusflatpakgui/mainwindow.py:371
+#: pardusflatpakgui/mainwindow.py:391
 msgid "Deploy Dir: "
 msgstr "Deploy Dir: "
 
-#: pardusflatpakgui/mainwindow.py:372 pardusflatpakgui/mainwindow.py:408
+#: pardusflatpakgui/mainwindow.py:392 pardusflatpakgui/mainwindow.py:428
 msgid "EOL Reason: "
 msgstr "EOL Reason: "
 
-#: pardusflatpakgui/mainwindow.py:373 pardusflatpakgui/mainwindow.py:409
+#: pardusflatpakgui/mainwindow.py:393 pardusflatpakgui/mainwindow.py:429
 msgid "EOL Rebased: "
 msgstr "EOL Rebased: "
 
-#: pardusflatpakgui/mainwindow.py:374 pardusflatpakgui/mainwindow.py:410
+#: pardusflatpakgui/mainwindow.py:394 pardusflatpakgui/mainwindow.py:430
 msgid "Installed Size: "
 msgstr "Installed Size: "
 
-#: pardusflatpakgui/mainwindow.py:375
+#: pardusflatpakgui/mainwindow.py:395
 msgid "Is Current: "
 msgstr "Is Current: "
 
-#: pardusflatpakgui/mainwindow.py:376
+#: pardusflatpakgui/mainwindow.py:396
 msgid "Latest Commit: "
 msgstr "Latest Commit: "
 
-#: pardusflatpakgui/mainwindow.py:377
+#: pardusflatpakgui/mainwindow.py:397
 msgid "Origin: "
 msgstr "Origin: "
 
-#: pardusflatpakgui/mainwindow.py:378
+#: pardusflatpakgui/mainwindow.py:398
 msgid "Subpaths: "
 msgstr "Subpaths: "
 
-#: pardusflatpakgui/mainwindow.py:407
+#: pardusflatpakgui/mainwindow.py:427
 msgid "Download Size: "
 msgstr "Download Size: "
 
-#: pardusflatpakgui/mainwindow.py:411
+#: pardusflatpakgui/mainwindow.py:431
 msgid "Remote Name: "
 msgstr "Remote Name: "
 
