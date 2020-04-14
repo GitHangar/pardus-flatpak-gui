@@ -279,11 +279,9 @@ class MainWindow(object):
         TreeModel, TreeIter = Selection.get_selected()
         if TreeIter is None:
             return None
-        TreePath = TreeModel.get_path(TreeIter)
-        SelectedRowIndex = TreePath.get_indices()[0]
 
         # If the selected app is installed
-        if self.SearchFilter.get_value(TreeIter, 5) == "":
+        if TreeModel.get_value(TreeIter, 5) == "":
             self.RunMenuItem.set_sensitive(True)
             self.UninstallMenuItem.set_sensitive(True)
             self.InstallMenuItem.set_sensitive(False)
