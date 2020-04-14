@@ -224,6 +224,19 @@ Author: Erdem Ersoy
             </child>
           </object>
         </child>
+        <child>
+          <object class="GtkToggleButton" id="HeaderBarShowButton">
+            <property name="label" translatable="yes">Show Installed Apps</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="toggled" handler="onPressShowButton" swapped="no"/>
+          </object>
+          <packing>
+            <property name="pack_type">end</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
       </object>
     </child>
     <child>

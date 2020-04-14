@@ -184,6 +184,9 @@ class MainWindow(object):
         self.SearchFilter = MainBuilder.get_object("SearchFilter")
         self.SearchFilter.set_visible_func(self.SearchFilterFunction)
 
+        self.HeaderBarShowButton = MainBuilder.get_object("HeaderBarShowButton")
+        self.HeaderBarShowButton.set_label(_("Show Installed Apps"))
+
         self.AboutDialog = AboutBuilder.get_object("AboutDialog")
         self.AboutDialog.set_comments(_("Flatpak GUI for Pardus"))
         self.AboutDialog.set_copyright(_("Copyright (C) 2020 Erdem Ersoy"))
@@ -200,10 +203,21 @@ class MainWindow(object):
         real_name = model[iteration][0]
         name = model[iteration][6]
 
-        if len(search_entry_text) == 0:
+        if name == "":
+            is_installed = False
+        else:
+            is_installed = True
+
+        if len(search_entry_text) == 0 and not self.HeaderBarShowButton.get_active():
             return True
-        elif real_name.lower().count(search_entry_text.lower()) > 0 or name.lower().count(search_entry_text.lower()) > 0:
+        if len(search_entry_text) == 0 and self.HeaderBarShowButton.get_active():
+            return is_installed
+        elif (real_name.lower().count(search_entry_text.lower()) > 0 or name.lower().count(search_entry_text.lower()) > 0) \
+          and not self.HeaderBarShowButton.get_active():
             return True
+        elif (real_name.lower().count(search_entry_text.lower()) > 0 or name.lower().count(search_entry_text.lower()) > 0) \
+          and self.HeaderBarShowButton.get_active():
+            return is_installed
         else:
             return False
 
@@ -231,6 +245,9 @@ class MainWindow(object):
             self.InstallMenuItem.set_sensitive(True)
 
     def onSearchChanged(self, search_entry):
+        self.SearchFilter.refilter()
+
+    def onPressShowButton(self, toggle_button):
         self.SearchFilter.refilter()
 
     def onRun(self, menuitem):
