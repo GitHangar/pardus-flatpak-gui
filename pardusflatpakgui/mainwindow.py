@@ -179,6 +179,11 @@ class MainWindow(object):
 
         self.TreeViewMain = MainBuilder.get_object("TreeViewMain")
 
+        self.SearchEntryMain = MainBuilder.get_object("SearchEntryMain")
+
+        self.SearchFilter = MainBuilder.get_object("SearchFilter")
+        self.SearchFilter.set_visible_func(self.SearchFilterFunction)
+
         self.AboutDialog = AboutBuilder.get_object("AboutDialog")
         self.AboutDialog.set_comments(_("Flatpak GUI for Pardus"))
         self.AboutDialog.set_copyright(_("Copyright (C) 2020 Erdem Ersoy"))
@@ -189,6 +194,18 @@ class MainWindow(object):
             "MessageDialogError")
 
         self.MainWindow.show()
+
+    def SearchFilterFunction(self, model, iteration, data):
+        search_entry_text = self.SearchEntryMain.get_text()
+        real_name = model[iteration][0]
+        name = model[iteration][6]
+
+        if len(search_entry_text) == 0:
+            return True
+        elif real_name.lower().count(search_entry_text.lower()) > 0 or name.lower().count(search_entry_text.lower()) > 0:
+            return True
+        else:
+            return False
 
     def onDestroy(self, *args):
         self.MainWindow.destroy()
@@ -202,7 +219,7 @@ class MainWindow(object):
         SelectedRowIndex = TreePath.get_indices()[0]
 
         # If the selected app is installed
-        if self.ListStoreMain.get_value(TreeIter, 5) == "":
+        if self.SearchFilter.get_value(TreeIter, 5) == "":
             self.RunMenuItem.set_sensitive(True)
             self.UninstallMenuItem.set_sensitive(True)
             self.InstallMenuItem.set_sensitive(False)
@@ -212,6 +229,9 @@ class MainWindow(object):
             self.RunMenuItem.set_sensitive(False)
             self.UninstallMenuItem.set_sensitive(False)
             self.InstallMenuItem.set_sensitive(True)
+
+    def onSearchChanged(self, search_entry):
+        self.SearchFilter.refilter()
 
     def onRun(self, menuitem):
         Selection = self.TreeViewMain.get_selection()
