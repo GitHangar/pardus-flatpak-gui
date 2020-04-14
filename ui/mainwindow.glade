@@ -74,6 +74,10 @@ Author: Erdem Ersoy
   <object class="GtkTreeModelFilter" id="SearchFilter">
     <property name="child_model">ListStoreMain</property>
   </object>
+  <object class="GtkTreeModelSort" id="SortModel">
+    <property name="model">SearchFilter</property>
+    <signal name="sort-column-changed" handler="onResorted" swapped="no"/>
+  </object>
   <object class="GtkImage" id="RunImage">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -258,7 +262,7 @@ Author: Erdem Ersoy
               <object class="GtkTreeView" id="TreeViewMain">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="model">SearchFilter</property>
+                <property name="model">SortModel</property>
                 <property name="reorderable">True</property>
                 <property name="search_column">0</property>
                 <property name="activate_on_single_click">True</property>
@@ -274,7 +278,6 @@ Author: Erdem Ersoy
                     <property name="title" translatable="yes">Real Name</property>
                     <property name="clickable">True</property>
                     <property name="reorderable">True</property>
-                    <property name="sort_indicator">True</property>
                     <property name="sort_column_id">0</property>
                     <child>
                       <object class="GtkCellRendererText" id="CellRendererTextRealName"/>
@@ -290,6 +293,7 @@ Author: Erdem Ersoy
                     <property name="title" translatable="yes">Arch</property>
                     <property name="clickable">True</property>
                     <property name="reorderable">True</property>
+                    <property name="sort_column_id">1</property>
                     <child>
                       <object class="GtkCellRendererText" id="CellRendererTextArch"/>
                       <attributes>
@@ -304,6 +308,7 @@ Author: Erdem Ersoy
                     <property name="title" translatable="yes">Branch</property>
                     <property name="clickable">True</property>
                     <property name="reorderable">True</property>
+                    <property name="sort_column_id">2</property>
                     <child>
                       <object class="GtkCellRendererText" id="CellRendererTextBranch"/>
                       <attributes>
@@ -318,6 +323,7 @@ Author: Erdem Ersoy
                     <property name="title" translatable="yes">Remote Name</property>
                     <property name="clickable">True</property>
                     <property name="reorderable">True</property>
+                    <property name="sort_column_id">3</property>
                     <child>
                       <object class="GtkCellRendererText" id="CellRendererTextRemoteName"/>
                       <attributes>
@@ -332,6 +338,7 @@ Author: Erdem Ersoy
                     <property name="title" translatable="yes">Installed Size</property>
                     <property name="clickable">True</property>
                     <property name="reorderable">True</property>
+                    <property name="sort_column_id">4</property>
                     <child>
                       <object class="GtkCellRendererText" id="CellRendererTextInstalledSize"/>
                       <attributes>
@@ -346,6 +353,7 @@ Author: Erdem Ersoy
                     <property name="title" translatable="yes">Download Size</property>
                     <property name="clickable">True</property>
                     <property name="reorderable">True</property>
+                    <property name="sort_column_id">5</property>
                     <child>
                       <object class="GtkCellRendererText" id="CellRendererTextDownloadSize"/>
                       <attributes>
@@ -357,9 +365,12 @@ Author: Erdem Ersoy
                 <child>
                   <object class="GtkTreeViewColumn" id="TreeViewColumnName">
                     <property name="resizable">True</property>
+                    <property name="sizing">fixed</property>
+                    <property name="fixed_width">80</property>
                     <property name="title" translatable="yes">Name</property>
                     <property name="clickable">True</property>
                     <property name="reorderable">True</property>
+                    <property name="sort_column_id">6</property>
                     <child>
                       <object class="GtkCellRendererText" id="CellRendererTextName"/>
                       <attributes>
