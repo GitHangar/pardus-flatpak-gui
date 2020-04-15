@@ -22,6 +22,7 @@ from pardusflatpakgui.installfromentrywindow import InstallFromEntryWindow
 from pardusflatpakgui.installfromfilewindow import InstallFromFileWindow
 from pardusflatpakgui.uninstallwindow import UninstallWindow
 from pardusflatpakgui.updateallwindow import UpdateAllWindow
+from pardusflatpakgui.version import Version
 
 import gettext
 import locale
@@ -200,6 +201,7 @@ class MainWindow(object):
         self.AboutDialog.set_comments(_("Flatpak GUI for Pardus"))
         self.AboutDialog.set_copyright(_("Copyright (C) 2020 Erdem Ersoy"))
         self.AboutDialog.set_program_name(_("Pardus Flatpak GUI"))
+        self.AboutDialog.set_version(Version.getVersion())
         self.AboutDialog.set_website_label(_("Pardus Flatpak GUI Web Site"))
 
         self.MessageDialogError = MessagesBuilder.get_object(

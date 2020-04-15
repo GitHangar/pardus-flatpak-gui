@@ -34,7 +34,6 @@ Author: Erdem Ersoy
     <property name="modal">True</property>
     <property name="type_hint">dialog</property>
     <property name="program_name">Pardus Flatpak GUI</property>
-    <property name="version">1.0-rc1</property>
     <property name="copyright" translatable="yes">Copyright (C) 2020 Erdem Ersoy</property>
     <property name="comments" translatable="yes">Flatpak GUI for Pardus</property>
     <property name="website">https://www.pardus.org.tr/</property>
