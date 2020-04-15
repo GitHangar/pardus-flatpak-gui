@@ -197,6 +197,8 @@ class MainWindow(object):
         self.HeaderBarShowButton = MainBuilder.get_object("HeaderBarShowButton")
         self.HeaderBarShowButton.set_label(_("Show Installed Apps"))
 
+        self.ActionsMenu = MainBuilder.get_object("ActionsMenu")
+
         self.AboutDialog = AboutBuilder.get_object("AboutDialog")
         self.AboutDialog.set_comments(_("Flatpak GUI for Pardus"))
         self.AboutDialog.set_copyright(_("Copyright (C) 2020 Erdem Ersoy"))
@@ -303,6 +305,9 @@ class MainWindow(object):
     def onPressShowButton(self, toggle_button):
         self.SearchFilter.refilter()
 
+    def onShowActionsMenu(self, tree_view, path, column):
+        self.ActionsMenu.popup_at_pointer(None)
+
     def onRun(self, menuitem):
         Selection = self.TreeViewMain.get_selection()
         TreeModel, TreeIter = Selection.get_selected()
@@ -317,9 +322,9 @@ class MainWindow(object):
         TreePath = TreeModel.get_path(TreeIter)
         SelectedRowIndex = TreePath.get_indices()[0]
 
-        AppToRunRealName = self.ListStoreMain.get_value(TreeIter, 0)
-        AppToRunArch = self.ListStoreMain.get_value(TreeIter, 1)
-        AppToRunBranch = self.ListStoreMain.get_value(TreeIter, 2)
+        AppToRunRealName = TreeModel.get_value(TreeIter, 0)
+        AppToRunArch = TreeModel.get_value(TreeIter, 1)
+        AppToRunBranch = TreeModel.get_value(TreeIter, 2)
 
         AppToRun = Flatpak.Ref.parse("app/" + AppToRunRealName + "/" +
                                      AppToRunArch + "/" + AppToRunBranch)
@@ -367,9 +372,9 @@ class MainWindow(object):
                     self.FlatHubRefsList.remove(item2)
         self.FlatpakRefsList = self.FlatpakRefsList + self.FlatHubRefsList
 
-        AppRealName = self.ListStoreMain.get_value(TreeIter, 0)
-        AppArch = self.ListStoreMain.get_value(TreeIter, 1)
-        AppBranch = self.ListStoreMain.get_value(TreeIter, 2)
+        AppRealName = TreeModel.get_value(TreeIter, 0)
+        AppArch = TreeModel.get_value(TreeIter, 1)
+        AppBranch = TreeModel.get_value(TreeIter, 2)
 
         for item in self.FlatpakRefsList:
             if item.get_name() == AppRealName:
@@ -516,9 +521,9 @@ class MainWindow(object):
         TreePath = TreeModel.get_path(TreeIter)
         SelectedRowIndex = TreePath.get_indices()[0]
 
-        AppToUninstallRealName = self.ListStoreMain.get_value(TreeIter, 0)
-        AppToUninstallArch = self.ListStoreMain.get_value(TreeIter, 1)
-        AppToUninstallBranch = self.ListStoreMain.get_value(TreeIter, 2)
+        AppToUninstallRealName = TreeModel.get_value(TreeIter, 0)
+        AppToUninstallArch = TreeModel.get_value(TreeIter, 1)
+        AppToUninstallBranch = TreeModel.get_value(TreeIter, 2)
 
         self.FlatHubRefsList = self.FlatpakInstallation.list_remote_refs_sync(
                                    "flathub", Gio.Cancellable.new())
@@ -546,10 +551,10 @@ class MainWindow(object):
         TreePath = TreeModel.get_path(TreeIter)
         SelectedRowIndex = TreePath.get_indices()[0]
 
-        AppToInstallRealName = self.ListStoreMain.get_value(TreeIter, 0)
-        AppToInstallArch = self.ListStoreMain.get_value(TreeIter, 1)
-        AppToInstallBranch = self.ListStoreMain.get_value(TreeIter, 2)
-        AppToInstallRemote = self.ListStoreMain.get_value(TreeIter, 3)
+        AppToInstallRealName = TreeModel.get_value(TreeIter, 0)
+        AppToInstallArch = TreeModel.get_value(TreeIter, 1)
+        AppToInstallBranch = TreeModel.get_value(TreeIter, 2)
+        AppToInstallRemote = TreeModel.get_value(TreeIter, 3)
 
         for item in self.FlatpakRefsList:
             if item.get_name() == AppToInstallRealName and item not in self.FlatHubRefsList:

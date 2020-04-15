@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-14 17:39+0300\n"
-"PO-Revision-Date: 2020-04-14 17:39+0300\n"
+"POT-Creation-Date: 2020-04-15 10:34+0300\n"
+"PO-Revision-Date: 2020-04-15 10:35+0300\n"
 "Last-Translator: Erdem Ersoy <<erdem.ersoy@pardus.org.tr>>\n"
 "Language-Team: \n"
 "Language: tr\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: pardusflatpakgui/flatpakguiapp.py:49
 #: pardusflatpakgui/installfromentrywindow.py:57
-#: pardusflatpakgui/mainwindow.py:69
+#: pardusflatpakgui/mainwindow.py:70
 msgid "Error reading message dialogs GUI file: "
 msgstr "İleti pencereleri GUI dosyasını okumada hata: "
 
@@ -49,11 +49,11 @@ msgid "There are too many arguments. Argument count: "
 msgstr "Çok fazla argüman var. Argüman sayısı: "
 
 #: pardusflatpakgui/infowindow.py:45
-#: pardusflatpakgui/installfromentrywindow.py:49
 #: pardusflatpakgui/installfromentrywindow_2.py:72
-#: pardusflatpakgui/installfromfilewindow.py:48
+#: pardusflatpakgui/installfromentrywindow.py:49
 #: pardusflatpakgui/installfromfilewindow_2.py:73
-#: pardusflatpakgui/installwindow.py:77 pardusflatpakgui/mainwindow.py:53
+#: pardusflatpakgui/installfromfilewindow.py:48
+#: pardusflatpakgui/installwindow.py:77 pardusflatpakgui/mainwindow.py:54
 #: pardusflatpakgui/uninstallwindow.py:69
 #: pardusflatpakgui/updateallwindow.py:69
 msgid "Error reading GUI file: "
@@ -66,42 +66,6 @@ msgstr "_Panoya Kopyala"
 #: pardusflatpakgui/infowindow.py:57
 msgid "Info About "
 msgstr "Hakkında Bilgi: "
-
-#: pardusflatpakgui/installfromentrywindow.py:67
-msgid ""
-"Please enter an application name (Ex: org.libreoffice.LibreOffice) what you "
-"want to install from Flathub."
-msgstr ""
-"Lütfen Flathub'tan yüklemek istediğiniz bir uygulama adı (Ör: org."
-"libreoffice.LibreOffice) giriniz."
-
-#: pardusflatpakgui/installfromentrywindow.py:72
-#: pardusflatpakgui/installfromfilewindow.py:61
-msgid ""
-"NOTE: Installing an application from third party remote repositories isn't "
-"secured as installing an application from official repositories of your "
-"distribution."
-msgstr ""
-"NOT: Üçüncü parti uzak depolardan bir uygulama yüklemek dağıtımınızın resmî "
-"depolarından bir uygulama yükleme kadar güvenli değildir."
-
-#: pardusflatpakgui/installfromentrywindow.py:76
-#: pardusflatpakgui/installfromfilewindow.py:66
-#: pardusflatpakgui/mainwindow.py:90
-msgid "I_nstall"
-msgstr "_Kur"
-
-#: pardusflatpakgui/installfromentrywindow.py:80
-msgid "Enter an application name"
-msgstr "Bir uygulama adı giriniz"
-
-#: pardusflatpakgui/installfromentrywindow.py:90
-msgid "<big><b>Input Error</b></big>"
-msgstr "<big><b>Girdi Hatası</b></big>"
-
-#: pardusflatpakgui/installfromentrywindow.py:92
-msgid "Input entered is invalid."
-msgstr "Girilen girdi geçersiz."
 
 #: pardusflatpakgui/installfromentrywindow_2.py:77
 #: pardusflatpakgui/installfromentrywindow_2.py:90
@@ -134,6 +98,47 @@ msgstr "Kuruluyor: "
 msgid "Not installed: "
 msgstr "Kurulmadı: "
 
+#: pardusflatpakgui/installfromentrywindow.py:67
+msgid ""
+"Please enter an application name (Ex: org.libreoffice.LibreOffice) what you "
+"want to install from Flathub."
+msgstr ""
+"Lütfen Flathub'tan yüklemek istediğiniz bir uygulama adı (Ör: org."
+"libreoffice.LibreOffice) giriniz."
+
+#: pardusflatpakgui/installfromentrywindow.py:72
+#: pardusflatpakgui/installfromfilewindow.py:61
+msgid ""
+"NOTE: Installing an application from third party remote repositories isn't "
+"secured as installing an application from official repositories of your "
+"distribution."
+msgstr ""
+"NOT: Üçüncü parti uzak depolardan bir uygulama yüklemek dağıtımınızın resmî "
+"depolarından bir uygulama yükleme kadar güvenli değildir."
+
+#: pardusflatpakgui/installfromentrywindow.py:76
+#: pardusflatpakgui/installfromfilewindow.py:66
+#: pardusflatpakgui/mainwindow.py:91
+msgid "I_nstall"
+msgstr "_Kur"
+
+#: pardusflatpakgui/installfromentrywindow.py:80
+msgid "Enter an application name"
+msgstr "Bir uygulama adı giriniz"
+
+#: pardusflatpakgui/installfromentrywindow.py:90
+msgid "<big><b>Input Error</b></big>"
+msgstr "<big><b>Girdi Hatası</b></big>"
+
+#: pardusflatpakgui/installfromentrywindow.py:92
+msgid "Input entered is invalid."
+msgstr "Girilen girdi geçersiz."
+
+#: pardusflatpakgui/installfromfilewindow_2.py:79
+#: pardusflatpakgui/installfromfilewindow_2.py:93
+msgid "Installing from file..."
+msgstr "Dosyadan kuruluyor..."
+
 #: pardusflatpakgui/installfromfilewindow.py:55
 msgid "Please choose a Flatpak reference file."
 msgstr "Lütfen bir Flatpak başvuru dosyası seçiniz."
@@ -142,209 +147,204 @@ msgstr "Lütfen bir Flatpak başvuru dosyası seçiniz."
 msgid "Choose a file"
 msgstr "Bir dosya seç"
 
-#: pardusflatpakgui/installfromfilewindow_2.py:79
-#: pardusflatpakgui/installfromfilewindow_2.py:93
-msgid "Installing from file..."
-msgstr "Dosyadan kuruluyor..."
-
-#: pardusflatpakgui/mainwindow.py:61
+#: pardusflatpakgui/mainwindow.py:62
 msgid "Error reading About dialog GUI file: "
 msgstr "Hakkında iletişim kutusu GUI dosyasını okumada hata: "
 
-#: pardusflatpakgui/mainwindow.py:77 pardusflatpakgui/mainwindow.py:202
+#: pardusflatpakgui/mainwindow.py:78 pardusflatpakgui/mainwindow.py:205
 msgid "Pardus Flatpak GUI"
 msgstr "Pardus Flatpak GUI"
 
-#: pardusflatpakgui/mainwindow.py:78
+#: pardusflatpakgui/mainwindow.py:79
 msgid "Manage Flatpak softwares via GUI on Pardus"
 msgstr "Pardus üzerinde GUI ile Flatpak yazılımlarını yönet"
 
-#: pardusflatpakgui/mainwindow.py:81
+#: pardusflatpakgui/mainwindow.py:82
 msgid "_Run"
 msgstr "Ç_alıştır"
 
-#: pardusflatpakgui/mainwindow.py:84
+#: pardusflatpakgui/mainwindow.py:85
 msgid "_Info"
 msgstr "_Bilgi"
 
-#: pardusflatpakgui/mainwindow.py:87
+#: pardusflatpakgui/mainwindow.py:88
 msgid "_Uninstall"
 msgstr "Ka_ldır"
 
-#: pardusflatpakgui/mainwindow.py:93
+#: pardusflatpakgui/mainwindow.py:94
 msgid "Install From _Entry"
 msgstr "_Girdiden Kur"
 
-#: pardusflatpakgui/mainwindow.py:97
+#: pardusflatpakgui/mainwindow.py:98
 msgid "Install _From File"
 msgstr "_Dosyadan Kur"
 
-#: pardusflatpakgui/mainwindow.py:100
+#: pardusflatpakgui/mainwindow.py:101
 msgid "Up_date All"
 msgstr "_Tümünü Güncelle"
 
-#: pardusflatpakgui/mainwindow.py:103
+#: pardusflatpakgui/mainwindow.py:104
 msgid "_About"
 msgstr "_Hakkında"
 
-#: pardusflatpakgui/mainwindow.py:107
+#: pardusflatpakgui/mainwindow.py:108
 msgid "Real Name"
 msgstr "Gerçek Adı"
 
-#: pardusflatpakgui/mainwindow.py:110
+#: pardusflatpakgui/mainwindow.py:111
 msgid "Arch"
 msgstr "Mimarisi"
 
-#: pardusflatpakgui/mainwindow.py:113
+#: pardusflatpakgui/mainwindow.py:114
 msgid "Branch"
 msgstr "Dalı"
 
-#: pardusflatpakgui/mainwindow.py:117
+#: pardusflatpakgui/mainwindow.py:118
 msgid "Remote Name"
 msgstr "Uzak Adı"
 
-#: pardusflatpakgui/mainwindow.py:121
+#: pardusflatpakgui/mainwindow.py:122
 msgid "Installed Size"
 msgstr "Kurulu Boyutu"
 
-#: pardusflatpakgui/mainwindow.py:125
+#: pardusflatpakgui/mainwindow.py:126
 msgid "Download Size"
 msgstr "İndirme Boyutu"
 
-#: pardusflatpakgui/mainwindow.py:128
+#: pardusflatpakgui/mainwindow.py:129
 msgid "Name"
 msgstr "Adı"
 
-#: pardusflatpakgui/mainwindow.py:197
+#: pardusflatpakgui/mainwindow.py:198
 msgid "Show Installed Apps"
 msgstr "Kurulu Uygulamaları Göster"
 
-#: pardusflatpakgui/mainwindow.py:200
+#: pardusflatpakgui/mainwindow.py:203
 msgid "Flatpak GUI for Pardus"
 msgstr "Pardus için Flatpak GUI"
 
-#: pardusflatpakgui/mainwindow.py:201
+#: pardusflatpakgui/mainwindow.py:204
 msgid "Copyright (C) 2020 Erdem Ersoy"
 msgstr "Telif Hakkı: 2020 Erdem Ersoy"
 
-#: pardusflatpakgui/mainwindow.py:203
+#: pardusflatpakgui/mainwindow.py:207
 msgid "Pardus Flatpak GUI Web Site"
 msgstr "Pardus Flatpak GUI Ağ Sitesi"
 
-#: pardusflatpakgui/mainwindow.py:309 pardusflatpakgui/mainwindow.py:349
-#: pardusflatpakgui/mainwindow.py:508 pardusflatpakgui/mainwindow.py:538
+#: pardusflatpakgui/mainwindow.py:316 pardusflatpakgui/mainwindow.py:356
+#: pardusflatpakgui/mainwindow.py:515 pardusflatpakgui/mainwindow.py:545
 msgid "<big><b>Selection Error</b></big>"
 msgstr "<big><b>Seçim Hatası</b></big>"
 
-#: pardusflatpakgui/mainwindow.py:311 pardusflatpakgui/mainwindow.py:351
-#: pardusflatpakgui/mainwindow.py:510 pardusflatpakgui/mainwindow.py:540
+#: pardusflatpakgui/mainwindow.py:318 pardusflatpakgui/mainwindow.py:358
+#: pardusflatpakgui/mainwindow.py:517 pardusflatpakgui/mainwindow.py:547
 msgid "None of the applications are selected."
 msgstr "Uygulamaların hiçbiri seçili değil."
 
-#: pardusflatpakgui/mainwindow.py:338
+#: pardusflatpakgui/mainwindow.py:345
 msgid "<big><b>Running Error</b></big>"
 msgstr "<big><b>Çalıştırma Hatası</b></big>"
 
-#: pardusflatpakgui/mainwindow.py:340
+#: pardusflatpakgui/mainwindow.py:347
 msgid "The selected application couldn't run."
 msgstr "Seçili uygulama çalıştırılamadı."
 
-#: pardusflatpakgui/mainwindow.py:379 pardusflatpakgui/mainwindow.py:396
-#: pardusflatpakgui/mainwindow.py:400 pardusflatpakgui/mainwindow.py:404
-#: pardusflatpakgui/mainwindow.py:408 pardusflatpakgui/mainwindow.py:412
-#: pardusflatpakgui/mainwindow.py:416 pardusflatpakgui/mainwindow.py:420
-#: pardusflatpakgui/mainwindow.py:434 pardusflatpakgui/mainwindow.py:438
-#: pardusflatpakgui/mainwindow.py:442 pardusflatpakgui/mainwindow.py:475
-#: pardusflatpakgui/mainwindow.py:479 pardusflatpakgui/mainwindow.py:487
+#: pardusflatpakgui/mainwindow.py:386 pardusflatpakgui/mainwindow.py:403
+#: pardusflatpakgui/mainwindow.py:407 pardusflatpakgui/mainwindow.py:411
+#: pardusflatpakgui/mainwindow.py:415 pardusflatpakgui/mainwindow.py:419
+#: pardusflatpakgui/mainwindow.py:423 pardusflatpakgui/mainwindow.py:427
+#: pardusflatpakgui/mainwindow.py:441 pardusflatpakgui/mainwindow.py:445
+#: pardusflatpakgui/mainwindow.py:449 pardusflatpakgui/mainwindow.py:482
+#: pardusflatpakgui/mainwindow.py:486 pardusflatpakgui/mainwindow.py:494
 msgid "None"
 msgstr "Yok"
 
-#: pardusflatpakgui/mainwindow.py:428 pardusflatpakgui/mainwindow.py:454
-#: pardusflatpakgui/mainwindow.py:494
+#: pardusflatpakgui/mainwindow.py:435 pardusflatpakgui/mainwindow.py:461
+#: pardusflatpakgui/mainwindow.py:501
 msgid "Yes"
 msgstr "Evet"
 
-#: pardusflatpakgui/mainwindow.py:430
+#: pardusflatpakgui/mainwindow.py:437
 msgid "No"
 msgstr "Hayır"
 
-#: pardusflatpakgui/mainwindow.py:449 pardusflatpakgui/mainwindow.py:489
+#: pardusflatpakgui/mainwindow.py:456 pardusflatpakgui/mainwindow.py:496
 msgid "Real Name: "
 msgstr "Gerçek Adı: "
 
-#: pardusflatpakgui/mainwindow.py:450 pardusflatpakgui/mainwindow.py:490
+#: pardusflatpakgui/mainwindow.py:457 pardusflatpakgui/mainwindow.py:497
 msgid "Arch: "
 msgstr "Mimarisi: "
 
-#: pardusflatpakgui/mainwindow.py:451 pardusflatpakgui/mainwindow.py:491
+#: pardusflatpakgui/mainwindow.py:458 pardusflatpakgui/mainwindow.py:498
 msgid "Branch: "
 msgstr "Dalı: "
 
-#: pardusflatpakgui/mainwindow.py:452 pardusflatpakgui/mainwindow.py:492
+#: pardusflatpakgui/mainwindow.py:459 pardusflatpakgui/mainwindow.py:499
 msgid "Collection ID: "
 msgstr "Koleksiyon Kimliği: "
 
-#: pardusflatpakgui/mainwindow.py:453 pardusflatpakgui/mainwindow.py:493
+#: pardusflatpakgui/mainwindow.py:460 pardusflatpakgui/mainwindow.py:500
 msgid "Commit: "
 msgstr "Değişiklik: "
 
-#: pardusflatpakgui/mainwindow.py:454 pardusflatpakgui/mainwindow.py:494
+#: pardusflatpakgui/mainwindow.py:461 pardusflatpakgui/mainwindow.py:501
 msgid "Is Installed: "
 msgstr "Kurulu mu: "
 
-#: pardusflatpakgui/mainwindow.py:455
+#: pardusflatpakgui/mainwindow.py:462
 msgid "License: "
 msgstr "Lisansı: "
 
-#: pardusflatpakgui/mainwindow.py:456
+#: pardusflatpakgui/mainwindow.py:463
 msgid "Name: "
 msgstr "Adı: "
 
-#: pardusflatpakgui/mainwindow.py:457
+#: pardusflatpakgui/mainwindow.py:464
 msgid "Summary: "
 msgstr "Tanımı: "
 
-#: pardusflatpakgui/mainwindow.py:458
+#: pardusflatpakgui/mainwindow.py:465
 msgid "Version: "
 msgstr "Sürümü: "
 
-#: pardusflatpakgui/mainwindow.py:459
+#: pardusflatpakgui/mainwindow.py:466
 msgid "Deploy Dir: "
 msgstr "Yerleştiği Dizini: "
 
-#: pardusflatpakgui/mainwindow.py:460 pardusflatpakgui/mainwindow.py:496
+#: pardusflatpakgui/mainwindow.py:467 pardusflatpakgui/mainwindow.py:503
 msgid "EOL Reason: "
 msgstr "Süresinin Bitme Nedeni: "
 
-#: pardusflatpakgui/mainwindow.py:461 pardusflatpakgui/mainwindow.py:497
+#: pardusflatpakgui/mainwindow.py:468 pardusflatpakgui/mainwindow.py:504
 msgid "EOL Rebased: "
 msgstr "Süresinin Bitme Yeniden Tanımlanmış Adı: "
 
-#: pardusflatpakgui/mainwindow.py:462 pardusflatpakgui/mainwindow.py:498
+#: pardusflatpakgui/mainwindow.py:469 pardusflatpakgui/mainwindow.py:505
 msgid "Installed Size: "
 msgstr "Kurulu Boyutu: "
 
-#: pardusflatpakgui/mainwindow.py:463
+#: pardusflatpakgui/mainwindow.py:470
 msgid "Is Current: "
 msgstr "Şimdiki mi: "
 
-#: pardusflatpakgui/mainwindow.py:464
+#: pardusflatpakgui/mainwindow.py:471
 msgid "Latest Commit: "
 msgstr "Son Değişikliği: "
 
-#: pardusflatpakgui/mainwindow.py:465
+#: pardusflatpakgui/mainwindow.py:472
 msgid "Origin: "
 msgstr "Köken: "
 
-#: pardusflatpakgui/mainwindow.py:466
+#: pardusflatpakgui/mainwindow.py:473
 msgid "Subpaths: "
 msgstr "Alt Yollar: "
 
-#: pardusflatpakgui/mainwindow.py:495
+#: pardusflatpakgui/mainwindow.py:502
 msgid "Download Size: "
 msgstr "İndirme Boyutu: "
 
-#: pardusflatpakgui/mainwindow.py:499
+#: pardusflatpakgui/mainwindow.py:506
 msgid "Remote Name: "
 msgstr "Uzak Adı: "
 

@@ -33,6 +33,82 @@ Author: Erdem Ersoy
     <property name="can_focus">False</property>
     <property name="stock">gtk-about</property>
   </object>
+  <object class="GtkMenu" id="ActionsMenu">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkImageMenuItem" id="RunMenuItem">
+        <property name="label" translatable="yes">_Run</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="image">RunImage</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="onRun" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="InfoMenuItem">
+        <property name="label" translatable="yes">_Info</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="image">InfoImage</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="onInfo" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="UninstallMenuItem">
+        <property name="label" translatable="yes">_Uninstall</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="image">UninstallImage</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="onUninstall" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkSeparatorMenuItem" id="ActionsSeparatorMenuItem">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="InstallMenuItem">
+        <property name="label" translatable="yes">I_nstall</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="image">InstallImage</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="onInstall" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="InstallFromEntryMenuItem">
+        <property name="label" translatable="yes">Install From _Entry</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="image">InstallFromEntryImage</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="onInstallFromEntry" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="InstallFromFileMenuItem">
+        <property name="label" translatable="yes">Install _From File</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="image">InstallFromFileImage</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="onInstallFromFile" swapped="no"/>
+      </object>
+    </child>
+  </object>
   <object class="GtkImage" id="InfoImage">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -97,84 +173,6 @@ Author: Erdem Ersoy
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
-      <object class="GtkImageMenuItem" id="RunMenuItem">
-        <property name="label" translatable="yes">_Run</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="use_underline">True</property>
-        <property name="image">RunImage</property>
-        <property name="use_stock">False</property>
-        <signal name="activate" handler="onRun" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkImageMenuItem" id="InfoMenuItem">
-        <property name="label" translatable="yes">_Info</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="use_underline">True</property>
-        <property name="image">InfoImage</property>
-        <property name="use_stock">False</property>
-        <signal name="activate" handler="onInfo" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkImageMenuItem" id="UninstallMenuItem">
-        <property name="label" translatable="yes">_Uninstall</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="use_underline">True</property>
-        <property name="image">UninstallImage</property>
-        <property name="use_stock">False</property>
-        <signal name="activate" handler="onUninstall" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkSeparatorMenuItem" id="Separator1MenuItem">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkImageMenuItem" id="InstallMenuItem">
-        <property name="label" translatable="yes">I_nstall</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="use_underline">True</property>
-        <property name="image">InstallImage</property>
-        <property name="use_stock">False</property>
-        <signal name="activate" handler="onInstall" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkImageMenuItem" id="InstallFromEntryMenuItem">
-        <property name="label" translatable="yes">Install From _Entry</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="use_underline">True</property>
-        <property name="image">InstallFromEntryImage</property>
-        <property name="use_stock">False</property>
-        <signal name="activate" handler="onInstallFromEntry" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkImageMenuItem" id="InstallFromFileMenuItem">
-        <property name="label" translatable="yes">Install _From File</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="use_underline">True</property>
-        <property name="image">InstallFromFileImage</property>
-        <property name="use_stock">False</property>
-        <signal name="activate" handler="onInstallFromFile" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkSeparatorMenuItem" id="Separator2MenuItem">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
       <object class="GtkImageMenuItem" id="UpdateAllMenuItem">
         <property name="label" translatable="yes">Up_date All</property>
         <property name="visible">True</property>
@@ -186,7 +184,7 @@ Author: Erdem Ersoy
       </object>
     </child>
     <child>
-      <object class="GtkSeparatorMenuItem" id="Separator3MenuItem">
+      <object class="GtkSeparatorMenuItem" id="HeaderSeparatorMenuItem">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
       </object>
@@ -266,6 +264,7 @@ Author: Erdem Ersoy
                 <property name="reorderable">True</property>
                 <property name="search_column">0</property>
                 <property name="activate_on_single_click">True</property>
+                <signal name="row-activated" handler="onShowActionsMenu" swapped="no"/>
                 <child internal-child="selection">
                   <object class="GtkTreeSelection">
                     <signal name="changed" handler="onSelectionChanged" swapped="no"/>
