@@ -90,15 +90,17 @@ class MainWindow(object):
         self.InstallMenuItem = MainBuilder.get_object("InstallMenuItem")
         self.InstallMenuItem.set_label(_("I_nstall"))
 
+        self.ActionsMenu = MainBuilder.get_object("ActionsMenu")
+
         self.InstallFromEntryMenuItem = MainBuilder.get_object("InstallFromEntryMenuItem")
         self.InstallFromEntryMenuItem.set_label(_("Install From _Entry"))
 
         self.InstallFromFileMenuItem = MainBuilder.get_object(
                                            "InstallFromFileMenuItem")
-        self.InstallFromFileMenuItem.set_label(_("Install _From File"))
+        self.InstallFromFileMenuItem.set_label(_("Install From _File"))
 
         self.UpdateAllMenuItem = MainBuilder.get_object("UpdateAllMenuItem")
-        self.UpdateAllMenuItem.set_label(_("Up_date All"))
+        self.UpdateAllMenuItem.set_label(_("_Update All"))
 
         self.AboutMenuItem = MainBuilder.get_object("AboutMenuItem")
         self.AboutMenuItem.set_label(_("_About"))
@@ -187,8 +189,6 @@ class MainWindow(object):
 
         self.HeaderBarShowButton = MainBuilder.get_object("HeaderBarShowButton")
         self.HeaderBarShowButton.set_label(_("Show Installed Apps"))
-
-        self.ActionsMenu = MainBuilder.get_object("ActionsMenu")
 
         self.AboutDialog = AboutBuilder.get_object("AboutDialog")
         self.AboutDialog.set_comments(_("Flatpak GUI for Pardus"))

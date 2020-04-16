@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 09:12+0300\n"
+"POT-Creation-Date: 2020-04-16 09:43+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -166,51 +166,51 @@ msgstr ""
 msgid "_Uninstall"
 msgstr ""
 
-#: pardusflatpakgui/mainwindow.py:94
+#: pardusflatpakgui/mainwindow.py:96
 msgid "Install From _Entry"
 msgstr ""
 
-#: pardusflatpakgui/mainwindow.py:98
-msgid "Install _From File"
+#: pardusflatpakgui/mainwindow.py:100
+msgid "Install From _File"
 msgstr ""
 
-#: pardusflatpakgui/mainwindow.py:101
-msgid "Up_date All"
+#: pardusflatpakgui/mainwindow.py:103
+msgid "_Update All"
 msgstr ""
 
-#: pardusflatpakgui/mainwindow.py:104
+#: pardusflatpakgui/mainwindow.py:106
 msgid "_About"
 msgstr ""
 
-#: pardusflatpakgui/mainwindow.py:108
+#: pardusflatpakgui/mainwindow.py:110
 msgid "Real Name"
 msgstr ""
 
-#: pardusflatpakgui/mainwindow.py:111
+#: pardusflatpakgui/mainwindow.py:113
 msgid "Arch"
 msgstr ""
 
-#: pardusflatpakgui/mainwindow.py:114
+#: pardusflatpakgui/mainwindow.py:116
 msgid "Branch"
 msgstr ""
 
-#: pardusflatpakgui/mainwindow.py:118
+#: pardusflatpakgui/mainwindow.py:120
 msgid "Remote Name"
 msgstr ""
 
-#: pardusflatpakgui/mainwindow.py:122
+#: pardusflatpakgui/mainwindow.py:124
 msgid "Installed Size"
 msgstr ""
 
-#: pardusflatpakgui/mainwindow.py:126
+#: pardusflatpakgui/mainwindow.py:128
 msgid "Download Size"
 msgstr ""
 
-#: pardusflatpakgui/mainwindow.py:129
+#: pardusflatpakgui/mainwindow.py:131
 msgid "Name"
 msgstr ""
 
-#: pardusflatpakgui/mainwindow.py:189
+#: pardusflatpakgui/mainwindow.py:191
 msgid "Show Installed Apps"
 msgstr ""
 
@@ -227,12 +227,12 @@ msgid "Pardus Flatpak GUI Web Site"
 msgstr ""
 
 #: pardusflatpakgui/mainwindow.py:263 pardusflatpakgui/mainwindow.py:303
-#: pardusflatpakgui/mainwindow.py:462 pardusflatpakgui/mainwindow.py:496
+#: pardusflatpakgui/mainwindow.py:462 pardusflatpakgui/mainwindow.py:492
 msgid "<big><b>Selection Error</b></big>"
 msgstr ""
 
 #: pardusflatpakgui/mainwindow.py:265 pardusflatpakgui/mainwindow.py:305
-#: pardusflatpakgui/mainwindow.py:464 pardusflatpakgui/mainwindow.py:498
+#: pardusflatpakgui/mainwindow.py:464 pardusflatpakgui/mainwindow.py:494
 msgid "None of the applications are selected."
 msgstr ""
 
