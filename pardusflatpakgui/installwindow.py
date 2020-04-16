@@ -38,7 +38,7 @@ gettext.install("flatpak-gui", "po/")
 class InstallWindow(object):
     def __init__(self, application, apptoinstrealname, apptoinstarch,
                  apptoinstbranch, apptoinstremote, flatpakinstallation,
-                 liststore):
+                 liststore, treemodel):
         self.Application = application
 
         self.AppToInstallRealName = apptoinstrealname
@@ -68,6 +68,7 @@ class InstallWindow(object):
             None)
 
         self.ListStoreMain = liststore
+        self.TreeModel = treemodel
 
         try:
             InstallGUIFile = "ui/actionwindow.glade"
@@ -140,6 +141,12 @@ class InstallWindow(object):
         GLib.idle_add(self.ListStoreMain.clear,
                       data=None,
                       priority=GLib.PRIORITY_DEFAULT)
+        time.sleep(0.25)
+
+        GLib.idle_add(self.TreeModel.refilter,
+                      data=None,
+                      priority=GLib.PRIORITY_DEFAULT)
+        time.sleep(0.25)
 
         flatpakrefslist = \
             self.FlatpakInstallation.list_installed_refs()
@@ -179,6 +186,11 @@ class InstallWindow(object):
                                           InstalledSizeMiBAsString,
                                           DownloadSizeMiBAsString,
                                           Name])
+
+                GLib.idle_add(self.TreeModel.refilter,
+                              data=None,
+                              priority=GLib.PRIORITY_DEFAULT)
+                time.sleep(0.02)
             else:
                 continue
 
