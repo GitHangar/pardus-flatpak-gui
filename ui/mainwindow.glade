@@ -33,6 +33,57 @@ Author: Erdem Ersoy
     <property name="can_focus">False</property>
     <property name="stock">gtk-about</property>
   </object>
+  <object class="GtkImage" id="InfoImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-info</property>
+  </object>
+  <object class="GtkImage" id="InstallFromEntryImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-save</property>
+  </object>
+  <object class="GtkImage" id="InstallFromFileImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-save</property>
+  </object>
+  <object class="GtkImage" id="InstallImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-save</property>
+  </object>
+  <object class="GtkListStore" id="ListStoreMain">
+    <columns>
+      <!-- column-name RealName -->
+      <column type="gchararray"/>
+      <!-- column-name Arch -->
+      <column type="gchararray"/>
+      <!-- column-name Branch -->
+      <column type="gchararray"/>
+      <!-- column-name RemoteName -->
+      <column type="gchararray"/>
+      <!-- column-name InstalledSize -->
+      <column type="gchararray"/>
+      <!-- column-name DownloadSize -->
+      <column type="gchararray"/>
+      <!-- column-name Name -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkTreeModelFilter" id="SearchFilter">
+    <property name="child_model">ListStoreMain</property>
+  </object>
+  <object class="GtkImage" id="RunImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-execute</property>
+  </object>
+  <object class="GtkImage" id="UninstallImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-remove</property>
+  </object>
   <object class="GtkMenu" id="ActionsMenu">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -108,61 +159,6 @@ Author: Erdem Ersoy
         <signal name="activate" handler="onInstallFromFile" swapped="no"/>
       </object>
     </child>
-  </object>
-  <object class="GtkImage" id="InfoImage">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-info</property>
-  </object>
-  <object class="GtkImage" id="InstallFromEntryImage">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-save</property>
-  </object>
-  <object class="GtkImage" id="InstallFromFileImage">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-save</property>
-  </object>
-  <object class="GtkImage" id="InstallImage">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-save</property>
-  </object>
-  <object class="GtkListStore" id="ListStoreMain">
-    <columns>
-      <!-- column-name RealName -->
-      <column type="gchararray"/>
-      <!-- column-name Arch -->
-      <column type="gchararray"/>
-      <!-- column-name Branch -->
-      <column type="gchararray"/>
-      <!-- column-name RemoteName -->
-      <column type="gchararray"/>
-      <!-- column-name InstalledSize -->
-      <column type="gchararray"/>
-      <!-- column-name DownloadSize -->
-      <column type="gchararray"/>
-      <!-- column-name Name -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkTreeModelFilter" id="SearchFilter">
-    <property name="child_model">ListStoreMain</property>
-  </object>
-  <object class="GtkTreeModelSort" id="SortModel">
-    <property name="model">SearchFilter</property>
-    <signal name="sort-column-changed" handler="onResorted" swapped="no"/>
-  </object>
-  <object class="GtkImage" id="RunImage">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-execute</property>
-  </object>
-  <object class="GtkImage" id="UninstallImage">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-remove</property>
   </object>
   <object class="GtkImage" id="UpdateAllImage">
     <property name="visible">True</property>
@@ -260,8 +256,7 @@ Author: Erdem Ersoy
               <object class="GtkTreeView" id="TreeViewMain">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="model">SortModel</property>
-                <property name="reorderable">True</property>
+                <property name="model">SearchFilter</property>
                 <property name="search_column">0</property>
                 <property name="activate_on_single_click">True</property>
                 <signal name="row-activated" handler="onShowActionsMenu" swapped="no"/>
@@ -276,8 +271,6 @@ Author: Erdem Ersoy
                     <property name="fixed_width">270</property>
                     <property name="title" translatable="yes">Real Name</property>
                     <property name="clickable">True</property>
-                    <property name="reorderable">True</property>
-                    <property name="sort_column_id">0</property>
                     <child>
                       <object class="GtkCellRendererText" id="CellRendererTextRealName"/>
                       <attributes>
@@ -291,8 +284,6 @@ Author: Erdem Ersoy
                     <property name="resizable">True</property>
                     <property name="title" translatable="yes">Arch</property>
                     <property name="clickable">True</property>
-                    <property name="reorderable">True</property>
-                    <property name="sort_column_id">1</property>
                     <child>
                       <object class="GtkCellRendererText" id="CellRendererTextArch"/>
                       <attributes>
@@ -306,8 +297,6 @@ Author: Erdem Ersoy
                     <property name="resizable">True</property>
                     <property name="title" translatable="yes">Branch</property>
                     <property name="clickable">True</property>
-                    <property name="reorderable">True</property>
-                    <property name="sort_column_id">2</property>
                     <child>
                       <object class="GtkCellRendererText" id="CellRendererTextBranch"/>
                       <attributes>
@@ -321,8 +310,6 @@ Author: Erdem Ersoy
                     <property name="resizable">True</property>
                     <property name="title" translatable="yes">Remote Name</property>
                     <property name="clickable">True</property>
-                    <property name="reorderable">True</property>
-                    <property name="sort_column_id">3</property>
                     <child>
                       <object class="GtkCellRendererText" id="CellRendererTextRemoteName"/>
                       <attributes>
@@ -336,8 +323,6 @@ Author: Erdem Ersoy
                     <property name="resizable">True</property>
                     <property name="title" translatable="yes">Installed Size</property>
                     <property name="clickable">True</property>
-                    <property name="reorderable">True</property>
-                    <property name="sort_column_id">4</property>
                     <child>
                       <object class="GtkCellRendererText" id="CellRendererTextInstalledSize"/>
                       <attributes>
@@ -351,8 +336,6 @@ Author: Erdem Ersoy
                     <property name="resizable">True</property>
                     <property name="title" translatable="yes">Download Size</property>
                     <property name="clickable">True</property>
-                    <property name="reorderable">True</property>
-                    <property name="sort_column_id">5</property>
                     <child>
                       <object class="GtkCellRendererText" id="CellRendererTextDownloadSize"/>
                       <attributes>
@@ -368,8 +351,6 @@ Author: Erdem Ersoy
                     <property name="fixed_width">80</property>
                     <property name="title" translatable="yes">Name</property>
                     <property name="clickable">True</property>
-                    <property name="reorderable">True</property>
-                    <property name="sort_column_id">6</property>
                     <child>
                       <object class="GtkCellRendererText" id="CellRendererTextName"/>
                       <attributes>

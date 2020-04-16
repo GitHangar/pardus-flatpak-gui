@@ -128,15 +128,6 @@ class MainWindow(object):
         self.TreeViewColumnName = MainBuilder.get_object("TreeViewColumnName")
         self.TreeViewColumnName.set_title(_("Name"))
 
-        self.SortModel = MainBuilder.get_object("SortModel")
-        self.SortModel.set_sort_func(0, self.SortingCompareFunction, (self.TreeViewColumnRealName, 0))
-        self.SortModel.set_sort_func(1, self.SortingCompareFunction, (self.TreeViewColumnArch, 1))
-        self.SortModel.set_sort_func(2, self.SortingCompareFunction, (self.TreeViewColumnBranch, 2))
-        self.SortModel.set_sort_func(3, self.SortingCompareFunction, (self.TreeViewColumnRemoteName, 3))
-        self.SortModel.set_sort_func(4, self.SortingFloatCompareFunction, (self.TreeViewColumnInstalledSize, 4))
-        self.SortModel.set_sort_func(5, self.SortingFloatCompareFunction, (self.TreeViewColumnDownloadSize, 5))
-        self.SortModel.set_sort_func(6, self.SortingCompareFunction, (self.TreeViewColumnName, 6))
-
         self.FlatpakInstallation = Flatpak.Installation.new_system()
         self.FlatpakRefsList = self.FlatpakInstallation.list_installed_refs()
         self.FlatHubRefsList = self.FlatpakInstallation.list_remote_refs_sync(
@@ -234,47 +225,6 @@ class MainWindow(object):
         else:
             return False
 
-    def SortingCompareFunction(self, tree_model_filter, row1, row2, data):
-        sorting_column, id_number = data
-        value1 = tree_model_filter.get_value(row1, id_number)
-        value2 = tree_model_filter.get_value(row2, id_number)
-
-        if value1 == "" and value2 == "":
-            return 0
-        elif value1 == "" and value2 != "":
-            return -1
-        elif value1 != "" and value2 == "":
-            return 1
-
-        if value1 < value2:
-            return -1
-        elif value1 == value2:
-            return 0
-        else:
-            return 1
-
-    def SortingFloatCompareFunction(self, tree_model_filter, row1, row2, data):
-        sorting_column, id_number = data
-        value1 = tree_model_filter.get_value(row1, id_number)[:-4]
-        value2 = tree_model_filter.get_value(row2, id_number)[:-4]
-
-        if value1 == "" and value2 == "":
-            return 0
-        elif value1 == "" and value2 != "":
-            return -1
-        elif value1 != "" and value2 == "":
-            return 1
-
-        value1_float = float(value1)
-        value2_float = float(value2)
-
-        if value1_float < value2_float:
-            return -1
-        elif value1_float == value2_float:
-            return 0
-        else:
-            return 1
-
     def onDestroy(self, *args):
         self.MainWindow.destroy()
 
@@ -297,9 +247,6 @@ class MainWindow(object):
             self.InstallMenuItem.set_sensitive(True)
 
     def onSearchChanged(self, search_entry):
-        self.SearchFilter.refilter()
-
-    def onResorted(self, tree_sortable):
         self.SearchFilter.refilter()
 
     def onPressShowButton(self, toggle_button):
