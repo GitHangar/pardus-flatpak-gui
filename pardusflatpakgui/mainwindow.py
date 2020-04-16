@@ -480,13 +480,9 @@ class MainWindow(object):
                 App = item
                 break
 
-        self.TreeViewMain.set_model(self.ListStoreMain)
-
         UninstallWindow(self.Application, AppToUninstallRealName,
                         AppToUninstallArch, AppToUninstallBranch,
                         self.FlatpakInstallation, self.ListStoreMain)
-
-        # self.TreeViewMain.set_model(TreeModel)
 
     def onInstall(self, menuitem):
         Selection = self.TreeViewMain.get_selection()
@@ -512,14 +508,10 @@ class MainWindow(object):
                 App = item
                 break
 
-        self.TreeViewMain.set_model(self.ListStoreMain)
-
         InstallWindow(self.Application, AppToInstallRealName,
                       AppToInstallArch, AppToInstallBranch,
                       AppToInstallRemote, self.FlatpakInstallation,
                       self.ListStoreMain)
-
-        # self.TreeViewMain.set_model(TreeModel)
 
     def onInstallFromEntry(self, menuitem):
         InstallFromEntryWindow(self.Application, self.FlatpakInstallation,
