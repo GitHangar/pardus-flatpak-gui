@@ -482,7 +482,9 @@ class MainWindow(object):
 
         UninstallWindow(self.Application, AppToUninstallRealName,
                         AppToUninstallArch, AppToUninstallBranch,
-                        self.FlatpakInstallation, self.ListStoreMain)
+                        self.FlatpakInstallation, self.TreeViewMain,
+                        self.RunMenuItem, self.InstallMenuItem,
+                        self.UninstallMenuItem)
 
     def onInstall(self, menuitem):
         Selection = self.TreeViewMain.get_selection()
@@ -511,8 +513,8 @@ class MainWindow(object):
         InstallWindow(self.Application, AppToInstallRealName,
                       AppToInstallArch, AppToInstallBranch,
                       AppToInstallRemote, self.FlatpakInstallation,
-                      self.ListStoreMain, self.TreeViewMain,
-                      self.RunMenuItem, self.InstallMenuItem, self.UninstallMenuItem)
+                      self.TreeViewMain, self.RunMenuItem,
+                      self.InstallMenuItem, self.UninstallMenuItem)
 
     def onInstallFromEntry(self, menuitem):
         InstallFromEntryWindow(self.Application, self.FlatpakInstallation,

@@ -38,7 +38,7 @@ gettext.install("flatpak-gui", "po/")
 class InstallWindow(object):
     def __init__(self, application, apptoinstrealname, apptoinstarch,
                  apptoinstbranch, apptoinstremote, flatpakinstallation,
-                 liststore, treeviewmain, runmenuitem, installmenuitem,
+                 treeview, runmenuitem, installmenuitem,
                  uninstallmenuitem):
         self.Application = application
 
@@ -68,8 +68,7 @@ class InstallWindow(object):
             self.AppToInstall.format_ref(),
             None)
 
-        self.ListStoreMain = liststore
-        self.TreeViewMain = treeviewmain
+        self.TreeViewMain = treeview
 
         self.Selection = self.TreeViewMain.get_selection()
         self.TreeModel, self.TreeIter = self.Selection.get_selected()
@@ -165,14 +164,8 @@ class InstallWindow(object):
                listitem.get_arch() == Flatpak.get_default_arch() and \
                listitem.get_branch() == self.AppToInstallBranch and \
                listitem.get_name() == self.AppToInstallRealName:
-                if listitem in flathubrefslist:
+                if listitem not in flathubrefslist:
                     RemoteName = "flathub"
-                    DownloadSize = listitem.get_download_size()
-                    DownloadSizeMiB = DownloadSize / 1048576
-                    DownloadSizeMiBAsString = f"{DownloadSizeMiB:.2f}" + " MiB"
-                    Name = ""
-                else:
-                    RemoteName = ""
                     DownloadSizeMiBAsString = ""
                     Name = listitem.get_appdata_name()
 

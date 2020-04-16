@@ -36,7 +36,8 @@ gettext.install("pardus-flatpak-gui", "po/")
 
 class UninstallWindow(object):
     def __init__(self, application, realname, arch, branch,
-                 flatpakinstallation, liststore):
+                 flatpakinstallation, treeview, runmenuitem,
+                 installmenuitem, uninstallmenuitem):
         self.Application = application
 
         self.AppToUninstallRealName = realname
@@ -59,7 +60,16 @@ class UninstallWindow(object):
             "app/" + self.AppToUninstallRealName + "/" +
             self.AppToUninstallArch + "/" + self.AppToUninstallBranch)
 
-        self.ListStoreMain = liststore
+        self.TreeViewMain = treeview
+
+        self.Selection = self.TreeViewMain.get_selection()
+        self.TreeModel, self.TreeIter = self.Selection.get_selected()
+        self.TreePath = self.TreeModel.get_path(self.TreeIter)
+        self.SelectedRowIndex = self.TreePath.get_indices()[0]
+
+        self.RunMenuItem = runmenuitem
+        self.InstallMenuItem = installmenuitem
+        self.UninstallMenuItem = uninstallmenuitem
 
         try:
             UninstallGUIFile = "ui/actionwindow.glade"
@@ -129,15 +139,11 @@ class UninstallWindow(object):
         self.FlatpakTransaction.disconnect(self.handler_id_error)
         time.sleep(0.5)
 
-        GLib.idle_add(self.ListStoreMain.clear,
-                      data=None,
-                      priority=GLib.PRIORITY_DEFAULT)
-
         flatpakrefslist = \
             self.FlatpakInstallation.list_installed_refs()
         flathubrefslist = \
             self.FlatpakInstallation.list_remote_refs_sync(
-                                   "flathub", Gio.Cancellable.new())
+                "flathub", Gio.Cancellable.new())
 
         for item in flatpakrefslist:
             for item2 in flathubrefslist:
@@ -147,30 +153,38 @@ class UninstallWindow(object):
 
         for listitem in flatpakrefslist:
             if listitem.get_kind() == Flatpak.RefKind.APP and \
-               listitem.get_arch() == Flatpak.get_default_arch():
+                    listitem.get_arch() == Flatpak.get_default_arch() and \
+                    listitem.get_branch() == self.AppToUninstallBranch and \
+                    listitem.get_name() == self.AppToUninstallRealName:
                 if listitem in flathubrefslist:
                     RemoteName = "flathub"
                     DownloadSize = listitem.get_download_size()
                     DownloadSizeMiB = DownloadSize / 1048576
                     DownloadSizeMiBAsString = f"{DownloadSizeMiB:.2f}" + " MiB"
                     Name = ""
-                else:
-                    RemoteName = ""
-                    DownloadSizeMiBAsString = ""
-                    Name = listitem.get_appdata_name()
 
                 InstalledSize = listitem.get_installed_size()
                 InstalledSizeMiB = InstalledSize / 1048576
                 InstalledSizeMiBAsString = \
                     f"{InstalledSizeMiB:.2f}" + " MiB"
 
-                self.ListStoreMain.append([listitem.get_name(),
-                                          listitem.get_arch(),
-                                          listitem.get_branch(),
-                                          RemoteName,
-                                          InstalledSizeMiBAsString,
-                                          DownloadSizeMiBAsString,
-                                          Name])
+                self.TreeModel.set_row(self.TreeIter, [listitem.get_name(),
+                                                       listitem.get_arch(),
+                                                       listitem.get_branch(),
+                                                       RemoteName,
+                                                       InstalledSizeMiBAsString,
+                                                       DownloadSizeMiBAsString,
+                                                       Name])
+
+                self.RunMenuItem.set_sensitive(False)
+                self.UninstallMenuItem.set_sensitive(False)
+                self.InstallMenuItem.set_sensitive(True)
+
+                GLib.idle_add(self.TreeModel.refilter,
+                              data=None,
+                              priority=GLib.PRIORITY_DEFAULT)
+                time.sleep(0.25)
+                break
             else:
                 continue
 
