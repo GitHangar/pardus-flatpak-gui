@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 09:43+0300\n"
-"PO-Revision-Date: 2020-04-15 10:35+0300\n"
+"POT-Creation-Date: 2020-04-16 14:52+0300\n"
+"PO-Revision-Date: 2020-04-16 14:34+0300\n"
 "Last-Translator: Erdem Ersoy <<erdem.ersoy@pardus.org.tr>>\n"
 "Language-Team: \n"
 "Language: tr\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: pardusflatpakgui/flatpakguiapp.py:49
-#: pardusflatpakgui/installfromentrywindow.py:57
+#: pardusflatpakgui/installfromentrywindow.py:61
 #: pardusflatpakgui/mainwindow.py:70
 msgid "Error reading message dialogs GUI file: "
 msgstr "İleti pencereleri GUI dosyasını okumada hata: "
@@ -49,12 +49,12 @@ msgid "There are too many arguments. Argument count: "
 msgstr "Çok fazla argüman var. Argüman sayısı: "
 
 #: pardusflatpakgui/infowindow.py:45
-#: pardusflatpakgui/installfromentrywindow_2.py:72
-#: pardusflatpakgui/installfromentrywindow.py:49
+#: pardusflatpakgui/installfromentrywindow_2.py:86
+#: pardusflatpakgui/installfromentrywindow.py:53
 #: pardusflatpakgui/installfromfilewindow_2.py:73
 #: pardusflatpakgui/installfromfilewindow.py:48
-#: pardusflatpakgui/installwindow.py:77 pardusflatpakgui/mainwindow.py:54
-#: pardusflatpakgui/uninstallwindow.py:69
+#: pardusflatpakgui/installwindow.py:85 pardusflatpakgui/mainwindow.py:54
+#: pardusflatpakgui/uninstallwindow.py:77
 #: pardusflatpakgui/updateallwindow.py:69
 msgid "Error reading GUI file: "
 msgstr "GUI dosyasını okumada hata: "
@@ -67,38 +67,38 @@ msgstr "_Panoya Kopyala"
 msgid "Info About "
 msgstr "Hakkında Bilgi: "
 
-#: pardusflatpakgui/installfromentrywindow_2.py:77
-#: pardusflatpakgui/installfromentrywindow_2.py:90
-#: pardusflatpakgui/installwindow.py:82 pardusflatpakgui/installwindow.py:95
+#: pardusflatpakgui/installfromentrywindow_2.py:91
+#: pardusflatpakgui/installfromentrywindow_2.py:104
+#: pardusflatpakgui/installwindow.py:90 pardusflatpakgui/installwindow.py:103
 msgid "Installing..."
 msgstr "Kuruluyor..."
 
-#: pardusflatpakgui/installfromentrywindow_2.py:113
+#: pardusflatpakgui/installfromentrywindow_2.py:127
 #: pardusflatpakgui/installfromfilewindow_2.py:116
-#: pardusflatpakgui/installwindow.py:118
+#: pardusflatpakgui/installwindow.py:126
 msgid "Error at installation!"
 msgstr "Kurulumda hata!"
 
-#: pardusflatpakgui/installfromentrywindow_2.py:122
+#: pardusflatpakgui/installfromentrywindow_2.py:136
 #: pardusflatpakgui/installfromfilewindow_2.py:125
-#: pardusflatpakgui/installwindow.py:127
+#: pardusflatpakgui/installwindow.py:135
 #: pardusflatpakgui/updateallwindow.py:119
 msgid "Installing completed!"
 msgstr "Kurulum tamamlandı!"
 
-#: pardusflatpakgui/installfromentrywindow_2.py:184
+#: pardusflatpakgui/installfromentrywindow_2.py:200
 #: pardusflatpakgui/installfromfilewindow_2.py:191
-#: pardusflatpakgui/installwindow.py:189
+#: pardusflatpakgui/installwindow.py:199
 msgid "Installing: "
 msgstr "Kuruluyor: "
 
-#: pardusflatpakgui/installfromentrywindow_2.py:206
+#: pardusflatpakgui/installfromentrywindow_2.py:222
 #: pardusflatpakgui/installfromfilewindow_2.py:213
-#: pardusflatpakgui/installwindow.py:211
+#: pardusflatpakgui/installwindow.py:221
 msgid "Not installed: "
 msgstr "Kurulmadı: "
 
-#: pardusflatpakgui/installfromentrywindow.py:67
+#: pardusflatpakgui/installfromentrywindow.py:71
 msgid ""
 "Please enter an application name (Ex: org.libreoffice.LibreOffice) what you "
 "want to install from Flathub."
@@ -106,7 +106,7 @@ msgstr ""
 "Lütfen Flathub'tan yüklemek istediğiniz bir uygulama adı (Ör: org."
 "libreoffice.LibreOffice) giriniz."
 
-#: pardusflatpakgui/installfromentrywindow.py:72
+#: pardusflatpakgui/installfromentrywindow.py:76
 #: pardusflatpakgui/installfromfilewindow.py:61
 msgid ""
 "NOTE: Installing an application from third party remote repositories isn't "
@@ -116,21 +116,21 @@ msgstr ""
 "NOT: Üçüncü parti uzak depolardan bir uygulama yüklemek dağıtımınızın resmî "
 "depolarından bir uygulama yükleme kadar güvenli değildir."
 
-#: pardusflatpakgui/installfromentrywindow.py:76
+#: pardusflatpakgui/installfromentrywindow.py:80
 #: pardusflatpakgui/installfromfilewindow.py:66
 #: pardusflatpakgui/mainwindow.py:91
 msgid "I_nstall"
 msgstr "_Kur"
 
-#: pardusflatpakgui/installfromentrywindow.py:80
+#: pardusflatpakgui/installfromentrywindow.py:84
 msgid "Enter an application name"
 msgstr "Bir uygulama adı giriniz"
 
-#: pardusflatpakgui/installfromentrywindow.py:90
+#: pardusflatpakgui/installfromentrywindow.py:94
 msgid "<big><b>Input Error</b></big>"
 msgstr "<big><b>Girdi Hatası</b></big>"
 
-#: pardusflatpakgui/installfromentrywindow.py:92
+#: pardusflatpakgui/installfromentrywindow.py:96
 msgid "Input entered is invalid."
 msgstr "Girilen girdi geçersiz."
 
@@ -176,12 +176,10 @@ msgid "Install From _Entry"
 msgstr "_Girdiden Kur"
 
 #: pardusflatpakgui/mainwindow.py:100
-#, fuzzy
 msgid "Install From _File"
 msgstr "_Dosyadan Kur"
 
 #: pardusflatpakgui/mainwindow.py:103
-#, fuzzy
 msgid "_Update All"
 msgstr "_Tümünü Güncelle"
 
@@ -234,12 +232,12 @@ msgid "Pardus Flatpak GUI Web Site"
 msgstr "Pardus Flatpak GUI Ağ Sitesi"
 
 #: pardusflatpakgui/mainwindow.py:263 pardusflatpakgui/mainwindow.py:303
-#: pardusflatpakgui/mainwindow.py:462 pardusflatpakgui/mainwindow.py:492
+#: pardusflatpakgui/mainwindow.py:462 pardusflatpakgui/mainwindow.py:494
 msgid "<big><b>Selection Error</b></big>"
 msgstr "<big><b>Seçim Hatası</b></big>"
 
 #: pardusflatpakgui/mainwindow.py:265 pardusflatpakgui/mainwindow.py:305
-#: pardusflatpakgui/mainwindow.py:464 pardusflatpakgui/mainwindow.py:494
+#: pardusflatpakgui/mainwindow.py:464 pardusflatpakgui/mainwindow.py:496
 msgid "None of the applications are selected."
 msgstr "Uygulamaların hiçbiri seçili değil."
 
@@ -350,24 +348,24 @@ msgstr "İndirme Boyutu: "
 msgid "Remote Name: "
 msgstr "Uzak Adı: "
 
-#: pardusflatpakgui/uninstallwindow.py:74
-#: pardusflatpakgui/uninstallwindow.py:87
+#: pardusflatpakgui/uninstallwindow.py:82
+#: pardusflatpakgui/uninstallwindow.py:95
 msgid "Uninstalling..."
 msgstr "Kaldırılıyor..."
 
-#: pardusflatpakgui/uninstallwindow.py:110
+#: pardusflatpakgui/uninstallwindow.py:118
 msgid "Error at uninstallation!"
 msgstr "Kaldırmada hata!"
 
-#: pardusflatpakgui/uninstallwindow.py:119
+#: pardusflatpakgui/uninstallwindow.py:127
 msgid "Uninstalling completed!"
 msgstr "Kaldırma tamamlandı!"
 
-#: pardusflatpakgui/uninstallwindow.py:181
+#: pardusflatpakgui/uninstallwindow.py:193
 msgid "Uninstalling: "
 msgstr "Kaldırılıyor: "
 
-#: pardusflatpakgui/uninstallwindow.py:203
+#: pardusflatpakgui/uninstallwindow.py:215
 msgid "Not uninstalled: "
 msgstr "Kaldırılmadı: "
 

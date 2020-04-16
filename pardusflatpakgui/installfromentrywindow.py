@@ -35,10 +35,14 @@ gettext.install("pardus-flatpak-gui", "po/")
 
 
 class InstallFromEntryWindow(object):
-    def __init__(self, application, flatpakinstallation, liststore):
+    def __init__(self, application, flatpakinstallation, treeview,
+                 runmenuitem, installmenuitem, uninstallmenuitem):
         self.Application = application
         self.FlatpakInstallation = flatpakinstallation
-        self.ListStoreMain = liststore
+        self.TreeViewMain = treeview
+        self.RunMenuItem = runmenuitem
+        self.InstallMenuItem = installmenuitem
+        self.UninstallMenuItem = uninstallmenuitem
 
         try:
             InstallInputGUIFile = "ui/installinputwindow.glade"
@@ -114,7 +118,9 @@ class InstallFromEntryWindow(object):
 
         self.InstallInputEntry.set_text("")
         InstallFromEntryWindow2(self.Application, self.AppToInstall,
-                                self.FlatpakInstallation, self.ListStoreMain)
+                                self.FlatpakInstallation, self.TreeViewMain,
+                                self.RunMenuItem, self.InstallMenuItem,
+                                self.UninstallMenuItem)
         self.onDestroy()
 
     def onDestroy(self, *args):

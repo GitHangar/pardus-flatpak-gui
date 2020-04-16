@@ -37,7 +37,8 @@ gettext.install("pardus-flatpak-gui", "po/")
 
 class InstallFromEntryWindow2(object):
     def __init__(self, application, apptoinst, flatpakinstallation,
-                 liststore):
+                 treeview, runmenuitem, installmenuitem,
+                 uninstallmenuitem):
         self.Application = application
 
         self.AppToInstall = apptoinst
@@ -62,7 +63,20 @@ class InstallFromEntryWindow2(object):
             self.AppToInstall.format_ref(),
             None)
 
-        self.ListStoreMain = liststore
+        self.TreeViewMain = treeview
+
+        self.TreeModel = self.TreeViewMain.get_model()
+        self.TreeIter = self.TreeModel.get_iter_first()
+        while self.TreeIter:
+            if self.TreeModel.get_value(self.TreeIter, 0) == self.AppToInstallRealName and \
+               self.TreeModel.get_value(self.TreeIter, 1) == self.AppToInstallArch and \
+               self.TreeModel.get_value(self.TreeIter, 2) == self.AppToInstallBranch:
+                break
+            self.TreeIter = self.TreeModel.iter_next(self.TreeIter)
+
+        self.RunMenuItem = runmenuitem
+        self.InstallMenuItem = installmenuitem
+        self.UninstallMenuItem = uninstallmenuitem
 
         try:
             InstallGUIFile = "ui/actionwindow.glade"
@@ -132,15 +146,11 @@ class InstallFromEntryWindow2(object):
         self.FlatpakTransaction.disconnect(self.handler_id_error)
         time.sleep(0.5)
 
-        GLib.idle_add(self.ListStoreMain.clear,
-                      data=None,
-                      priority=GLib.PRIORITY_DEFAULT)
-
         flatpakrefslist = \
             self.FlatpakInstallation.list_installed_refs()
         flathubrefslist = \
             self.FlatpakInstallation.list_remote_refs_sync(
-                                   "flathub", Gio.Cancellable.new())
+                "flathub", Gio.Cancellable.new())
 
         for item in flatpakrefslist:
             for item2 in flathubrefslist:
@@ -150,15 +160,11 @@ class InstallFromEntryWindow2(object):
 
         for listitem in flatpakrefslist:
             if listitem.get_kind() == Flatpak.RefKind.APP and \
-               listitem.get_arch() == Flatpak.get_default_arch():
-                if listitem in flathubrefslist:
+                    listitem.get_arch() == Flatpak.get_default_arch() and \
+                    listitem.get_branch() == self.AppToInstallBranch and \
+                    listitem.get_name() == self.AppToInstallRealName:
+                if listitem not in flathubrefslist:
                     RemoteName = "flathub"
-                    DownloadSize = listitem.get_download_size()
-                    DownloadSizeMiB = DownloadSize / 1048576
-                    DownloadSizeMiBAsString = f"{DownloadSizeMiB:.2f}" + " MiB"
-                    Name = ""
-                else:
-                    RemoteName = ""
                     DownloadSizeMiBAsString = ""
                     Name = listitem.get_appdata_name()
 
@@ -167,13 +173,23 @@ class InstallFromEntryWindow2(object):
                 InstalledSizeMiBAsString = \
                     f"{InstalledSizeMiB:.2f}" + " MiB"
 
-                self.ListStoreMain.append([listitem.get_name(),
-                                          listitem.get_arch(),
-                                          listitem.get_branch(),
-                                          RemoteName,
-                                          InstalledSizeMiBAsString,
-                                          DownloadSizeMiBAsString,
-                                          Name])
+                self.TreeModel.set_row(self.TreeIter, [listitem.get_name(),
+                                                       listitem.get_arch(),
+                                                       listitem.get_branch(),
+                                                       RemoteName,
+                                                       InstalledSizeMiBAsString,
+                                                       DownloadSizeMiBAsString,
+                                                       Name])
+
+                self.RunMenuItem.set_sensitive(True)
+                self.UninstallMenuItem.set_sensitive(True)
+                self.InstallMenuItem.set_sensitive(False)
+
+                GLib.idle_add(self.TreeModel.refilter,
+                              data=None,
+                              priority=GLib.PRIORITY_DEFAULT)
+                time.sleep(0.25)
+                break
             else:
                 continue
 

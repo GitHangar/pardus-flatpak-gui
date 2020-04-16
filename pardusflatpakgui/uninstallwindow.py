@@ -64,8 +64,6 @@ class UninstallWindow(object):
 
         self.Selection = self.TreeViewMain.get_selection()
         self.TreeModel, self.TreeIter = self.Selection.get_selected()
-        self.TreePath = self.TreeModel.get_path(self.TreeIter)
-        self.SelectedRowIndex = self.TreePath.get_indices()[0]
 
         self.RunMenuItem = runmenuitem
         self.InstallMenuItem = installmenuitem

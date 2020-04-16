@@ -518,7 +518,8 @@ class MainWindow(object):
 
     def onInstallFromEntry(self, menuitem):
         InstallFromEntryWindow(self.Application, self.FlatpakInstallation,
-                               self.ListStoreMain)
+                               self.TreeViewMain, self.RunMenuItem,
+                               self.InstallMenuItem, self.UninstallMenuItem)
 
     def onInstallFromFile(self, menuitem):
         InstallFromFileWindow(self.Application, self.FlatpakInstallation,
