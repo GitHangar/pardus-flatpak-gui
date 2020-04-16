@@ -38,7 +38,8 @@ gettext.install("flatpak-gui", "po/")
 class InstallWindow(object):
     def __init__(self, application, apptoinstrealname, apptoinstarch,
                  apptoinstbranch, apptoinstremote, flatpakinstallation,
-                 liststore, treemodel):
+                 liststore, treeviewmain, runmenuitem, installmenuitem,
+                 uninstallmenuitem):
         self.Application = application
 
         self.AppToInstallRealName = apptoinstrealname
@@ -68,7 +69,16 @@ class InstallWindow(object):
             None)
 
         self.ListStoreMain = liststore
-        self.TreeModel = treemodel
+        self.TreeViewMain = treeviewmain
+
+        self.Selection = self.TreeViewMain.get_selection()
+        self.TreeModel, self.TreeIter = self.Selection.get_selected()
+        self.TreePath = self.TreeModel.get_path(self.TreeIter)
+        self.SelectedRowIndex = self.TreePath.get_indices()[0]
+
+        self.RunMenuItem = runmenuitem
+        self.InstallMenuItem = installmenuitem
+        self.UninstallMenuItem = uninstallmenuitem
 
         try:
             InstallGUIFile = "ui/actionwindow.glade"
@@ -138,16 +148,6 @@ class InstallWindow(object):
         self.FlatpakTransaction.disconnect(self.handler_id_error)
         time.sleep(0.5)
 
-        GLib.idle_add(self.ListStoreMain.clear,
-                      data=None,
-                      priority=GLib.PRIORITY_DEFAULT)
-        time.sleep(0.25)
-
-        GLib.idle_add(self.TreeModel.refilter,
-                      data=None,
-                      priority=GLib.PRIORITY_DEFAULT)
-        time.sleep(0.25)
-
         flatpakrefslist = \
             self.FlatpakInstallation.list_installed_refs()
         flathubrefslist = \
@@ -162,7 +162,9 @@ class InstallWindow(object):
 
         for listitem in flatpakrefslist:
             if listitem.get_kind() == Flatpak.RefKind.APP and \
-               listitem.get_arch() == Flatpak.get_default_arch():
+               listitem.get_arch() == Flatpak.get_default_arch() and \
+               listitem.get_branch() == self.AppToInstallBranch and \
+               listitem.get_name() == self.AppToInstallRealName:
                 if listitem in flathubrefslist:
                     RemoteName = "flathub"
                     DownloadSize = listitem.get_download_size()
@@ -179,18 +181,23 @@ class InstallWindow(object):
                 InstalledSizeMiBAsString = \
                     f"{InstalledSizeMiB:.2f}" + " MiB"
 
-                self.ListStoreMain.append([listitem.get_name(),
-                                          listitem.get_arch(),
-                                          listitem.get_branch(),
-                                          RemoteName,
-                                          InstalledSizeMiBAsString,
-                                          DownloadSizeMiBAsString,
-                                          Name])
+                self.TreeModel.set_row(self.TreeIter, [listitem.get_name(),
+                                                       listitem.get_arch(),
+                                                       listitem.get_branch(),
+                                                       RemoteName,
+                                                       InstalledSizeMiBAsString,
+                                                       DownloadSizeMiBAsString,
+                                                       Name])
+
+                self.RunMenuItem.set_sensitive(True)
+                self.UninstallMenuItem.set_sensitive(True)
+                self.InstallMenuItem.set_sensitive(False)
 
                 GLib.idle_add(self.TreeModel.refilter,
                               data=None,
                               priority=GLib.PRIORITY_DEFAULT)
-                time.sleep(0.02)
+                time.sleep(0.25)
+                break
             else:
                 continue
 
