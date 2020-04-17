@@ -505,16 +505,16 @@ class MainWindow(object):
                 remote = _("None")
 
             info_str = _("Real Name: ") + real_name + "\n" + \
-                       _("Arch: ") + arch + "\n" + \
-                       _("Branch: ") + branch + "\n" + \
-                       _("Collection ID: ") + collection_id + "\n" + \
-                       _("Commit: ") + commit + "\n" + \
-                       _("Is Installed: ") + _("Yes") + "\n" + \
-                       _("Download Size: ") + download_size_mib_str + "\n" + \
-                       _("EOL Reason: ") + eol_reason + "\n" + \
-                       _("EOL Rebased: ") + eol_rebased + "\n" + \
-                       _("Installed Size: ") + installed_size_mib_as_string + "\n" + \
-                       _("Remote Name: ") + remote + "\n"
+                _("Arch: ") + arch + "\n" + \
+                _("Branch: ") + branch + "\n" + \
+                _("Collection ID: ") + collection_id + "\n" + \
+                _("Commit: ") + commit + "\n" + \
+                _("Is Installed: ") + _("Yes") + "\n" + \
+                _("Download Size: ") + download_size_mib_str + "\n" + \
+                _("EOL Reason: ") + eol_reason + "\n" + \
+                _("EOL Rebased: ") + eol_rebased + "\n" + \
+                _("Installed Size: ") + installed_size_mib_as_string + "\n" + \
+                _("Remote Name: ") + remote + "\n"
         else:
             self.MessageDialogError.set_markup(
                 _("<big><b>Invalid Flatpak Reference Error</b></big>"))
