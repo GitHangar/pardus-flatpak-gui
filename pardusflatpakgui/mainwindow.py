@@ -256,9 +256,9 @@ class MainWindow(object):
             return False
 
     def on_delete_main_window(self, widget, event):
-        widget.destroy()
+        widget.hide_on_delete()
 
-    def on_columns_changed(self, tree_view):
+    def on_columns_changed(self, tree_view):  # FIXME: Remove
         selection = tree_view.get_selection()
         tree_model, tree_iter = selection.get_selected()
         if tree_iter is None:
@@ -565,10 +565,8 @@ class MainWindow(object):
         branch = tree_model.get_value(tree_iter, 2)
         remote = tree_model.get_value(tree_iter, 3)
 
-        InstallWindow(self.Application, real_name, arch, branch,
-                      remote, self.FlatpakInstallation,
-                      self.TreeViewMain, self.RunMenuItem,
-                      self.InstallMenuItem, self.UninstallMenuItem)
+        InstallWindow(self.Application, self.FlatpakInstallation, real_name, arch, branch,
+                      remote, self.ListStoreMain, self.SearchFilter)
 
     def on_install_from_entry(self, menu_item):
         InstallFromEntryWindow(self.Application, self.FlatpakInstallation,

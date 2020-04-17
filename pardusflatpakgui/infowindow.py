@@ -58,7 +58,7 @@ class InfoWindow(object):
         self.InfoWindow.show()
 
     def on_delete_info_window(self, widget, event):
-        widget.destroy()
+        widget.hide_on_delete()
 
     def on_copy_to_clipboard(self, button):
         clipboard_current = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)

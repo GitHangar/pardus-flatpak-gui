@@ -35,27 +35,24 @@ gettext.install("flatpak-gui", "po/")
 
 
 class InstallWindow(object):
-    def __init__(self, application, apptoinstrealname, apptoinstarch,
-                 apptoinstbranch, apptoinstremote, flatpakinstallation,
-                 treeview, runmenuitem, installmenuitem,
-                 uninstallmenuitem):
+    def __init__(self, application, flatpak_installation, real_name, arch,
+                 branch, remote, list_store, search_filter):
         self.Application = application
 
-        self.AppToInstallRealName = apptoinstrealname
-        self.AppToInstallArch = apptoinstarch
-        self.AppToInstallBranch = apptoinstbranch
-        self.AppToInstallRemote = apptoinstremote
-        self.AppToInstall = Flatpak.Ref.parse("app/" +
-                                self.AppToInstallRealName + "/" +
-                                self.AppToInstallArch + "/" +
-                                self.AppToInstallBranch)
+        self.RealName = real_name
+        self.Arch = arch
+        self.Branch = branch
+        self.Remote = remote
 
-        self.FlatpakInstallation = flatpakinstallation
+        self.RefFormat = "app/" + self.RealName + "/" + self.Arch + "/" + self.Branch
+        self.Ref = Flatpak.Ref.parse(self.RefFormat)
+
+        self.FlatpakInstallation = flatpak_installation
         self.FlatpakTransaction = \
             Flatpak.Transaction.new_for_installation(
                 self.FlatpakInstallation,
                 Gio.Cancellable.new())
-        self.FlatpakTransaction.set_default_arch(self.AppToInstallArch)
+        self.FlatpakTransaction.set_default_arch(self.Arch)
         self.FlatpakTransaction.set_disable_dependencies(False)
         self.FlatpakTransaction.set_disable_prune(False)
         self.FlatpakTransaction.set_disable_related(False)
@@ -63,39 +60,32 @@ class InstallWindow(object):
         self.FlatpakTransaction.set_no_deploy(False)
         self.FlatpakTransaction.set_no_pull(False)
         self.FlatpakTransaction.add_install(
-            self.AppToInstallRemote,
-            self.AppToInstall.format_ref(),
+            self.Remote,
+            self.RefFormat,
             None)
 
-        self.TreeViewMain = treeview
-
-        self.Selection = self.TreeViewMain.get_selection()
-        self.TreeModel, self.TreeIter = self.Selection.get_selected()
-
-        self.RunMenuItem = runmenuitem
-        self.InstallMenuItem = installmenuitem
-        self.UninstallMenuItem = uninstallmenuitem
+        self.ListStoreMain = list_store
+        self.SearchFilter = search_filter
 
         try:
-            InstallGUIFile = "ui/actionwindow.glade"
-            InstallBuilder = Gtk.Builder.new_from_file(InstallGUIFile)
-            InstallBuilder.connect_signals(self)
+            install_gui_file = "ui/actionwindow.glade"
+            install_builder = Gtk.Builder.new_from_file(install_gui_file)
+            install_builder.connect_signals(self)
         except GLib.GError:
-            print(_("Error reading GUI file: ") + InstallGUIFile)
+            print(_("Error reading GUI file: ") + install_gui_file)
             raise
 
-        self.InstallWindow = InstallBuilder.get_object("ActionWindow")
+        self.InstallWindow = install_builder.get_object("ActionWindow")
         self.InstallWindow.set_application(application)
         self.InstallWindow.set_title(_("Installing..."))
         self.InstallWindow.show()
 
-        self.InstallProgressBar = InstallBuilder.get_object(
+        self.InstallProgressBar = install_builder.get_object(
                                         "ActionProgressBar")
-        self.ProgressBarValue = int(
-            self.InstallProgressBar.get_fraction() * 100)
+        self.ProgressBarValue = int(self.InstallProgressBar.get_fraction() * 100)
 
-        self.InstallLabel = InstallBuilder.get_object("ActionLabel")
-        self.InstallTextBuffer = InstallBuilder.get_object(
+        self.InstallLabel = install_builder.get_object("ActionLabel")
+        self.InstallTextBuffer = install_builder.get_object(
                                        "ActionTextBuffer")
 
         self.InstallTextBuffer.set_text("\0", -1)
@@ -104,12 +94,12 @@ class InstallWindow(object):
         self.InstallTextBuffer.set_text(self.StatusText)
 
         self.InstallThread = threading.Thread(
-                           target=self.Install,
+                           target=self.install,
                            args=())
         self.InstallThread.start()
         GLib.threads_init()
 
-    def Install(self):
+    def install(self):
         self.handler_id = self.FlatpakTransaction.connect(
                         "new-operation",
                         self.InstallProgressCallback)
@@ -122,19 +112,19 @@ class InstallWindow(object):
         try:
             self.FlatpakTransaction.run(Gio.Cancellable.new())
         except GLib.Error:
-            statustext = _("Error at installation!")
-            self.StatusText = self.StatusText + "\n" + statustext
+            status_text = _("Error at installation!")
+            self.StatusText = self.StatusText + "\n" + status_text
             GLib.idle_add(self.InstallLabel.set_text,
-                          statustext,
+                          status_text,
                           priority=GLib.PRIORITY_DEFAULT)
             GLib.idle_add(self.InstallTextBuffer.set_text,
                           self.StatusText,
                           priority=GLib.PRIORITY_DEFAULT)
         else:
-            statustext = _("Installing completed!")
-            self.StatusText = self.StatusText + "\n" + statustext
+            status_text = _("Installing completed!")
+            self.StatusText = self.StatusText + "\n" + status_text
             GLib.idle_add(self.InstallLabel.set_text,
-                          statustext,
+                          status_text,
                           priority=GLib.PRIORITY_DEFAULT)
             GLib.idle_add(self.InstallTextBuffer.set_text,
                           self.StatusText,
@@ -144,50 +134,59 @@ class InstallWindow(object):
         self.FlatpakTransaction.disconnect(self.handler_id_error)
         time.sleep(0.5)
 
-        flatpakrefslist = \
-            self.FlatpakInstallation.list_installed_refs()
-        flathubrefslist = \
-            self.FlatpakInstallation.list_remote_refs_sync(
-                                   "flathub", Gio.Cancellable.new())
+        GLib.idle_add(self.ListStoreMain.clear,
+                      data=None,
+                      priority=GLib.PRIORITY_DEFAULT)
 
-        for item in flatpakrefslist:
-            for item2 in flathubrefslist:
-                if item.get_name() == item2.get_name():
-                    flathubrefslist.remove(item2)
-        flatpakrefslist = flatpakrefslist + flathubrefslist
+        self.InstalledRefsList = self.FlatpakInstallation.list_installed_refs()
+        self.FlatHubRefsList = self.FlatpakInstallation.list_remote_refs_sync(
+            "flathub", Gio.Cancellable.new())
+        self.NonInstalledRefsList = []
 
-        for listitem in flatpakrefslist:
-            if listitem.get_kind() == Flatpak.RefKind.APP and \
-               listitem.get_arch() == Flatpak.get_default_arch() and \
-               listitem.get_branch() == self.AppToInstallBranch and \
-               listitem.get_name() == self.AppToInstallRealName:
-                if listitem not in flathubrefslist:
-                    RemoteName = "flathub"
-                    DownloadSizeMiBAsString = ""
-                    Name = listitem.get_appdata_name()
+        for item in self.FlatHubRefsList:
+            self.NonInstalledRefsList.append(item)
+            for item_2 in self.InstalledRefsList:
+                if item.get_name() == item_2.get_name() and \
+                        item.get_arch() == item_2.get_arch() and \
+                        item.get_branch() == item_2.get_branch():
+                    if len(self.NonInstalledRefsList) != 0:
+                        self.NonInstalledRefsList.pop(len(self.NonInstalledRefsList) - 1)
+                    else:
+                        self.NonInstalledRefsList = []
 
-                InstalledSize = listitem.get_installed_size()
-                InstalledSizeMiB = InstalledSize / 1048576
-                InstalledSizeMiBAsString = \
-                    f"{InstalledSizeMiB:.2f}" + " MiB"
+        self.AllRefsList = self.InstalledRefsList + self.NonInstalledRefsList
 
-                self.TreeModel.set_row(self.TreeIter, [listitem.get_name(),
-                                                       listitem.get_arch(),
-                                                       listitem.get_branch(),
-                                                       RemoteName,
-                                                       InstalledSizeMiBAsString,
-                                                       DownloadSizeMiBAsString,
-                                                       Name])
+        for list_item in self.AllRefsList:
+            if list_item.get_kind() == Flatpak.RefKind.APP and \
+               list_item.get_arch() == Flatpak.get_default_arch():
+                if list_item not in self.NonInstalledRefsList:
+                    remote_name = "flathub"
+                    download_size_mib_str = ""
+                    name = list_item.get_appdata_name()
+                elif list_item not in self.InstalledRefsList:
+                    remote_name = self.Remote
+                    download_size_mib = list_item.get_download_size()
+                    download_size_mib_str = f"{download_size_mib:.2f}" + " MiB"
+                    name = ""
+                else:
+                    continue
 
-                self.RunMenuItem.set_sensitive(True)
-                self.UninstallMenuItem.set_sensitive(True)
-                self.InstallMenuItem.set_sensitive(False)
+                installed_size = list_item.get_installed_size()
+                installed_size_mib = installed_size / 1048576
+                installed_size_mib_str = \
+                    f"{installed_size_mib:.2f}" + " MiB"
 
-                GLib.idle_add(self.TreeModel.refilter,
-                              data=None,
-                              priority=GLib.PRIORITY_DEFAULT)
-                time.sleep(0.25)
-                break
+                self.ListStoreMain.append([list_item.get_name(),
+                                           list_item.get_arch(),
+                                           list_item.get_branch(),
+                                           remote_name,
+                                           installed_size_mib_str,
+                                           download_size_mib_str,
+                                           name])
+
+                self.SearchFilter.refilter()
+                time.sleep(0.01)
+
             else:
                 continue
 
@@ -195,10 +194,10 @@ class InstallWindow(object):
         self.RefToInstall = Flatpak.Ref.parse(args[1].get_ref())
         self.RefToInstallRealName = self.RefToInstall.get_name()
 
-        statustext = _("Installing: ") + self.RefToInstallRealName
-        self.StatusText = self.StatusText + "\n" + statustext
+        status_text = _("Installing: ") + self.RefToInstallRealName
+        self.StatusText = self.StatusText + "\n" + status_text
         GLib.idle_add(self.InstallLabel.set_text,
-                      statustext,
+                      status_text,
                       priority=GLib.PRIORITY_DEFAULT)
         GLib.idle_add(self.InstallTextBuffer.set_text,
                       self.StatusText,
@@ -217,16 +216,16 @@ class InstallWindow(object):
         self.RefToInstall = Flatpak.Ref.parse(args[1].get_ref())
         self.RefToInstallRealName = self.RefToInstall.get_name()
 
-        statustext = _("Not installed: ") + self.RefToInstallRealName
-        self.StatusText = self.StatusText + "\n" + statustext
+        status_text = _("Not installed: ") + self.RefToInstallRealName
+        self.StatusText = self.StatusText + "\n" + status_text
         GLib.idle_add(self.InstallLabel.set_text,
-                      statustext,
+                      status_text,
                       priority=GLib.PRIORITY_DEFAULT)
         GLib.idle_add(self.InstallTextBuffer.set_text,
                       self.StatusText,
                       priority=GLib.PRIORITY_DEFAULT)
 
-        if self.RefToInstallRealName != self.AppToInstallRealName:
+        if self.RefToInstallRealName != self.RealName:
             return True
         else:
             return False
@@ -236,5 +235,5 @@ class InstallWindow(object):
                       float(transaction_progress.get_progress()) / 100.0,
                       priority=GLib.PRIORITY_DEFAULT)
 
-    def onDestroy(self, *args):
-        self.InstallWindow.destroy()
+    def on_delete_action_window(self, widget, event):
+        widget.hide_on_delete()
