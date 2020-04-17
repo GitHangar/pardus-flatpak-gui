@@ -387,7 +387,7 @@ class MainWindow(object):
                 ref = item
                 break
 
-        if item not in self.AllRefsList:
+        if ref not in self.AllRefsList:
             self.MessageDialogError.set_markup(
                 _("<big><b>Invalid Flatpak Reference Error</b></big>"))
             self.MessageDialogError.format_secondary_text(
@@ -401,9 +401,9 @@ class MainWindow(object):
             collection_id = _("None")
         commit = ref.get_commit()
 
-        if isinstance(item, Flatpak.RemoteRef):
+        if isinstance(ref, Flatpak.RemoteRef):
             is_installed = False
-        elif isinstance(item, Flatpak.InstalledRef):
+        elif isinstance(ref, Flatpak.InstalledRef):
             is_installed = True
         else:
             is_installed = None
@@ -542,22 +542,6 @@ class MainWindow(object):
         arch = tree_model.get_value(tree_iter, 1)
         branch = tree_model.get_value(tree_iter, 2)
 
-        self.InstalledRefsList = self.FlatpakInstallation.list_installed_refs()
-        self.FlatHubRefsList = self.FlatpakInstallation.list_remote_refs_sync(
-            "flathub", Gio.Cancellable.new())
-        self.NonInstalledRefsList = []
-
-        for item in self.FlatHubRefsList:
-            self.NonInstalledRefsList.append(item)
-            for item_2 in self.InstalledRefsList:
-                if item.get_name() == item_2.get_name() and \
-                        item.get_arch() == item_2.get_arch() and \
-                        item.get_branch() == item_2.get_branch() and \
-                        len(self.NonInstalledRefsList) != 0:
-                    self.NonInstalledRefsList.pop(len(self.NonInstalledRefsList) - 1)
-
-        self.AllRefsList = self.InstalledRefsList + self.NonInstalledRefsList
-
         UninstallWindow(self.Application, real_name,
                         arch, branch,
                         self.FlatpakInstallation, self.TreeViewMain,
@@ -580,22 +564,6 @@ class MainWindow(object):
         arch = tree_model.get_value(tree_iter, 1)
         branch = tree_model.get_value(tree_iter, 2)
         remote = tree_model.get_value(tree_iter, 3)
-
-        self.InstalledRefsList = self.FlatpakInstallation.list_installed_refs()
-        self.FlatHubRefsList = self.FlatpakInstallation.list_remote_refs_sync(
-            "flathub", Gio.Cancellable.new())
-        self.NonInstalledRefsList = []
-
-        for item in self.FlatHubRefsList:
-            self.NonInstalledRefsList.append(item)
-            for item_2 in self.InstalledRefsList:
-                if item.get_name() == item_2.get_name() and \
-                        item.get_arch() == item_2.get_arch() and \
-                        item.get_branch() == item_2.get_branch() and \
-                        len(self.NonInstalledRefsList) != 0:
-                    self.NonInstalledRefsList.pop(len(self.NonInstalledRefsList) - 1)
-
-        self.AllRefsList = self.InstalledRefsList + self.NonInstalledRefsList
 
         InstallWindow(self.Application, real_name, arch, branch,
                       remote, self.FlatpakInstallation,

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flatpak GUI 1.0-rc1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-17 15:10+0300\n"
+"POT-Creation-Date: 2020-04-17 15:15+0300\n"
 "PO-Revision-Date: 2020-04-17 11:48+0300\n"
 "Last-Translator: Erdem Ersoy <<erdem.ersoy@pardus.org.tr>>\n"
 "Language-Team: Erdem Ersoy <erdem.ersoy@pardus.org.tr>\n"
@@ -54,7 +54,7 @@ msgstr "There are too many arguments. Argument count: "
 #: pardusflatpakgui/installfromentrywindow.py:53
 #: pardusflatpakgui/installfromfilewindow_2.py:73
 #: pardusflatpakgui/installfromfilewindow.py:48
-#: pardusflatpakgui/installwindow.py:85 pardusflatpakgui/mainwindow.py:54
+#: pardusflatpakgui/installwindow.py:84 pardusflatpakgui/mainwindow.py:54
 #: pardusflatpakgui/uninstallwindow.py:77
 #: pardusflatpakgui/updateallwindow.py:69
 msgid "Error reading GUI file: "
@@ -70,32 +70,32 @@ msgstr "Info About "
 
 #: pardusflatpakgui/installfromentrywindow_2.py:91
 #: pardusflatpakgui/installfromentrywindow_2.py:104
-#: pardusflatpakgui/installwindow.py:90 pardusflatpakgui/installwindow.py:103
+#: pardusflatpakgui/installwindow.py:89 pardusflatpakgui/installwindow.py:102
 msgid "Installing..."
 msgstr "Installing..."
 
 #: pardusflatpakgui/installfromentrywindow_2.py:127
 #: pardusflatpakgui/installfromfilewindow_2.py:116
-#: pardusflatpakgui/installwindow.py:126
+#: pardusflatpakgui/installwindow.py:125
 msgid "Error at installation!"
 msgstr "Error at installation!"
 
 #: pardusflatpakgui/installfromentrywindow_2.py:136
 #: pardusflatpakgui/installfromfilewindow_2.py:125
-#: pardusflatpakgui/installwindow.py:135
+#: pardusflatpakgui/installwindow.py:134
 #: pardusflatpakgui/updateallwindow.py:119
 msgid "Installing completed!"
 msgstr "Installing completed!"
 
 #: pardusflatpakgui/installfromentrywindow_2.py:200
 #: pardusflatpakgui/installfromfilewindow_2.py:191
-#: pardusflatpakgui/installwindow.py:199
+#: pardusflatpakgui/installwindow.py:198
 msgid "Installing: "
 msgstr "Installing: "
 
 #: pardusflatpakgui/installfromentrywindow_2.py:222
 #: pardusflatpakgui/installfromfilewindow_2.py:213
-#: pardusflatpakgui/installwindow.py:221
+#: pardusflatpakgui/installwindow.py:220
 msgid "Not installed: "
 msgstr "Not installed: "
 
@@ -248,12 +248,12 @@ msgid "Pardus Flatpak GUI Web Site"
 msgstr "Pardus Flatpak GUI Web Site"
 
 #: pardusflatpakgui/mainwindow.py:310 pardusflatpakgui/mainwindow.py:356
-#: pardusflatpakgui/mainwindow.py:534 pardusflatpakgui/mainwindow.py:572
+#: pardusflatpakgui/mainwindow.py:534 pardusflatpakgui/mainwindow.py:556
 msgid "<big><b>Selection Error</b></big>"
 msgstr "<big><b>Selection Error</b></big>"
 
 #: pardusflatpakgui/mainwindow.py:312 pardusflatpakgui/mainwindow.py:358
-#: pardusflatpakgui/mainwindow.py:536 pardusflatpakgui/mainwindow.py:574
+#: pardusflatpakgui/mainwindow.py:536 pardusflatpakgui/mainwindow.py:558
 msgid "None of the applications are selected."
 msgstr "None of the applications are selected."
 

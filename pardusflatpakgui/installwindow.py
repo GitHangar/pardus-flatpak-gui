@@ -18,7 +18,6 @@
 
 import gettext
 import locale
-import sys
 import threading
 import time
 import gi
