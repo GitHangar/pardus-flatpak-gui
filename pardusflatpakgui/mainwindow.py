@@ -76,20 +76,27 @@ class MainWindow(object):
             "flathub", Gio.Cancellable.new())
         self.NonInstalledRefsList = []
 
-        if not self.InstalledRefsList:
-            for item in self.FlatHubRefsList:
-                self.NonInstalledRefsList.append(item)
-        else:
-            for item in self.InstalledRefsList:
-                for item2 in self.FlatHubRefsList:
-                    if item.get_name() != item2.get_name():
-                        self.NonInstalledRefsList.append(item2)
+        for item in self.FlatHubRefsList:
+            self.NonInstalledRefsList.append(item)
+            for item_2 in self.InstalledRefsList:
+                if item.get_name() == item_2.get_name() and \
+                   item.get_arch() == item_2.get_arch() and \
+                   item.get_branch() == item_2.get_branch() and \
+                   len(self.NonInstalledRefsList) != 0:
+                    self.NonInstalledRefsList.pop(len(self.NonInstalledRefsList) - 1)
+
+        self.AllRefsList = self.InstalledRefsList + self.NonInstalledRefsList
 
         self.ListStoreMain = main_builder.get_object("ListStoreMain")
 
         self.MessageDialogError = messages_builder.get_object("MessageDialogError")
 
-        for item in self.FlatHubRefsList:
+        print("self.FlatHubRefsList:", len(self.FlatHubRefsList))
+        print("self.InstalledRefsList:", len(self.InstalledRefsList))
+        print("self.NonInstalledRefsList:", len(self.NonInstalledRefsList))
+        print("self.AllRefsList:", len(self.AllRefsList))
+
+        for item in self.AllRefsList:
             if item.get_kind() == Flatpak.RefKind.APP and \
               item.get_arch() == Flatpak.get_default_arch():
                 if isinstance(item, Flatpak.RemoteRef):
@@ -120,21 +127,25 @@ class MainWindow(object):
                     download_size_mib_str = ""
                     name = item.get_appdata_name()
                 else:
+                    remote_name = ""
+                    download_size_mib_str = ""
+                    name = ""
+
                     self.MessageDialogError.set_markup(
                         _("<big><b>Invalid Flatpak Reference Error</b></big>"))
                     self.MessageDialogError.format_secondary_text(
-                        _("Invalid Flatpak reference is: " + "app/" + real_name + "/" + arch + "/" + branch))
+                        _("Invalid Flatpak reference is: ") + "app/" + real_name + "/" + arch + "/" + branch)
                     self.MessageDialogError.run()
                     self.MessageDialogError.hide()
-                    sys.exit(1)
 
-                self.ListStoreMain.append([real_name,
-                                           arch,
-                                           branch,
-                                           remote_name,
-                                           installed_size_mib_str,
-                                           download_size_mib_str,
-                                           name])
+                if item_is_installed is not None:
+                    self.ListStoreMain.append([real_name,
+                                               arch,
+                                               branch,
+                                               remote_name,
+                                               installed_size_mib_str,
+                                               download_size_mib_str,
+                                               name])
             else:
                 continue
 
