@@ -26,6 +26,7 @@ from pardusflatpakgui.version import Version
 
 import gettext
 import locale
+import sys
 import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('GLib', '2.0')
@@ -43,163 +44,176 @@ gettext.install("pardus-flatpak-gui", "po/")
 class MainWindow(object):
     def __init__(self, application):
         self.Application = application
-        self.url = "https://dl.flathub.org/repo/appstream/"
-        self.urlext = "flatpakref"
 
         try:
-            MainGUIFile = "ui/mainwindow.glade"
-            MainBuilder = Gtk.Builder.new_from_file(MainGUIFile)
-            MainBuilder.connect_signals(self)
+            main_gui_file = "ui/mainwindow.glade"
+            main_builder = Gtk.Builder.new_from_file(main_gui_file)
+            main_builder.connect_signals(self)
         except GLib.GError:
-            print(_("Error reading GUI file: ") + MainGUIFile)
+            print(_("Error reading GUI file: ") + main_gui_file)
             raise
 
         try:
-            AboutGUIFile = "ui/aboutdialog.glade"
-            AboutBuilder = Gtk.Builder.new_from_file(AboutGUIFile)
-            AboutBuilder.connect_signals(self)
+            about_gui_file = "ui/aboutdialog.glade"
+            about_builder = Gtk.Builder.new_from_file(about_gui_file)
+            about_builder.connect_signals(self)
         except GLib.GError:
-            print(_("Error reading About dialog GUI file: ") + AboutGUIFile)
+            print(_("Error reading About dialog GUI file: ") + about_gui_file)
             raise
 
         try:
-            MessagesGUIFile = "ui/messagedialogs.glade"
-            MessagesBuilder = Gtk.Builder.new_from_file(MessagesGUIFile)
-            MessagesBuilder.connect_signals(self)
+            messages_gui_file = "ui/messagedialogs.glade"
+            messages_builder = Gtk.Builder.new_from_file(messages_gui_file)
+            messages_builder.connect_signals(self)
         except GLib.GError:
             print(_("Error reading message dialogs GUI file: ") +
-                  MessagesGUIFile)
+                  messages_gui_file)
             raise
 
-        self.MainWindow = MainBuilder.get_object("MainWindow")
-        self.MainWindow.set_application(application)
-
-        self.HeaderBarMain = MainBuilder.get_object("HeaderBarMain")
-        self.HeaderBarMain.set_title(_("Pardus Flatpak GUI"))
-        self.HeaderBarMain.set_subtitle(_("Manage Flatpak softwares via GUI on Pardus"))
-
-        self.RunMenuItem = MainBuilder.get_object("RunMenuItem")
-        self.RunMenuItem.set_label(_("_Run"))
-
-        self.InfoMenuItem = MainBuilder.get_object("InfoMenuItem")
-        self.InfoMenuItem.set_label(_("_Info"))
-
-        self.UninstallMenuItem = MainBuilder.get_object("UninstallMenuItem")
-        self.UninstallMenuItem.set_label(_("_Uninstall"))
-
-        self.InstallMenuItem = MainBuilder.get_object("InstallMenuItem")
-        self.InstallMenuItem.set_label(_("I_nstall"))
-
-        self.ActionsMenu = MainBuilder.get_object("ActionsMenu")
-
-        self.InstallFromEntryMenuItem = MainBuilder.get_object("InstallFromEntryMenuItem")
-        self.InstallFromEntryMenuItem.set_label(_("Install From _Entry"))
-
-        self.InstallFromFileMenuItem = MainBuilder.get_object(
-                                           "InstallFromFileMenuItem")
-        self.InstallFromFileMenuItem.set_label(_("Install From _File"))
-
-        self.UpdateAllMenuItem = MainBuilder.get_object("UpdateAllMenuItem")
-        self.UpdateAllMenuItem.set_label(_("_Update All"))
-
-        self.AboutMenuItem = MainBuilder.get_object("AboutMenuItem")
-        self.AboutMenuItem.set_label(_("_About"))
-
-        self.TreeViewColumnRealName = MainBuilder.get_object(
-                                          "TreeViewColumnRealName")
-        self.TreeViewColumnRealName.set_title(_("Real Name"))
-
-        self.TreeViewColumnArch = MainBuilder.get_object("TreeViewColumnArch")
-        self.TreeViewColumnArch.set_title(_("Arch"))
-
-        self.TreeViewColumnBranch = MainBuilder.get_object("TreeViewColumnBranch")
-        self.TreeViewColumnBranch.set_title(_("Branch"))
-
-        self.TreeViewColumnRemoteName = MainBuilder.get_object(
-                                            "TreeViewColumnRemoteName")
-        self.TreeViewColumnRemoteName.set_title(_("Remote Name"))
-
-        self.TreeViewColumnInstalledSize = MainBuilder.get_object(
-                                               "TreeViewColumnInstalledSize")
-        self.TreeViewColumnInstalledSize.set_title(_("Installed Size"))
-
-        self.TreeViewColumnDownloadSize = MainBuilder.get_object(
-                                               "TreeViewColumnDownloadSize")
-        self.TreeViewColumnDownloadSize.set_title(_("Download Size"))
-
-        self.TreeViewColumnName = MainBuilder.get_object("TreeViewColumnName")
-        self.TreeViewColumnName.set_title(_("Name"))
-
         self.FlatpakInstallation = Flatpak.Installation.new_system()
-        self.FlatpakRefsList = self.FlatpakInstallation.list_installed_refs()
+        self.InstalledRefsList = self.FlatpakInstallation.list_installed_refs()
         self.FlatHubRefsList = self.FlatpakInstallation.list_remote_refs_sync(
-                                   "flathub", Gio.Cancellable.new())
+            "flathub", Gio.Cancellable.new())
+        self.NonInstalledRefsList = []
 
-        for item in self.FlatpakRefsList:
-            for item2 in self.FlatHubRefsList:
-                if item.get_name() == item2.get_name():
-                    self.FlatHubRefsList.remove(item2)
-        self.FlatpakRefsList = self.FlatpakRefsList + self.FlatHubRefsList
+        if not self.InstalledRefsList:
+            for item in self.FlatHubRefsList:
+                self.NonInstalledRefsList.append(item)
+        else:
+            for item in self.InstalledRefsList:
+                for item2 in self.FlatHubRefsList:
+                    if item.get_name() != item2.get_name():
+                        self.NonInstalledRefsList.append(item2)
 
-        self.ListStoreMain = MainBuilder.get_object("ListStoreMain")
+        self.ListStoreMain = main_builder.get_object("ListStoreMain")
 
-        for item in self.FlatpakRefsList:
+        self.MessageDialogError = messages_builder.get_object("MessageDialogError")
+
+        for item in self.FlatHubRefsList:
             if item.get_kind() == Flatpak.RefKind.APP and \
               item.get_arch() == Flatpak.get_default_arch():
-                isremoteref = isinstance(item, Flatpak.RemoteRef)
-                isinstalledref = isinstance(item, Flatpak.InstalledRef)
+                if isinstance(item, Flatpak.RemoteRef):
+                    item_is_installed = False
+                elif isinstance(item, Flatpak.InstalledRef):
+                    item_is_installed = True
+                else:
+                    item_is_installed = None
 
-                RealName = item.get_name()
-                Arch = item.get_arch()
-                Branch = item.get_branch()
-                InstalledSize = item.get_installed_size()
-                InstalledSizeMiB = InstalledSize / 1048576
-                InstalledSizeMiBAsString = f"{InstalledSizeMiB:.2f}" + " MiB"
+                real_name = item.get_name()
+                arch = item.get_arch()
+                branch = item.get_branch()
+                installed_size = item.get_installed_size()
+                installed_size_mib = installed_size / 1048576
+                installed_size_mib_str = f"{installed_size_mib:.2f}" + " MiB"
 
-                if isremoteref:
+                if not item_is_installed:
                     if item in self.FlatHubRefsList:
-                        RemoteName = "flathub"
+                        remote_name = "flathub"
                     else:
-                        RemoteName = ""
-                    DownloadSize = item.get_download_size()
-                    DownloadSizeMiB = DownloadSize / 1048576
-                    DownloadSizeMiBAsString = f"{DownloadSizeMiB:.2f}" + " MiB"
-                    Name = ""
-                elif isinstalledref:
-                    RemoteName = item.get_origin()
-                    DownloadSizeMiBAsString = ""
-                    Name = item.get_appdata_name()
+                        remote_name = ""
+                    download_size = item.get_download_size()
+                    download_size_mib = download_size / 1048576
+                    download_size_mib_str = f"{download_size_mib:.2f}" + " MiB"
+                    name = ""
+                elif item_is_installed:
+                    remote_name = item.get_origin()
+                    download_size_mib_str = ""
+                    name = item.get_appdata_name()
+                else:
+                    self.MessageDialogError.set_markup(
+                        _("<big><b>Invalid Flatpak Reference Error</b></big>"))
+                    self.MessageDialogError.format_secondary_text(
+                        _("Invalid Flatpak reference is: " + "app/" + real_name + "/" + arch + "/" + branch))
+                    self.MessageDialogError.run()
+                    self.MessageDialogError.hide()
+                    sys.exit(1)
 
-                self.ListStoreMain.append([RealName,
-                                          Arch,
-                                          Branch,
-                                          RemoteName,
-                                          InstalledSizeMiBAsString,
-                                          DownloadSizeMiBAsString,
-                                          Name])
+                self.ListStoreMain.append([real_name,
+                                           arch,
+                                           branch,
+                                           remote_name,
+                                           installed_size_mib_str,
+                                           download_size_mib_str,
+                                           name])
             else:
                 continue
 
-        self.TreeViewMain = MainBuilder.get_object("TreeViewMain")
+        self.HeaderBarMain = main_builder.get_object("HeaderBarMain")
+        self.HeaderBarMain.set_title(_("Pardus Flatpak GUI"))
+        self.HeaderBarMain.set_subtitle(_("Manage Flatpak softwares via GUI on Pardus"))
 
-        self.SearchEntryMain = MainBuilder.get_object("SearchEntryMain")
+        self.RunMenuItem = main_builder.get_object("RunMenuItem")
+        self.RunMenuItem.set_label(_("_Run"))
 
-        self.SearchFilter = MainBuilder.get_object("SearchFilter")
+        self.InfoMenuItem = main_builder.get_object("InfoMenuItem")
+        self.InfoMenuItem.set_label(_("_Info"))
+
+        self.UninstallMenuItem = main_builder.get_object("UninstallMenuItem")
+        self.UninstallMenuItem.set_label(_("_Uninstall"))
+
+        self.InstallMenuItem = main_builder.get_object("InstallMenuItem")
+        self.InstallMenuItem.set_label(_("I_nstall"))
+
+        self.ActionsMenu = main_builder.get_object("ActionsMenu")
+
+        self.InstallFromFileMenuItem = main_builder.get_object(
+            "InstallFromFileMenuItem")
+        self.InstallFromFileMenuItem.set_label(_("Install From _File"))
+
+        self.InstallFromEntryMenuItem = main_builder.get_object("InstallFromEntryMenuItem")
+        self.InstallFromEntryMenuItem.set_label(_("Install From _Entry"))
+
+        self.UpdateAllMenuItem = main_builder.get_object("UpdateAllMenuItem")
+        self.UpdateAllMenuItem.set_label(_("_Update All"))
+
+        self.AboutMenuItem = main_builder.get_object("AboutMenuItem")
+        self.AboutMenuItem.set_label(_("_About"))
+
+        self.TreeViewColumnRealName = main_builder.get_object(
+            "TreeViewColumnRealName")
+        self.TreeViewColumnRealName.set_title(_("Real Name"))
+
+        self.TreeViewColumnArch = main_builder.get_object("TreeViewColumnArch")
+        self.TreeViewColumnArch.set_title(_("Arch"))
+
+        self.TreeViewColumnBranch = main_builder.get_object("TreeViewColumnBranch")
+        self.TreeViewColumnBranch.set_title(_("Branch"))
+
+        self.TreeViewColumnRemoteName = main_builder.get_object(
+            "TreeViewColumnRemoteName")
+        self.TreeViewColumnRemoteName.set_title(_("Remote Name"))
+
+        self.TreeViewColumnInstalledSize = main_builder.get_object(
+            "TreeViewColumnInstalledSize")
+        self.TreeViewColumnInstalledSize.set_title(_("Installed Size"))
+
+        self.TreeViewColumnDownloadSize = main_builder.get_object(
+            "TreeViewColumnDownloadSize")
+        self.TreeViewColumnDownloadSize.set_title(_("Download Size"))
+
+        self.TreeViewColumnName = main_builder.get_object("TreeViewColumnName")
+        self.TreeViewColumnName.set_title(_("Name"))
+
+        self.TreeViewMain = main_builder.get_object("TreeViewMain")
+
+        self.SearchEntryMain = main_builder.get_object("SearchEntryMain")
+        self.SearchEntryMain.set_placeholder_text(_("Click here for search"))
+
+        self.SearchFilter = main_builder.get_object("SearchFilter")
         self.SearchFilter.set_visible_func(self.SearchFilterFunction)
 
-        self.HeaderBarShowButton = MainBuilder.get_object("HeaderBarShowButton")
+        self.HeaderBarShowButton = main_builder.get_object("HeaderBarShowButton")
         self.HeaderBarShowButton.set_label(_("Show Installed Apps"))
 
-        self.AboutDialog = AboutBuilder.get_object("AboutDialog")
+        self.AboutDialog = about_builder.get_object("AboutDialog")
         self.AboutDialog.set_comments(_("Flatpak GUI for Pardus"))
         self.AboutDialog.set_copyright(_("Copyright (C) 2020 Erdem Ersoy"))
         self.AboutDialog.set_program_name(_("Pardus Flatpak GUI"))
         self.AboutDialog.set_version(Version.getVersion())
         self.AboutDialog.set_website_label(_("Pardus Flatpak GUI Web Site"))
 
-        self.MessageDialogError = MessagesBuilder.get_object(
-            "MessageDialogError")
-
+        self.MainWindow = main_builder.get_object("MainWindow")
+        self.MainWindow.set_application(application)
         self.MainWindow.show()
 
     def SearchFilterFunction(self, model, iteration, data):
