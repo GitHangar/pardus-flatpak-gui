@@ -32,34 +32,34 @@ gettext.install("pardus-flatpak-gui", "po/")
 
 
 class InfoWindow(object):
-    def __init__(self, application, infostring, app):
+    def __init__(self, application, info_string, app):
         self.Application = application
-        self.InfoString = infostring
+        self.InfoString = info_string
         self.App = app
 
         try:
-            InfoGUIFile = "ui/infowindow.glade"
-            InfoBuilder = Gtk.Builder.new_from_file(InfoGUIFile)
-            InfoBuilder.connect_signals(self)
+            info_gui_file = "ui/infowindow.glade"
+            info_builder = Gtk.Builder.new_from_file(info_gui_file)
+            info_builder.connect_signals(self)
         except GLib.GError:
-            print(_("Error reading GUI file: ") + InfoGUIFile)
+            print(_("Error reading GUI file: ") + info_gui_file)
             raise
 
-        InfoTextBuffer = InfoBuilder.get_object(
+        info_text_buffer = info_builder.get_object(
                                     "InfoTextBuffer")
-        InfoTextBuffer.set_text(infostring)
+        info_text_buffer.set_text(info_string)
 
-        InfoButton = InfoBuilder.get_object("InfoButton")
-        InfoButton.set_label(_("_Copy to Clipboard"))
+        info_button = info_builder.get_object("InfoButton")
+        info_button.set_label(_("_Copy to Clipboard"))
 
-        self.InfoWindow = InfoBuilder.get_object("InfoWindow")
+        self.InfoWindow = info_builder.get_object("InfoWindow")
         self.InfoWindow.set_application(application)
         self.InfoWindow.set_title(_("Info About ") + app.get_name())
         self.InfoWindow.show()
 
-    def onDestroy(self, *args):
-        self.InfoWindow.destroy()
+    def on_delete_info_window(self, widget, event):
+        widget.destroy()
 
-    def onPressedCopyToClipboard(self, button):
-        ClipboardCurrent = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
-        ClipboardCurrent.set_text(self.InfoString, -1)
+    def on_copy_to_clipboard(self, button):
+        clipboard_current = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        clipboard_current.set_text(self.InfoString, -1)

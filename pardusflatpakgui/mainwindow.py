@@ -82,9 +82,11 @@ class MainWindow(object):
             for item_2 in self.InstalledRefsList:
                 if item.get_name() == item_2.get_name() and \
                         item.get_arch() == item_2.get_arch() and \
-                        item.get_branch() == item_2.get_branch() and \
-                        len(self.NonInstalledRefsList) != 0:
-                    self.NonInstalledRefsList.pop(len(self.NonInstalledRefsList) - 1)
+                        item.get_branch() == item_2.get_branch():
+                    if len(self.NonInstalledRefsList) != 0:
+                        self.NonInstalledRefsList.pop(len(self.NonInstalledRefsList) - 1)
+                    else:
+                        self.NonInstalledRefsList = []
 
         self.AllRefsList = self.InstalledRefsList + self.NonInstalledRefsList
 
@@ -245,21 +247,37 @@ class MainWindow(object):
         if len(search_entry_text) == 0 and self.HeaderBarShowButton.get_active():
             return is_installed
         elif (real_name.lower().count(search_entry_text.lower()) > 0 or name.lower().count(
-          search_entry_text.lower()) > 0) and not self.HeaderBarShowButton.get_active():
+                search_entry_text.lower()) > 0) and not self.HeaderBarShowButton.get_active():
             return True
         elif (real_name.lower().count(search_entry_text.lower()) > 0 or name.lower().count(
-           search_entry_text.lower()) > 0) and self.HeaderBarShowButton.get_active():
+                search_entry_text.lower()) > 0) and self.HeaderBarShowButton.get_active():
             return is_installed
         else:
             return False
 
-    @staticmethod
     def on_delete_main_window(self, widget, event):
         widget.destroy()
 
-    def on_selection_changed(self, tree_selection):
-        selection = self.TreeViewMain.get_selection()
+    def on_columns_changed(self, tree_view):
+        selection = tree_view.get_selection()
         tree_model, tree_iter = selection.get_selected()
+        if tree_iter is None:
+            return None
+
+        # If the selected app is installed
+        if tree_model.get_value(tree_iter, 5) == "":
+            self.RunMenuItem.set_sensitive(True)
+            self.UninstallMenuItem.set_sensitive(True)
+            self.InstallMenuItem.set_sensitive(False)
+
+        # If the selected app is not installed
+        else:
+            self.RunMenuItem.set_sensitive(False)
+            self.UninstallMenuItem.set_sensitive(False)
+            self.InstallMenuItem.set_sensitive(True)
+
+    def on_selection_changed(self, tree_selection):
+        tree_model, tree_iter = tree_selection.get_selected()
         if tree_iter is None:
             return None
 
@@ -342,7 +360,6 @@ class MainWindow(object):
             self.MessageDialogError.hide()
             return None
 
-        self.FlatpakInstallation = Flatpak.Installation.new_system()
         self.InstalledRefsList = self.FlatpakInstallation.list_installed_refs()
         self.FlatHubRefsList = self.FlatpakInstallation.list_remote_refs_sync(
             "flathub", Gio.Cancellable.new())
@@ -352,10 +369,12 @@ class MainWindow(object):
             self.NonInstalledRefsList.append(item)
             for item_2 in self.InstalledRefsList:
                 if item.get_name() == item_2.get_name() and \
-                   item.get_arch() == item_2.get_arch() and \
-                   item.get_branch() == item_2.get_branch() and \
-                   len(self.NonInstalledRefsList) != 0:
-                    self.NonInstalledRefsList.pop(len(self.NonInstalledRefsList) - 1)
+                        item.get_arch() == item_2.get_arch() and \
+                        item.get_branch() == item_2.get_branch():
+                    if len(self.NonInstalledRefsList) != 0:
+                        self.NonInstalledRefsList.pop(len(self.NonInstalledRefsList) - 1)
+                    else:
+                        self.NonInstalledRefsList = []
 
         self.AllRefsList = self.InstalledRefsList + self.NonInstalledRefsList
 
@@ -367,14 +386,15 @@ class MainWindow(object):
             if item.get_name() == real_name:
                 ref = item
                 break
-            else:
-                self.MessageDialogError.set_markup(
-                    _("<big><b>Invalid Flatpak Reference Error</b></big>"))
-                self.MessageDialogError.format_secondary_text(
-                    _("Invalid Flatpak reference is: ") + "app/" + real_name + "/" + arch + "/" + branch)
-                self.MessageDialogError.run()
-                self.MessageDialogError.hide()
-                return None
+
+        if item not in self.AllRefsList:
+            self.MessageDialogError.set_markup(
+                _("<big><b>Invalid Flatpak Reference Error</b></big>"))
+            self.MessageDialogError.format_secondary_text(
+                _("Invalid Flatpak reference is: ") + "app/" + real_name + "/" + arch + "/" + branch)
+            self.MessageDialogError.run()
+            self.MessageDialogError.hide()
+            return None
 
         collection_id = ref.get_collection_id()
         if collection_id is None:
@@ -445,23 +465,23 @@ class MainWindow(object):
                     sub_paths_str = sub_paths_str[:-2]
 
             info_str = _("Real Name: ") + real_name + "\n" + \
-                _("Arch: ") + arch + "\n" + \
-                _("Branch: ") + branch + "\n" + \
-                _("Collection ID: ") + collection_id + "\n" + \
-                _("Commit: ") + commit + "\n" + \
-                _("Is Installed: ") + _("Yes") + "\n" + \
-                _("License: ") + app_license + "\n" + \
-                _("Name: ") + name + "\n" + \
-                _("Summary: ") + summary + "\n" + \
-                _("Version: ") + version + "\n" + \
-                _("Deploy Dir: ") + deploy_dir + "\n" + \
-                _("EOL Reason: ") + eol_reason + "\n" + \
-                _("EOL Rebased: ") + eol_rebased + "\n" + \
-                _("Installed Size: ") + installed_size_mib_as_string + "\n" + \
-                _("Is Current: ") + is_current_str + "\n" + \
-                _("Latest Commit: ") + latest_commit + "\n" + \
-                _("Origin: ") + origin + "\n" + \
-                _("Subpaths: ") + sub_paths_str + "\n"
+                       _("Arch: ") + arch + "\n" + \
+                       _("Branch: ") + branch + "\n" + \
+                       _("Collection ID: ") + collection_id + "\n" + \
+                       _("Commit: ") + commit + "\n" + \
+                       _("Is Installed: ") + _("Yes") + "\n" + \
+                       _("License: ") + app_license + "\n" + \
+                       _("Name: ") + name + "\n" + \
+                       _("Summary: ") + summary + "\n" + \
+                       _("Version: ") + version + "\n" + \
+                       _("Deploy Dir: ") + deploy_dir + "\n" + \
+                       _("EOL Reason: ") + eol_reason + "\n" + \
+                       _("EOL Rebased: ") + eol_rebased + "\n" + \
+                       _("Installed Size: ") + installed_size_mib_as_string + "\n" + \
+                       _("Is Current: ") + is_current_str + "\n" + \
+                       _("Latest Commit: ") + latest_commit + "\n" + \
+                       _("Origin: ") + origin + "\n" + \
+                       _("Subpaths: ") + sub_paths_str + "\n"
 
         elif not is_installed:
             download_size = ref.get_download_size()
@@ -485,16 +505,16 @@ class MainWindow(object):
                 remote = _("None")
 
             info_str = _("Real Name: ") + real_name + "\n" + \
-                _("Arch: ") + arch + "\n" + \
-                _("Branch: ") + branch + "\n" + \
-                _("Collection ID: ") + collection_id + "\n" + \
-                _("Commit: ") + commit + "\n" + \
-                _("Is Installed: ") + _("Yes") + "\n" + \
-                _("Download Size: ") + download_size_mib_str + "\n" + \
-                _("EOL Reason: ") + eol_reason + "\n" + \
-                _("EOL Rebased: ") + eol_rebased + "\n" + \
-                _("Installed Size: ") + installed_size_mib_as_string + "\n" + \
-                _("Remote Name: ") + remote + "\n"
+                       _("Arch: ") + arch + "\n" + \
+                       _("Branch: ") + branch + "\n" + \
+                       _("Collection ID: ") + collection_id + "\n" + \
+                       _("Commit: ") + commit + "\n" + \
+                       _("Is Installed: ") + _("Yes") + "\n" + \
+                       _("Download Size: ") + download_size_mib_str + "\n" + \
+                       _("EOL Reason: ") + eol_reason + "\n" + \
+                       _("EOL Rebased: ") + eol_rebased + "\n" + \
+                       _("Installed Size: ") + installed_size_mib_as_string + "\n" + \
+                       _("Remote Name: ") + remote + "\n"
         else:
             self.MessageDialogError.set_markup(
                 _("<big><b>Invalid Flatpak Reference Error</b></big>"))
@@ -506,10 +526,10 @@ class MainWindow(object):
 
         InfoWindow(self.Application, info_str, ref)
 
-    def onUninstall(self, menuitem):
-        Selection = self.TreeViewMain.get_selection()
-        TreeModel, TreeIter = Selection.get_selected()
-        if TreeIter is None:
+    def on_uninstall(self, menu_item):
+        selection = self.TreeViewMain.get_selection()
+        tree_model, tree_iter = selection.get_selected()
+        if tree_iter is None:
             self.MessageDialogError.set_markup(
                 _("<big><b>Selection Error</b></big>"))
             self.MessageDialogError.format_secondary_text(
@@ -517,31 +537,37 @@ class MainWindow(object):
             self.MessageDialogError.run()
             self.MessageDialogError.hide()
             return None
-        TreePath = TreeModel.get_path(TreeIter)
-        SelectedRowIndex = TreePath.get_indices()[0]
 
-        AppToUninstallRealName = TreeModel.get_value(TreeIter, 0)
-        AppToUninstallArch = TreeModel.get_value(TreeIter, 1)
-        AppToUninstallBranch = TreeModel.get_value(TreeIter, 2)
+        real_name = tree_model.get_value(tree_iter, 0)
+        arch = tree_model.get_value(tree_iter, 1)
+        branch = tree_model.get_value(tree_iter, 2)
 
+        self.InstalledRefsList = self.FlatpakInstallation.list_installed_refs()
         self.FlatHubRefsList = self.FlatpakInstallation.list_remote_refs_sync(
             "flathub", Gio.Cancellable.new())
+        self.NonInstalledRefsList = []
 
-        for item in self.FlatpakRefsList:
-            if item.get_name() == AppToUninstallRealName and item not in self.FlatHubRefsList:
-                App = item
-                break
+        for item in self.FlatHubRefsList:
+            self.NonInstalledRefsList.append(item)
+            for item_2 in self.InstalledRefsList:
+                if item.get_name() == item_2.get_name() and \
+                        item.get_arch() == item_2.get_arch() and \
+                        item.get_branch() == item_2.get_branch() and \
+                        len(self.NonInstalledRefsList) != 0:
+                    self.NonInstalledRefsList.pop(len(self.NonInstalledRefsList) - 1)
 
-        UninstallWindow(self.Application, AppToUninstallRealName,
-                        AppToUninstallArch, AppToUninstallBranch,
+        self.AllRefsList = self.InstalledRefsList + self.NonInstalledRefsList
+
+        UninstallWindow(self.Application, real_name,
+                        arch, branch,
                         self.FlatpakInstallation, self.TreeViewMain,
                         self.RunMenuItem, self.InstallMenuItem,
                         self.UninstallMenuItem)
 
-    def onInstall(self, menuitem):
-        Selection = self.TreeViewMain.get_selection()
-        TreeModel, TreeIter = Selection.get_selected()
-        if TreeIter is None:
+    def on_install(self, menu_item):
+        selection = self.TreeViewMain.get_selection()
+        tree_model, tree_iter = selection.get_selected()
+        if tree_iter is None:
             self.MessageDialogError.set_markup(
                 _("<big><b>Selection Error</b></big>"))
             self.MessageDialogError.format_secondary_text(
@@ -549,35 +575,43 @@ class MainWindow(object):
             self.MessageDialogError.run()
             self.MessageDialogError.hide()
             return None
-        TreePath = TreeModel.get_path(TreeIter)
-        SelectedRowIndex = TreePath.get_indices()[0]
 
-        AppToInstallRealName = TreeModel.get_value(TreeIter, 0)
-        AppToInstallArch = TreeModel.get_value(TreeIter, 1)
-        AppToInstallBranch = TreeModel.get_value(TreeIter, 2)
-        AppToInstallRemote = TreeModel.get_value(TreeIter, 3)
+        real_name = tree_model.get_value(tree_iter, 0)
+        arch = tree_model.get_value(tree_iter, 1)
+        branch = tree_model.get_value(tree_iter, 2)
+        remote = tree_model.get_value(tree_iter, 3)
 
-        for item in self.FlatpakRefsList:
-            if item.get_name() == AppToInstallRealName and item not in self.FlatHubRefsList:
-                App = item
-                break
+        self.InstalledRefsList = self.FlatpakInstallation.list_installed_refs()
+        self.FlatHubRefsList = self.FlatpakInstallation.list_remote_refs_sync(
+            "flathub", Gio.Cancellable.new())
+        self.NonInstalledRefsList = []
 
-        InstallWindow(self.Application, AppToInstallRealName,
-                      AppToInstallArch, AppToInstallBranch,
-                      AppToInstallRemote, self.FlatpakInstallation,
+        for item in self.FlatHubRefsList:
+            self.NonInstalledRefsList.append(item)
+            for item_2 in self.InstalledRefsList:
+                if item.get_name() == item_2.get_name() and \
+                        item.get_arch() == item_2.get_arch() and \
+                        item.get_branch() == item_2.get_branch() and \
+                        len(self.NonInstalledRefsList) != 0:
+                    self.NonInstalledRefsList.pop(len(self.NonInstalledRefsList) - 1)
+
+        self.AllRefsList = self.InstalledRefsList + self.NonInstalledRefsList
+
+        InstallWindow(self.Application, real_name, arch, branch,
+                      remote, self.FlatpakInstallation,
                       self.TreeViewMain, self.RunMenuItem,
                       self.InstallMenuItem, self.UninstallMenuItem)
 
-    def onInstallFromEntry(self, menuitem):
+    def on_install_from_entry(self, menu_item):
         InstallFromEntryWindow(self.Application, self.FlatpakInstallation,
                                self.TreeViewMain, self.RunMenuItem,
                                self.InstallMenuItem, self.UninstallMenuItem)
 
-    def onInstallFromFile(self, menuitem):
+    def on_install_from_file(self, menu_item):
         InstallFromFileWindow(self.Application, self.FlatpakInstallation,
                               self.ListStoreMain)
 
-    def onUpdateAll(self, menuitem):
+    def on_update_all(self, menu_item):
         UpdateAllWindow(self.Application, self.FlatpakInstallation,
                         self.ListStoreMain)
 

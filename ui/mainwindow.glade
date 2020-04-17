@@ -117,7 +117,7 @@ Author: Erdem Ersoy
         <property name="use_underline">True</property>
         <property name="image">UninstallImage</property>
         <property name="use_stock">False</property>
-        <signal name="activate" handler="onUninstall" swapped="no"/>
+        <signal name="activate" handler="on_uninstall" swapped="no"/>
       </object>
     </child>
     <child>
@@ -128,7 +128,7 @@ Author: Erdem Ersoy
         <property name="use_underline">True</property>
         <property name="image">InstallImage</property>
         <property name="use_stock">False</property>
-        <signal name="activate" handler="onInstall" swapped="no"/>
+        <signal name="activate" handler="on_install" swapped="no"/>
       </object>
     </child>
   </object>
@@ -148,7 +148,7 @@ Author: Erdem Ersoy
         <property name="use_underline">True</property>
         <property name="image">InstallFromEntryImage</property>
         <property name="use_stock">False</property>
-        <signal name="activate" handler="onInstallFromEntry" swapped="no"/>
+        <signal name="activate" handler="on_install_from_entry" swapped="no"/>
       </object>
     </child>
     <child>
@@ -159,7 +159,7 @@ Author: Erdem Ersoy
         <property name="use_underline">True</property>
         <property name="image">InstallFromFileImage</property>
         <property name="use_stock">False</property>
-        <signal name="activate" handler="onInstallFromFile" swapped="no"/>
+        <signal name="activate" handler="on_install_from_file" swapped="no"/>
       </object>
     </child>
     <child>
@@ -170,7 +170,7 @@ Author: Erdem Ersoy
         <property name="use_underline">True</property>
         <property name="image">UpdateAllImage</property>
         <property name="use_stock">False</property>
-        <signal name="activate" handler="onUpdateAll" swapped="no"/>
+        <signal name="activate" handler="on_update_all" swapped="no"/>
       </object>
     </child>
     <child>
@@ -253,6 +253,7 @@ Author: Erdem Ersoy
                 <property name="model">SearchFilter</property>
                 <property name="search_column">0</property>
                 <property name="activate_on_single_click">True</property>
+                <signal name="columns-changed" handler="on_columns_changed" swapped="no"/>
                 <signal name="row-activated" handler="on_show_actions_menu" swapped="no"/>
                 <child internal-child="selection">
                   <object class="GtkTreeSelection" id="TreeSelectionMain">
