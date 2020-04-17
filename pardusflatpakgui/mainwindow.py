@@ -237,7 +237,7 @@ class MainWindow(object):
         name = model[iteration][6]
 
         # If a reference is installed
-        if model[iteration][5] != "":
+        if model[iteration][5] == "":
             is_installed = True
         else:
             is_installed = False
