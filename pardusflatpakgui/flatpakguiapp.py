@@ -58,7 +58,7 @@ class FlatpakGUIApp(Gtk.Application):
     def new_window(self, *args):
         if len(sys.argv) == 1:
             MainWindow(self)
-        elif len(sys.argv) == 2:
+        elif len(sys.argv) == 2:  # FIXME: Fix running when argument count is 2.
             self.FlatpakInstallation = Flatpak.Installation.new_system()
 
             self.FileFlatpakRefName = sys.argv[1]
@@ -92,8 +92,7 @@ class FlatpakGUIApp(Gtk.Application):
                     self.MessageDialogError.hide()
                     return None
 
-                InstallWindow(self, self.AppToInstall,
-                                        self.FlatpakInstallation, None)
+                InstallWindow(self, self.AppToInstall, self.FlatpakInstallation, None)
         else:
             self.MessageDialogError.set_markup(
                 _("<big><b>Argument Error</b></big>"))
