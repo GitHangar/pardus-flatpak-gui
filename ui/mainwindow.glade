@@ -95,7 +95,7 @@ Author: Erdem Ersoy
         <property name="use_underline">True</property>
         <property name="image">RunImage</property>
         <property name="use_stock">False</property>
-        <signal name="activate" handler="onRun" swapped="no"/>
+        <signal name="activate" handler="on_run" swapped="no"/>
       </object>
     </child>
     <child>
@@ -253,7 +253,7 @@ Author: Erdem Ersoy
                 <property name="model">SearchFilter</property>
                 <property name="search_column">0</property>
                 <property name="activate_on_single_click">True</property>
-                <signal name="row-activated" handler="onShowActionsMenu" swapped="no"/>
+                <signal name="row-activated" handler="on_show_actions_menu" swapped="no"/>
                 <child internal-child="selection">
                   <object class="GtkTreeSelection" id="TreeSelectionMain">
                     <signal name="changed" handler="on_selection_changed" swapped="no"/>

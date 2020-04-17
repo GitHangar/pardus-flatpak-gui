@@ -253,8 +253,9 @@ class MainWindow(object):
         else:
             return False
 
+    @staticmethod
     def on_delete_main_window(self, widget, event):
-        self.MainWindow.destroy()
+        widget.destroy()
 
     def on_selection_changed(self, tree_selection):
         selection = self.TreeViewMain.get_selection()
@@ -280,13 +281,13 @@ class MainWindow(object):
     def on_press_show_button(self, toggle_button):
         self.SearchFilter.refilter()
 
-    def onShowActionsMenu(self, tree_view, path, column):
+    def on_show_actions_menu(self, tree_view, path, column):
         self.ActionsMenu.popup_at_pointer(None)
 
-    def onRun(self, menuitem):
-        Selection = self.TreeViewMain.get_selection()
-        TreeModel, TreeIter = Selection.get_selected()
-        if TreeIter is None:
+    def on_run(self, menu_item):
+        selection = self.TreeViewMain.get_selection()
+        tree_model, tree_iter = selection.get_selected()
+        if tree_iter is None:
             self.MessageDialogError.set_markup(
                 _("<big><b>Selection Error</b></big>"))
             self.MessageDialogError.format_secondary_text(
@@ -294,34 +295,40 @@ class MainWindow(object):
             self.MessageDialogError.run()
             self.MessageDialogError.hide()
             return None
-        TreePath = TreeModel.get_path(TreeIter)
-        SelectedRowIndex = TreePath.get_indices()[0]
 
-        AppToRunRealName = TreeModel.get_value(TreeIter, 0)
-        AppToRunArch = TreeModel.get_value(TreeIter, 1)
-        AppToRunBranch = TreeModel.get_value(TreeIter, 2)
+        real_name = tree_model.get_value(tree_iter, 0)
+        arch = tree_model.get_value(tree_iter, 1)
+        branch = tree_model.get_value(tree_iter, 2)
 
-        AppToRun = Flatpak.Ref.parse("app/" + AppToRunRealName + "/" +
-                                     AppToRunArch + "/" + AppToRunBranch)
+        ref = Flatpak.Ref.parse("app/" + real_name + "/" +
+                                arch + "/" + branch)
 
-        AppToRunCommit = AppToRun.get_commit()
+        commit = ref.get_commit()
 
-        FlatpakActionSuccess = self.FlatpakInstallation.launch(
-            AppToRunRealName,
-            AppToRunArch,
-            AppToRunBranch,
-            AppToRunCommit,
-            Gio.Cancellable.new())
-
-        if FlatpakActionSuccess:
-            pass
-        else:
+        try:
+            success = self.FlatpakInstallation.launch(
+                real_name,
+                arch,
+                branch,
+                commit,
+                Gio.Cancellable.new())
+        except GLib.Error:
             self.MessageDialogError.set_markup(
                 _("<big><b>Running Error</b></big>"))
             self.MessageDialogError.format_secondary_text(
                 _("The selected application couldn't run."))
             self.MessageDialogError.run()
             self.MessageDialogError.hide()
+        else:
+            if success:
+                pass
+            else:
+                self.MessageDialogError.set_markup(
+                    _("<big><b>Running Error</b></big>"))
+                self.MessageDialogError.format_secondary_text(
+                    _("The selected application couldn't run."))
+                self.MessageDialogError.run()
+                self.MessageDialogError.hide()
 
     def onInfo(self, menuitem):
         Selection = self.TreeViewMain.get_selection()

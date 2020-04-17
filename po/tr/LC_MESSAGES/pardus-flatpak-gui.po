@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-17 12:12+0300\n"
+"POT-Creation-Date: 2020-04-17 13:36+0300\n"
 "PO-Revision-Date: 2020-04-17 11:49+0300\n"
 "Last-Translator: Erdem Ersoy <<erdem.ersoy@pardus.org.tr>>\n"
 "Language-Team: \n"
@@ -243,120 +243,120 @@ msgstr "Telif Hakkı: 2020 Erdem Ersoy"
 msgid "Pardus Flatpak GUI Web Site"
 msgstr "Pardus Flatpak GUI Ağ Sitesi"
 
-#: pardusflatpakgui/mainwindow.py:291 pardusflatpakgui/mainwindow.py:331
-#: pardusflatpakgui/mainwindow.py:490 pardusflatpakgui/mainwindow.py:522
+#: pardusflatpakgui/mainwindow.py:292 pardusflatpakgui/mainwindow.py:338
+#: pardusflatpakgui/mainwindow.py:497 pardusflatpakgui/mainwindow.py:529
 msgid "<big><b>Selection Error</b></big>"
 msgstr "<big><b>Seçim Hatası</b></big>"
 
-#: pardusflatpakgui/mainwindow.py:293 pardusflatpakgui/mainwindow.py:333
-#: pardusflatpakgui/mainwindow.py:492 pardusflatpakgui/mainwindow.py:524
+#: pardusflatpakgui/mainwindow.py:294 pardusflatpakgui/mainwindow.py:340
+#: pardusflatpakgui/mainwindow.py:499 pardusflatpakgui/mainwindow.py:531
 msgid "None of the applications are selected."
 msgstr "Uygulamaların hiçbiri seçili değil."
 
-#: pardusflatpakgui/mainwindow.py:320
+#: pardusflatpakgui/mainwindow.py:317 pardusflatpakgui/mainwindow.py:327
 msgid "<big><b>Running Error</b></big>"
 msgstr "<big><b>Çalıştırma Hatası</b></big>"
 
-#: pardusflatpakgui/mainwindow.py:322
+#: pardusflatpakgui/mainwindow.py:319 pardusflatpakgui/mainwindow.py:329
 msgid "The selected application couldn't run."
 msgstr "Seçili uygulama çalıştırılamadı."
 
-#: pardusflatpakgui/mainwindow.py:361 pardusflatpakgui/mainwindow.py:378
-#: pardusflatpakgui/mainwindow.py:382 pardusflatpakgui/mainwindow.py:386
-#: pardusflatpakgui/mainwindow.py:390 pardusflatpakgui/mainwindow.py:394
-#: pardusflatpakgui/mainwindow.py:398 pardusflatpakgui/mainwindow.py:402
-#: pardusflatpakgui/mainwindow.py:416 pardusflatpakgui/mainwindow.py:420
-#: pardusflatpakgui/mainwindow.py:424 pardusflatpakgui/mainwindow.py:457
-#: pardusflatpakgui/mainwindow.py:461 pardusflatpakgui/mainwindow.py:469
+#: pardusflatpakgui/mainwindow.py:368 pardusflatpakgui/mainwindow.py:385
+#: pardusflatpakgui/mainwindow.py:389 pardusflatpakgui/mainwindow.py:393
+#: pardusflatpakgui/mainwindow.py:397 pardusflatpakgui/mainwindow.py:401
+#: pardusflatpakgui/mainwindow.py:405 pardusflatpakgui/mainwindow.py:409
+#: pardusflatpakgui/mainwindow.py:423 pardusflatpakgui/mainwindow.py:427
+#: pardusflatpakgui/mainwindow.py:431 pardusflatpakgui/mainwindow.py:464
+#: pardusflatpakgui/mainwindow.py:468 pardusflatpakgui/mainwindow.py:476
 msgid "None"
 msgstr "Yok"
 
-#: pardusflatpakgui/mainwindow.py:410 pardusflatpakgui/mainwindow.py:436
-#: pardusflatpakgui/mainwindow.py:476
+#: pardusflatpakgui/mainwindow.py:417 pardusflatpakgui/mainwindow.py:443
+#: pardusflatpakgui/mainwindow.py:483
 msgid "Yes"
 msgstr "Evet"
 
-#: pardusflatpakgui/mainwindow.py:412
+#: pardusflatpakgui/mainwindow.py:419
 msgid "No"
 msgstr "Hayır"
 
-#: pardusflatpakgui/mainwindow.py:431 pardusflatpakgui/mainwindow.py:471
+#: pardusflatpakgui/mainwindow.py:438 pardusflatpakgui/mainwindow.py:478
 msgid "Real Name: "
 msgstr "Gerçek Adı: "
 
-#: pardusflatpakgui/mainwindow.py:432 pardusflatpakgui/mainwindow.py:472
+#: pardusflatpakgui/mainwindow.py:439 pardusflatpakgui/mainwindow.py:479
 msgid "Arch: "
 msgstr "Mimarisi: "
 
-#: pardusflatpakgui/mainwindow.py:433 pardusflatpakgui/mainwindow.py:473
+#: pardusflatpakgui/mainwindow.py:440 pardusflatpakgui/mainwindow.py:480
 msgid "Branch: "
 msgstr "Dalı: "
 
-#: pardusflatpakgui/mainwindow.py:434 pardusflatpakgui/mainwindow.py:474
+#: pardusflatpakgui/mainwindow.py:441 pardusflatpakgui/mainwindow.py:481
 msgid "Collection ID: "
 msgstr "Koleksiyon Kimliği: "
 
-#: pardusflatpakgui/mainwindow.py:435 pardusflatpakgui/mainwindow.py:475
+#: pardusflatpakgui/mainwindow.py:442 pardusflatpakgui/mainwindow.py:482
 msgid "Commit: "
 msgstr "Değişiklik: "
 
-#: pardusflatpakgui/mainwindow.py:436 pardusflatpakgui/mainwindow.py:476
+#: pardusflatpakgui/mainwindow.py:443 pardusflatpakgui/mainwindow.py:483
 msgid "Is Installed: "
 msgstr "Kurulu mu: "
 
-#: pardusflatpakgui/mainwindow.py:437
+#: pardusflatpakgui/mainwindow.py:444
 msgid "License: "
 msgstr "Lisansı: "
 
-#: pardusflatpakgui/mainwindow.py:438
+#: pardusflatpakgui/mainwindow.py:445
 msgid "Name: "
 msgstr "Adı: "
 
-#: pardusflatpakgui/mainwindow.py:439
+#: pardusflatpakgui/mainwindow.py:446
 msgid "Summary: "
 msgstr "Tanımı: "
 
-#: pardusflatpakgui/mainwindow.py:440
+#: pardusflatpakgui/mainwindow.py:447
 msgid "Version: "
 msgstr "Sürümü: "
 
-#: pardusflatpakgui/mainwindow.py:441
+#: pardusflatpakgui/mainwindow.py:448
 msgid "Deploy Dir: "
 msgstr "Yerleştiği Dizini: "
 
-#: pardusflatpakgui/mainwindow.py:442 pardusflatpakgui/mainwindow.py:478
+#: pardusflatpakgui/mainwindow.py:449 pardusflatpakgui/mainwindow.py:485
 msgid "EOL Reason: "
 msgstr "Süresinin Bitme Nedeni: "
 
-#: pardusflatpakgui/mainwindow.py:443 pardusflatpakgui/mainwindow.py:479
+#: pardusflatpakgui/mainwindow.py:450 pardusflatpakgui/mainwindow.py:486
 msgid "EOL Rebased: "
 msgstr "Süresinin Bitme Yeniden Tanımlanmış Adı: "
 
-#: pardusflatpakgui/mainwindow.py:444 pardusflatpakgui/mainwindow.py:480
+#: pardusflatpakgui/mainwindow.py:451 pardusflatpakgui/mainwindow.py:487
 msgid "Installed Size: "
 msgstr "Kurulu Boyutu: "
 
-#: pardusflatpakgui/mainwindow.py:445
+#: pardusflatpakgui/mainwindow.py:452
 msgid "Is Current: "
 msgstr "Şimdiki mi: "
 
-#: pardusflatpakgui/mainwindow.py:446
+#: pardusflatpakgui/mainwindow.py:453
 msgid "Latest Commit: "
 msgstr "Son Değişikliği: "
 
-#: pardusflatpakgui/mainwindow.py:447
+#: pardusflatpakgui/mainwindow.py:454
 msgid "Origin: "
 msgstr "Köken: "
 
-#: pardusflatpakgui/mainwindow.py:448
+#: pardusflatpakgui/mainwindow.py:455
 msgid "Subpaths: "
 msgstr "Alt Yollar: "
 
-#: pardusflatpakgui/mainwindow.py:477
+#: pardusflatpakgui/mainwindow.py:484
 msgid "Download Size: "
 msgstr "İndirme Boyutu: "
 
-#: pardusflatpakgui/mainwindow.py:481
+#: pardusflatpakgui/mainwindow.py:488
 msgid "Remote Name: "
 msgstr "Uzak Adı: "
 
