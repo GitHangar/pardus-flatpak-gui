@@ -28,6 +28,7 @@ import gettext
 import locale
 import sys
 import gi
+
 gi.require_version('Gtk', '3.0')
 gi.require_version('GLib', '2.0')
 gi.require_version('Flatpak', '1.0')
@@ -80,9 +81,9 @@ class MainWindow(object):
             self.NonInstalledRefsList.append(item)
             for item_2 in self.InstalledRefsList:
                 if item.get_name() == item_2.get_name() and \
-                   item.get_arch() == item_2.get_arch() and \
-                   item.get_branch() == item_2.get_branch() and \
-                   len(self.NonInstalledRefsList) != 0:
+                        item.get_arch() == item_2.get_arch() and \
+                        item.get_branch() == item_2.get_branch() and \
+                        len(self.NonInstalledRefsList) != 0:
                     self.NonInstalledRefsList.pop(len(self.NonInstalledRefsList) - 1)
 
         self.AllRefsList = self.InstalledRefsList + self.NonInstalledRefsList
@@ -91,14 +92,15 @@ class MainWindow(object):
 
         self.MessageDialogError = messages_builder.get_object("MessageDialogError")
 
-        print("self.FlatHubRefsList:", len(self.FlatHubRefsList))
-        print("self.InstalledRefsList:", len(self.InstalledRefsList))
-        print("self.NonInstalledRefsList:", len(self.NonInstalledRefsList))
-        print("self.AllRefsList:", len(self.AllRefsList))
+        # Debug print()'s:
+        # print("self.FlatHubRefsList:", len(self.FlatHubRefsList))
+        # print("self.InstalledRefsList:", len(self.InstalledRefsList))
+        # print("self.NonInstalledRefsList:", len(self.NonInstalledRefsList))
+        # print("self.AllRefsList:", len(self.AllRefsList))
 
         for item in self.AllRefsList:
             if item.get_kind() == Flatpak.RefKind.APP and \
-              item.get_arch() == Flatpak.get_default_arch():
+                    item.get_arch() == Flatpak.get_default_arch():
                 if isinstance(item, Flatpak.RemoteRef):
                     item_is_installed = False
                 elif isinstance(item, Flatpak.InstalledRef):
@@ -211,7 +213,7 @@ class MainWindow(object):
         self.SearchEntryMain.set_placeholder_text(_("Click here for search"))
 
         self.SearchFilter = main_builder.get_object("SearchFilter")
-        self.SearchFilter.set_visible_func(self.SearchFilterFunction)
+        self.SearchFilter.set_visible_func(self.search_filter_function)
 
         self.HeaderBarShowButton = main_builder.get_object("HeaderBarShowButton")
         self.HeaderBarShowButton.set_label(_("Show Installed Apps"))
@@ -227,40 +229,41 @@ class MainWindow(object):
         self.MainWindow.set_application(application)
         self.MainWindow.show()
 
-    def SearchFilterFunction(self, model, iteration, data):
+    def search_filter_function(self, model, iteration, data):
         search_entry_text = self.SearchEntryMain.get_text()
         real_name = model[iteration][0]
         name = model[iteration][6]
 
-        if name == "":
-            is_installed = False
-        else:
+        # If a reference is installed
+        if model[iteration][5] != "":
             is_installed = True
+        else:
+            is_installed = False
 
         if len(search_entry_text) == 0 and not self.HeaderBarShowButton.get_active():
             return True
         if len(search_entry_text) == 0 and self.HeaderBarShowButton.get_active():
             return is_installed
-        elif (real_name.lower().count(search_entry_text.lower()) > 0 or name.lower().count(search_entry_text.lower()) > 0) \
-          and not self.HeaderBarShowButton.get_active():
+        elif (real_name.lower().count(search_entry_text.lower()) > 0 or name.lower().count(
+          search_entry_text.lower()) > 0) and not self.HeaderBarShowButton.get_active():
             return True
-        elif (real_name.lower().count(search_entry_text.lower()) > 0 or name.lower().count(search_entry_text.lower()) > 0) \
-          and self.HeaderBarShowButton.get_active():
+        elif (real_name.lower().count(search_entry_text.lower()) > 0 or name.lower().count(
+           search_entry_text.lower()) > 0) and self.HeaderBarShowButton.get_active():
             return is_installed
         else:
             return False
 
-    def onDestroy(self, *args):
+    def on_delete_main_window(self, widget, event):
         self.MainWindow.destroy()
 
-    def onSelectionChanged(self, treeselection):
-        Selection = self.TreeViewMain.get_selection()
-        TreeModel, TreeIter = Selection.get_selected()
-        if TreeIter is None:
+    def on_selection_changed(self, tree_selection):
+        selection = self.TreeViewMain.get_selection()
+        tree_model, tree_iter = selection.get_selected()
+        if tree_iter is None:
             return None
 
         # If the selected app is installed
-        if TreeModel.get_value(TreeIter, 5) == "":
+        if tree_model.get_value(tree_iter, 5) == "":
             self.RunMenuItem.set_sensitive(True)
             self.UninstallMenuItem.set_sensitive(True)
             self.InstallMenuItem.set_sensitive(False)
@@ -271,10 +274,10 @@ class MainWindow(object):
             self.UninstallMenuItem.set_sensitive(False)
             self.InstallMenuItem.set_sensitive(True)
 
-    def onSearchChanged(self, search_entry):
+    def on_search_changed(self, search_entry):
         self.SearchFilter.refilter()
 
-    def onPressShowButton(self, toggle_button):
+    def on_press_show_button(self, toggle_button):
         self.SearchFilter.refilter()
 
     def onShowActionsMenu(self, tree_view, path, column):
@@ -336,7 +339,7 @@ class MainWindow(object):
 
         self.FlatpakRefsList = self.FlatpakInstallation.list_installed_refs()
         self.FlatHubRefsList = self.FlatpakInstallation.list_remote_refs_sync(
-                                   "flathub", Gio.Cancellable.new())
+            "flathub", Gio.Cancellable.new())
 
         for item in self.FlatpakRefsList:
             for item2 in self.FlatHubRefsList:
@@ -364,11 +367,11 @@ class MainWindow(object):
         if AppIsInstalledRef:
             # AppContentRating = App.get_appdata_content_rating()
             # if AppContentRating is None:
-                # AppContentRating = _("None")
+            # AppContentRating = _("None")
 
             # AppContentRatingType = App.get_appdata_content_rating_type()
             # if AppContentRatingType is None:
-                # AppContentRatingType = _("None")
+            # AppContentRatingType = _("None")
 
             AppLicense = App.get_appdata_license()
             if AppLicense is None:
@@ -426,23 +429,23 @@ class MainWindow(object):
                     AppSubpathsAsString = AppSubpathsAsString[:-2]
 
             InfoString = _("Real Name: ") + AppRealName + "\n" + \
-                _("Arch: ") + AppArch + "\n" + \
-                _("Branch: ") + AppBranch + "\n" + \
-                _("Collection ID: ") + AppCollectionID + "\n" + \
-                _("Commit: ") + AppCommit + "\n" + \
-                _("Is Installed: ") + _("Yes") + "\n" + \
-                _("License: ") + AppLicense + "\n" + \
-                _("Name: ") + AppName + "\n" + \
-                _("Summary: ") + AppSummary + "\n" + \
-                _("Version: ") + AppVersion + "\n" + \
-                _("Deploy Dir: ") + AppDeployDir + "\n" + \
-                _("EOL Reason: ") + AppEOLReason + "\n" + \
-                _("EOL Rebased: ") + AppEOLRebased + "\n" + \
-                _("Installed Size: ") + AppInstalledSizeMiBAsString + "\n" + \
-                _("Is Current: ") + AppIsCurrentString + "\n" + \
-                _("Latest Commit: ") + AppLatestCommit + "\n" + \
-                _("Origin: ") + AppOrigin + "\n" + \
-                _("Subpaths: ") + AppSubpathsAsString + "\n"
+                         _("Arch: ") + AppArch + "\n" + \
+                         _("Branch: ") + AppBranch + "\n" + \
+                         _("Collection ID: ") + AppCollectionID + "\n" + \
+                         _("Commit: ") + AppCommit + "\n" + \
+                         _("Is Installed: ") + _("Yes") + "\n" + \
+                         _("License: ") + AppLicense + "\n" + \
+                         _("Name: ") + AppName + "\n" + \
+                         _("Summary: ") + AppSummary + "\n" + \
+                         _("Version: ") + AppVersion + "\n" + \
+                         _("Deploy Dir: ") + AppDeployDir + "\n" + \
+                         _("EOL Reason: ") + AppEOLReason + "\n" + \
+                         _("EOL Rebased: ") + AppEOLRebased + "\n" + \
+                         _("Installed Size: ") + AppInstalledSizeMiBAsString + "\n" + \
+                         _("Is Current: ") + AppIsCurrentString + "\n" + \
+                         _("Latest Commit: ") + AppLatestCommit + "\n" + \
+                         _("Origin: ") + AppOrigin + "\n" + \
+                         _("Subpaths: ") + AppSubpathsAsString + "\n"
 
         elif AppIsRemoteRef:
             AppDownloadSize = App.get_download_size()
@@ -466,16 +469,16 @@ class MainWindow(object):
                 AppRemoteName = _("None")
 
             InfoString = _("Real Name: ") + AppRealName + "\n" + \
-                _("Arch: ") + AppArch + "\n" + \
-                _("Branch: ") + AppBranch + "\n" + \
-                _("Collection ID: ") + AppCollectionID + "\n" + \
-                _("Commit: ") + AppCommit + "\n" + \
-                _("Is Installed: ") + _("Yes") + "\n" + \
-                _("Download Size: ") + AppDownloadSizeMiBAsString + "\n" + \
-                _("EOL Reason: ") + AppEOLReason + "\n" + \
-                _("EOL Rebased: ") + AppEOLRebased + "\n" + \
-                _("Installed Size: ") + AppInstalledSizeMiBAsString + "\n" + \
-                _("Remote Name: ") + AppRemoteName + "\n"
+                         _("Arch: ") + AppArch + "\n" + \
+                         _("Branch: ") + AppBranch + "\n" + \
+                         _("Collection ID: ") + AppCollectionID + "\n" + \
+                         _("Commit: ") + AppCommit + "\n" + \
+                         _("Is Installed: ") + _("Yes") + "\n" + \
+                         _("Download Size: ") + AppDownloadSizeMiBAsString + "\n" + \
+                         _("EOL Reason: ") + AppEOLReason + "\n" + \
+                         _("EOL Rebased: ") + AppEOLRebased + "\n" + \
+                         _("Installed Size: ") + AppInstalledSizeMiBAsString + "\n" + \
+                         _("Remote Name: ") + AppRemoteName + "\n"
 
         InfoWindow(self.Application, InfoString, App)
 
@@ -498,7 +501,7 @@ class MainWindow(object):
         AppToUninstallBranch = TreeModel.get_value(TreeIter, 2)
 
         self.FlatHubRefsList = self.FlatpakInstallation.list_remote_refs_sync(
-                                   "flathub", Gio.Cancellable.new())
+            "flathub", Gio.Cancellable.new())
 
         for item in self.FlatpakRefsList:
             if item.get_name() == AppToUninstallRealName and item not in self.FlatHubRefsList:
@@ -548,7 +551,7 @@ class MainWindow(object):
 
     def onInstallFromFile(self, menuitem):
         InstallFromFileWindow(self.Application, self.FlatpakInstallation,
-                               self.ListStoreMain)
+                              self.ListStoreMain)
 
     def onUpdateAll(self, menuitem):
         UpdateAllWindow(self.Application, self.FlatpakInstallation,
