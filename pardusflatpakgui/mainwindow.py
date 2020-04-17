@@ -330,10 +330,10 @@ class MainWindow(object):
                 self.MessageDialogError.run()
                 self.MessageDialogError.hide()
 
-    def onInfo(self, menuitem):
-        Selection = self.TreeViewMain.get_selection()
-        TreeModel, TreeIter = Selection.get_selected()
-        if TreeIter is None:
+    def on_info(self, menu_item):
+        selection = self.TreeViewMain.get_selection()
+        tree_model, tree_iter = selection.get_selected()
+        if tree_iter is None:
             self.MessageDialogError.set_markup(
                 _("<big><b>Selection Error</b></big>"))
             self.MessageDialogError.format_secondary_text(
@@ -341,153 +341,170 @@ class MainWindow(object):
             self.MessageDialogError.run()
             self.MessageDialogError.hide()
             return None
-        TreePath = TreeModel.get_path(TreeIter)
-        SelectedRowIndex = TreePath.get_indices()[0]
 
-        self.FlatpakRefsList = self.FlatpakInstallation.list_installed_refs()
+        self.FlatpakInstallation = Flatpak.Installation.new_system()
+        self.InstalledRefsList = self.FlatpakInstallation.list_installed_refs()
         self.FlatHubRefsList = self.FlatpakInstallation.list_remote_refs_sync(
             "flathub", Gio.Cancellable.new())
+        self.NonInstalledRefsList = []
 
-        for item in self.FlatpakRefsList:
-            for item2 in self.FlatHubRefsList:
-                if item.get_name() == item2.get_name():
-                    self.FlatHubRefsList.remove(item2)
-        self.FlatpakRefsList = self.FlatpakRefsList + self.FlatHubRefsList
+        for item in self.FlatHubRefsList:
+            self.NonInstalledRefsList.append(item)
+            for item_2 in self.InstalledRefsList:
+                if item.get_name() == item_2.get_name() and \
+                   item.get_arch() == item_2.get_arch() and \
+                   item.get_branch() == item_2.get_branch() and \
+                   len(self.NonInstalledRefsList) != 0:
+                    self.NonInstalledRefsList.pop(len(self.NonInstalledRefsList) - 1)
 
-        AppRealName = TreeModel.get_value(TreeIter, 0)
-        AppArch = TreeModel.get_value(TreeIter, 1)
-        AppBranch = TreeModel.get_value(TreeIter, 2)
+        self.AllRefsList = self.InstalledRefsList + self.NonInstalledRefsList
 
-        for item in self.FlatpakRefsList:
-            if item.get_name() == AppRealName:
-                App = item
+        real_name = tree_model.get_value(tree_iter, 0)
+        arch = tree_model.get_value(tree_iter, 1)
+        branch = tree_model.get_value(tree_iter, 2)
+
+        for item in self.AllRefsList:
+            if item.get_name() == real_name:
+                ref = item
                 break
-
-        AppCollectionID = App.get_collection_id()
-        if AppCollectionID is None:
-            AppCollectionID = _("None")
-        AppCommit = App.get_commit()
-
-        AppIsInstalledRef = isinstance(App, Flatpak.InstalledRef)
-        AppIsRemoteRef = isinstance(App, Flatpak.RemoteRef)
-
-        if AppIsInstalledRef:
-            # AppContentRating = App.get_appdata_content_rating()
-            # if AppContentRating is None:
-            # AppContentRating = _("None")
-
-            # AppContentRatingType = App.get_appdata_content_rating_type()
-            # if AppContentRatingType is None:
-            # AppContentRatingType = _("None")
-
-            AppLicense = App.get_appdata_license()
-            if AppLicense is None:
-                AppLicense = _("None")
-
-            AppName = App.get_appdata_name()
-            if AppName is None:
-                AppName = _("None")
-
-            AppSummary = App.get_appdata_summary()
-            if AppSummary is None:
-                AppSummary = _("None")
-
-            AppVersion = App.get_appdata_version()
-            if AppVersion is None:
-                AppVersion = _("None")
-
-            AppDeployDir = App.get_deploy_dir()
-            if AppDeployDir is None:
-                AppDeployDir = _("None")
-
-            AppEOLReason = App.get_eol()
-            if AppEOLReason is None:
-                AppEOLReason = _("None")
-
-            AppEOLRebased = App.get_eol_rebase()
-            if AppEOLRebased is None:
-                AppEOLRebased = _("None")
-
-            AppInstalledSize = App.get_installed_size()
-            AppInstalledSizeMiB = AppInstalledSize / 1048576
-            AppInstalledSizeMiBAsString = f"{AppInstalledSizeMiB:.2f}" + " MiB"
-
-            AppIsCurrent = App.get_is_current()
-            if AppIsCurrent:
-                AppIsCurrentString = _("Yes")
             else:
-                AppIsCurrentString = _("No")
+                self.MessageDialogError.set_markup(
+                    _("<big><b>Invalid Flatpak Reference Error</b></big>"))
+                self.MessageDialogError.format_secondary_text(
+                    _("Invalid Flatpak reference is: ") + "app/" + real_name + "/" + arch + "/" + branch)
+                self.MessageDialogError.run()
+                self.MessageDialogError.hide()
+                return None
 
-            AppLatestCommit = App.get_latest_commit()
-            if AppLatestCommit is None:
-                AppLatestCommit = _("None")
+        collection_id = ref.get_collection_id()
+        if collection_id is None:
+            collection_id = _("None")
+        commit = ref.get_commit()
 
-            AppOrigin = App.get_origin()
-            if AppOrigin is None:
-                AppOrigin = _("None")
+        if isinstance(item, Flatpak.RemoteRef):
+            is_installed = False
+        elif isinstance(item, Flatpak.InstalledRef):
+            is_installed = True
+        else:
+            is_installed = None
 
-            AppSubpaths = App.get_subpaths()
-            if AppSubpaths is None or not AppSubpaths:
-                AppSubpathsAsString = _("None")
+        if is_installed:
+            app_license = ref.get_appdata_license()
+            if app_license is None:
+                app_license = _("None")
+
+            name = ref.get_appdata_name()
+            if name is None:
+                name = _("None")
+
+            summary = ref.get_appdata_summary()
+            if summary is None:
+                summary = _("None")
+
+            version = ref.get_appdata_version()
+            if version is None:
+                version = _("None")
+
+            deploy_dir = ref.get_deploy_dir()
+            if deploy_dir is None:
+                deploy_dir = _("None")
+
+            eol_reason = ref.get_eol()
+            if eol_reason is None:
+                eol_reason = _("None")
+
+            eol_rebased = ref.get_eol_rebase()
+            if eol_rebased is None:
+                eol_rebased = _("None")
+
+            installed_size = ref.get_installed_size()
+            installed_size_mib = installed_size / 1048576
+            installed_size_mib_as_string = f"{installed_size_mib:.2f}" + " MiB"
+
+            is_current = ref.get_is_current()
+            if is_current:
+                is_current_str = _("Yes")
             else:
-                AppSubpathsAsString = ""
-                for item in AppSubpaths:
-                    AppSubpathsAsString = AppSubpathsAsString + item + ", "
-                    AppSubpathsAsString = AppSubpathsAsString[:-2]
+                is_current_str = _("No")
 
-            InfoString = _("Real Name: ") + AppRealName + "\n" + \
-                         _("Arch: ") + AppArch + "\n" + \
-                         _("Branch: ") + AppBranch + "\n" + \
-                         _("Collection ID: ") + AppCollectionID + "\n" + \
-                         _("Commit: ") + AppCommit + "\n" + \
-                         _("Is Installed: ") + _("Yes") + "\n" + \
-                         _("License: ") + AppLicense + "\n" + \
-                         _("Name: ") + AppName + "\n" + \
-                         _("Summary: ") + AppSummary + "\n" + \
-                         _("Version: ") + AppVersion + "\n" + \
-                         _("Deploy Dir: ") + AppDeployDir + "\n" + \
-                         _("EOL Reason: ") + AppEOLReason + "\n" + \
-                         _("EOL Rebased: ") + AppEOLRebased + "\n" + \
-                         _("Installed Size: ") + AppInstalledSizeMiBAsString + "\n" + \
-                         _("Is Current: ") + AppIsCurrentString + "\n" + \
-                         _("Latest Commit: ") + AppLatestCommit + "\n" + \
-                         _("Origin: ") + AppOrigin + "\n" + \
-                         _("Subpaths: ") + AppSubpathsAsString + "\n"
+            latest_commit = ref.get_latest_commit()
+            if latest_commit is None:
+                latest_commit = _("None")
 
-        elif AppIsRemoteRef:
-            AppDownloadSize = App.get_download_size()
-            AppDownloadSizeMiB = AppDownloadSize / 1048576
-            AppDownloadSizeMiBAsString = f"{AppDownloadSizeMiB:.2f}" + " MiB"
+            origin = ref.get_origin()
+            if origin is None:
+                origin = _("None")
 
-            AppEOLReason = App.get_eol()
-            if AppEOLReason is None:
-                AppEOLReason = _("None")
+            sub_paths = ref.get_subpaths()
+            if sub_paths is None or not sub_paths:
+                sub_paths_str = _("None")
+            else:
+                sub_paths_str = ""
+                for item in sub_paths:
+                    sub_paths_str = sub_paths_str + item + ", "
+                    sub_paths_str = sub_paths_str[:-2]
 
-            AppEOLRebased = App.get_eol_rebase()
-            if AppEOLRebased is None:
-                AppEOLRebased = _("None")
+            info_str = _("Real Name: ") + real_name + "\n" + \
+                _("Arch: ") + arch + "\n" + \
+                _("Branch: ") + branch + "\n" + \
+                _("Collection ID: ") + collection_id + "\n" + \
+                _("Commit: ") + commit + "\n" + \
+                _("Is Installed: ") + _("Yes") + "\n" + \
+                _("License: ") + app_license + "\n" + \
+                _("Name: ") + name + "\n" + \
+                _("Summary: ") + summary + "\n" + \
+                _("Version: ") + version + "\n" + \
+                _("Deploy Dir: ") + deploy_dir + "\n" + \
+                _("EOL Reason: ") + eol_reason + "\n" + \
+                _("EOL Rebased: ") + eol_rebased + "\n" + \
+                _("Installed Size: ") + installed_size_mib_as_string + "\n" + \
+                _("Is Current: ") + is_current_str + "\n" + \
+                _("Latest Commit: ") + latest_commit + "\n" + \
+                _("Origin: ") + origin + "\n" + \
+                _("Subpaths: ") + sub_paths_str + "\n"
 
-            AppInstalledSize = App.get_installed_size()
-            AppInstalledSizeMiB = AppInstalledSize / 1048576
-            AppInstalledSizeMiBAsString = f"{AppInstalledSizeMiB:.2f}" + " MiB"
+        elif not is_installed:
+            download_size = ref.get_download_size()
+            download_size_mib = download_size / 1048576
+            download_size_mib_str = f"{download_size_mib:.2f}" + " MiB"
 
-            AppRemoteName = App.get_remote_name()
-            if AppRemoteName is None:
-                AppRemoteName = _("None")
+            eol_reason = ref.get_eol()
+            if eol_reason is None:
+                eol_reason = _("None")
 
-            InfoString = _("Real Name: ") + AppRealName + "\n" + \
-                         _("Arch: ") + AppArch + "\n" + \
-                         _("Branch: ") + AppBranch + "\n" + \
-                         _("Collection ID: ") + AppCollectionID + "\n" + \
-                         _("Commit: ") + AppCommit + "\n" + \
-                         _("Is Installed: ") + _("Yes") + "\n" + \
-                         _("Download Size: ") + AppDownloadSizeMiBAsString + "\n" + \
-                         _("EOL Reason: ") + AppEOLReason + "\n" + \
-                         _("EOL Rebased: ") + AppEOLRebased + "\n" + \
-                         _("Installed Size: ") + AppInstalledSizeMiBAsString + "\n" + \
-                         _("Remote Name: ") + AppRemoteName + "\n"
+            eol_rebased = ref.get_eol_rebase()
+            if eol_rebased is None:
+                eol_rebased = _("None")
 
-        InfoWindow(self.Application, InfoString, App)
+            installed_size = ref.get_installed_size()
+            installed_size_mib = installed_size / 1048576
+            installed_size_mib_as_string = f"{installed_size_mib:.2f}" + " MiB"
+
+            remote = ref.get_remote_name()
+            if remote is None:
+                remote = _("None")
+
+            info_str = _("Real Name: ") + real_name + "\n" + \
+                _("Arch: ") + arch + "\n" + \
+                _("Branch: ") + branch + "\n" + \
+                _("Collection ID: ") + collection_id + "\n" + \
+                _("Commit: ") + commit + "\n" + \
+                _("Is Installed: ") + _("Yes") + "\n" + \
+                _("Download Size: ") + download_size_mib_str + "\n" + \
+                _("EOL Reason: ") + eol_reason + "\n" + \
+                _("EOL Rebased: ") + eol_rebased + "\n" + \
+                _("Installed Size: ") + installed_size_mib_as_string + "\n" + \
+                _("Remote Name: ") + remote + "\n"
+        else:
+            self.MessageDialogError.set_markup(
+                _("<big><b>Invalid Flatpak Reference Error</b></big>"))
+            self.MessageDialogError.format_secondary_text(
+                _("Invalid Flatpak reference is: ") + "app/" + real_name + "/" + arch + "/" + branch)
+            self.MessageDialogError.run()
+            self.MessageDialogError.hide()
+            return None
+
+        InfoWindow(self.Application, info_str, ref)
 
     def onUninstall(self, menuitem):
         Selection = self.TreeViewMain.get_selection()
@@ -564,6 +581,6 @@ class MainWindow(object):
         UpdateAllWindow(self.Application, self.FlatpakInstallation,
                         self.ListStoreMain)
 
-    def onAbout(self, menuitem):
+    def on_about(self, menu_item):
         self.AboutDialog.run()
         self.AboutDialog.hide()
