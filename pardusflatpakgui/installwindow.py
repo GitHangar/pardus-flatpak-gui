@@ -36,7 +36,7 @@ gettext.install("flatpak-gui", "po/")
 
 class InstallWindow(object):
     def __init__(self, application, flatpak_installation, real_name, arch,
-                 branch, remote, list_store, search_filter):
+                 branch, remote, tree_model, tree_iter, selection, search_filter):
         self.Application = application
 
         self.RealName = real_name
@@ -64,7 +64,9 @@ class InstallWindow(object):
             self.RefFormat,
             None)
 
-        self.ListStoreMain = list_store
+        self.TreeModel = tree_model
+        self.TreeIter = tree_iter
+        self.Selection = selection
         self.SearchFilter = search_filter
 
         try:
@@ -134,61 +136,45 @@ class InstallWindow(object):
         self.FlatpakTransaction.disconnect(self.handler_id_error)
         time.sleep(0.5)
 
-        GLib.idle_add(self.ListStoreMain.clear,
-                      data=None,
-                      priority=GLib.PRIORITY_DEFAULT)
-
-        self.InstalledRefsList = self.FlatpakInstallation.list_installed_refs()
-        self.FlatHubRefsList = self.FlatpakInstallation.list_remote_refs_sync(
-            "flathub", Gio.Cancellable.new())
-        self.NonInstalledRefsList = []
-
-        for item in self.FlatHubRefsList:
-            self.NonInstalledRefsList.append(item)
-            for item_2 in self.InstalledRefsList:
-                if item.get_name() == item_2.get_name() and \
-                        item.get_arch() == item_2.get_arch() and \
-                        item.get_branch() == item_2.get_branch():
-                    if len(self.NonInstalledRefsList) != 0:
-                        self.NonInstalledRefsList.pop(len(self.NonInstalledRefsList) - 1)
-                    else:
-                        self.NonInstalledRefsList = []
-
-        self.AllRefsList = self.InstalledRefsList + self.NonInstalledRefsList
-
-        for list_item in self.AllRefsList:
-            if list_item.get_kind() == Flatpak.RefKind.APP and \
-               list_item.get_arch() == Flatpak.get_default_arch():
-                if list_item not in self.NonInstalledRefsList:
-                    remote_name = "flathub"
-                    download_size_mib_str = ""
-                    name = list_item.get_appdata_name()
-                elif list_item not in self.InstalledRefsList:
-                    remote_name = self.Remote
-                    download_size_mib = list_item.get_download_size()
-                    download_size_mib_str = f"{download_size_mib:.2f}" + " MiB"
-                    name = ""
-                else:
-                    continue
-
-                installed_size = list_item.get_installed_size()
-                installed_size_mib = installed_size / 1048576
-                installed_size_mib_str = \
-                    f"{installed_size_mib:.2f}" + " MiB"
-
-                self.ListStoreMain.append([list_item.get_name(),
-                                           list_item.get_arch(),
-                                           list_item.get_branch(),
-                                           remote_name,
-                                           installed_size_mib_str,
-                                           download_size_mib_str,
-                                           name])
-
-                self.SearchFilter.refilter()
-                time.sleep(0.01)
-
+        for ref in self.FlatpakInstallation.list_installed_refs():
+            if ref.get_name() == self.Ref.get_name() and \
+               ref.get_arch() == self.Arch and \
+               ref.get_branch() == self.Branch:
+                installed_ref = ref
+                break
             else:
                 continue
+
+        installed_ref_real_name = installed_ref.get_name()
+        installed_ref_arch = installed_ref.get_arch()
+        installed_ref_branch = installed_ref.get_branch()
+        installed_ref_remote = "flathub"
+
+        installed_size = installed_ref.get_installed_size()
+        installed_size_mib = installed_size / 1048576
+        installed_size_mib_str = \
+            f"{installed_size_mib:.2f}" + " MiB"
+
+        download_size_mib_str = ""
+        name = installed_ref.get_appdata_name()
+
+        GLib.idle_add(self.TreeModel.set_row,
+                      self.TreeIter, [installed_ref_real_name,
+                                      installed_ref_arch,
+                                      installed_ref_branch,
+                                      installed_ref_remote,
+                                      installed_size_mib_str,
+                                      download_size_mib_str,
+                                      name],
+                      priority=GLib.PRIORITY_DEFAULT)
+        time.sleep(0.2)
+
+        GLib.idle_add(self.Selection.unselect_iter,
+                      self.TreeIter,
+                      priority=GLib.PRIORITY_DEFAULT)
+        time.sleep(0.2)
+
+        self.SearchFilter.refilter()
 
     def InstallProgressCallback(self, *args):
         self.RefToInstall = Flatpak.Ref.parse(args[1].get_ref())

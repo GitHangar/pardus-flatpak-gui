@@ -566,7 +566,7 @@ class MainWindow(object):
         remote = tree_model.get_value(tree_iter, 3)
 
         InstallWindow(self.Application, self.FlatpakInstallation, real_name, arch, branch,
-                      remote, self.ListStoreMain, self.SearchFilter)
+                      remote, tree_model, tree_iter, selection, self.SearchFilter)
 
     def on_install_from_entry(self, menu_item):
         InstallFromEntryWindow(self.Application, self.FlatpakInstallation,
