@@ -18,7 +18,6 @@
 
 import gettext
 import locale
-import sys
 import threading
 import time
 import gi
@@ -36,22 +35,20 @@ gettext.install("pardus-flatpak-gui", "po/")
 
 
 class InstallFromEntryWindow2(object):
-    def __init__(self, application, apptoinst, flatpakinstallation,
-                 treeview, runmenuitem, installmenuitem,
-                 uninstallmenuitem):
+    def __init__(self, application, ref, flatpak_installation, tree_view, search_filter):
         self.Application = application
 
-        self.AppToInstall = apptoinst
-        self.AppToInstallRealName = self.AppToInstall.get_name()
-        self.AppToInstallArch = self.AppToInstall.get_arch()
-        self.AppToInstallBranch = self.AppToInstall.get_branch()
+        self.Ref = ref
+        self.RealName = self.Ref.get_name()
+        self.Arch = self.Ref.get_arch()
+        self.Branch = self.Ref.get_branch()
 
-        self.FlatpakInstallation = flatpakinstallation
+        self.FlatpakInstallation = flatpak_installation
         self.FlatpakTransaction = \
             Flatpak.Transaction.new_for_installation(
                 self.FlatpakInstallation,
                 Gio.Cancellable.new())
-        self.FlatpakTransaction.set_default_arch(self.AppToInstallArch)
+        self.FlatpakTransaction.set_default_arch(self.Arch)
         self.FlatpakTransaction.set_disable_dependencies(False)
         self.FlatpakTransaction.set_disable_prune(False)
         self.FlatpakTransaction.set_disable_related(False)
@@ -59,45 +56,55 @@ class InstallFromEntryWindow2(object):
         self.FlatpakTransaction.set_no_deploy(False)
         self.FlatpakTransaction.set_no_pull(False)
         self.FlatpakTransaction.add_install(
-            self.AppToInstall.get_remote_name(),
-            self.AppToInstall.format_ref(),
+            self.Ref.get_remote_name(),
+            self.Ref.format_ref(),
             None)
 
-        self.TreeViewMain = treeview
+        self.TreeViewMain = tree_view
 
         self.TreeModel = self.TreeViewMain.get_model()
         self.TreeIter = self.TreeModel.get_iter_first()
         while self.TreeIter:
-            if self.TreeModel.get_value(self.TreeIter, 0) == self.AppToInstallRealName and \
-               self.TreeModel.get_value(self.TreeIter, 1) == self.AppToInstallArch and \
-               self.TreeModel.get_value(self.TreeIter, 2) == self.AppToInstallBranch:
+            if self.TreeModel.get_value(self.TreeIter, 0) == self.RealName and \
+               self.TreeModel.get_value(self.TreeIter, 1) == self.Arch and \
+               self.TreeModel.get_value(self.TreeIter, 2) == self.Branch:
                 break
             self.TreeIter = self.TreeModel.iter_next(self.TreeIter)
 
-        self.RunMenuItem = runmenuitem
-        self.InstallMenuItem = installmenuitem
-        self.UninstallMenuItem = uninstallmenuitem
+        self.Selection = self.TreeViewMain.get_selection()
+
+        self.SearchFilter = search_filter
+
+        self.handler_id = self.FlatpakTransaction.connect(
+            "new-operation",
+            self.install_progress_callback)
+        self.handler_id_2 = self.FlatpakTransaction.connect(
+            "operation-done",
+            self.install_progress_callback_disconnect)
+        self.handler_id_error = self.FlatpakTransaction.connect(
+            "operation-error",
+            self.install_progress_callback_error)
 
         try:
-            InstallGUIFile = "ui/actionwindow.glade"
-            InstallBuilder = Gtk.Builder.new_from_file(InstallGUIFile)
-            InstallBuilder.connect_signals(self)
+            install_gui_file = "ui/actionwindow.glade"
+            install_builder = Gtk.Builder.new_from_file(install_gui_file)
+            install_builder.connect_signals(self)
         except GLib.GError:
-            print(_("Error reading GUI file: ") + InstallGUIFile)
+            print(_("Error reading GUI file: ") + install_gui_file)
             raise
 
-        self.InstallWindow = InstallBuilder.get_object("ActionWindow")
+        self.InstallWindow = install_builder.get_object("ActionWindow")
         self.InstallWindow.set_application(application)
         self.InstallWindow.set_title(_("Installing..."))
         self.InstallWindow.show()
 
-        self.InstallProgressBar = InstallBuilder.get_object(
+        self.InstallProgressBar = install_builder.get_object(
                                         "ActionProgressBar")
         self.ProgressBarValue = int(
             self.InstallProgressBar.get_fraction() * 100)
 
-        self.InstallLabel = InstallBuilder.get_object("ActionLabel")
-        self.InstallTextBuffer = InstallBuilder.get_object(
+        self.InstallLabel = install_builder.get_object("ActionLabel")
+        self.InstallTextBuffer = install_builder.get_object(
                                        "ActionTextBuffer")
 
         self.InstallTextBuffer.set_text("\0", -1)
@@ -106,37 +113,28 @@ class InstallFromEntryWindow2(object):
         self.InstallTextBuffer.set_text(self.StatusText)
 
         self.InstallThread = threading.Thread(
-                           target=self.Install,
+                           target=self.install,
                            args=())
         self.InstallThread.start()
         GLib.threads_init()
 
-    def Install(self):
-        self.handler_id = self.FlatpakTransaction.connect(
-                        "new-operation",
-                        self.InstallProgressCallback)
-        self.handler_id_2 = self.FlatpakTransaction.connect(
-                        "operation-done",
-                        self.InstallProgressCallbackDisconnect)
-        self.handler_id_error = self.FlatpakTransaction.connect(
-                        "operation-error",
-                        self.InstallProgressCallbackError)
+    def install(self):
         try:
             self.FlatpakTransaction.run(Gio.Cancellable.new())
         except GLib.Error:
-            statustext = _("Error at installation!")
-            self.StatusText = self.StatusText + "\n" + statustext
+            status_text = _("Error at installation!")
+            self.StatusText = self.StatusText + "\n" + status_text
             GLib.idle_add(self.InstallLabel.set_text,
-                          statustext,
+                          status_text,
                           priority=GLib.PRIORITY_DEFAULT)
             GLib.idle_add(self.InstallTextBuffer.set_text,
                           self.StatusText,
                           priority=GLib.PRIORITY_DEFAULT)
         else:
-            statustext = _("Installing completed!")
-            self.StatusText = self.StatusText + "\n" + statustext
+            status_text = _("Installing completed!")
+            self.StatusText = self.StatusText + "\n" + status_text
             GLib.idle_add(self.InstallLabel.set_text,
-                          statustext,
+                          status_text,
                           priority=GLib.PRIORITY_DEFAULT)
             GLib.idle_add(self.InstallTextBuffer.set_text,
                           self.StatusText,
@@ -146,97 +144,91 @@ class InstallFromEntryWindow2(object):
         self.FlatpakTransaction.disconnect(self.handler_id_error)
         time.sleep(0.5)
 
-        flatpakrefslist = \
-            self.FlatpakInstallation.list_installed_refs()
-        flathubrefslist = \
-            self.FlatpakInstallation.list_remote_refs_sync(
-                "flathub", Gio.Cancellable.new())
-
-        for item in flatpakrefslist:
-            for item2 in flathubrefslist:
-                if item.get_name() == item2.get_name():
-                    flathubrefslist.remove(item2)
-        flatpakrefslist = flatpakrefslist + flathubrefslist
-
-        for listitem in flatpakrefslist:
-            if listitem.get_kind() == Flatpak.RefKind.APP and \
-                    listitem.get_arch() == Flatpak.get_default_arch() and \
-                    listitem.get_branch() == self.AppToInstallBranch and \
-                    listitem.get_name() == self.AppToInstallRealName:
-                if listitem not in flathubrefslist:
-                    RemoteName = "flathub"
-                    DownloadSizeMiBAsString = ""
-                    Name = listitem.get_appdata_name()
-
-                InstalledSize = listitem.get_installed_size()
-                InstalledSizeMiB = InstalledSize / 1048576
-                InstalledSizeMiBAsString = \
-                    f"{InstalledSizeMiB:.2f}" + " MiB"
-
-                self.TreeModel.set_row(self.TreeIter, [listitem.get_name(),
-                                                       listitem.get_arch(),
-                                                       listitem.get_branch(),
-                                                       RemoteName,
-                                                       InstalledSizeMiBAsString,
-                                                       DownloadSizeMiBAsString,
-                                                       Name])
-
-                self.RunMenuItem.set_sensitive(True)
-                self.UninstallMenuItem.set_sensitive(True)
-                self.InstallMenuItem.set_sensitive(False)
-
-                GLib.idle_add(self.TreeModel.refilter,
-                              data=None,
-                              priority=GLib.PRIORITY_DEFAULT)
-                time.sleep(0.25)
+        installed_ref = Flatpak.InstalledRef()
+        for ref in self.FlatpakInstallation.list_installed_refs():
+            if ref.get_name() == self.Ref.get_name() and \
+                    ref.get_arch() == self.Arch and \
+                    ref.get_branch() == self.Branch:
+                installed_ref = ref
                 break
             else:
                 continue
 
-    def InstallProgressCallback(self, *args):
-        self.RefToInstall = Flatpak.Ref.parse(args[1].get_ref())
-        self.RefToInstallRealName = self.RefToInstall.get_name()
+        installed_ref_real_name = installed_ref.get_name()
+        installed_ref_arch = installed_ref.get_arch()
+        installed_ref_branch = installed_ref.get_branch()
+        installed_ref_remote = "flathub"
 
-        statustext = _("Installing: ") + self.RefToInstallRealName
-        self.StatusText = self.StatusText + "\n" + statustext
+        installed_size = installed_ref.get_installed_size()
+        installed_size_mib = installed_size / 1048576
+        installed_size_mib_str = \
+            f"{installed_size_mib:.2f}" + " MiB"
+
+        download_size_mib_str = ""
+        name = installed_ref.get_appdata_name()
+
+        GLib.idle_add(self.TreeModel.set_row,
+                      self.TreeIter, [installed_ref_real_name,
+                                      installed_ref_arch,
+                                      installed_ref_branch,
+                                      installed_ref_remote,
+                                      installed_size_mib_str,
+                                      download_size_mib_str,
+                                      name],
+                      priority=GLib.PRIORITY_DEFAULT)
+        time.sleep(0.2)
+
+        GLib.idle_add(self.Selection.unselect_all,
+                      data=None,
+                      priority=GLib.PRIORITY_DEFAULT)
+        time.sleep(0.2)
+
+        self.SearchFilter.refilter()
+
+    def install_progress_callback(self, transaction, operation, progress):
+        ref_to_install = Flatpak.Ref.parse(operation.get_ref())
+        ref_to_install_real_name = ref_to_install.get_name()
+
+        status_text = _("Installing: ") + ref_to_install_real_name
+        self.StatusText = self.StatusText + "\n" + status_text
         GLib.idle_add(self.InstallLabel.set_text,
-                      statustext,
+                      status_text,
                       priority=GLib.PRIORITY_DEFAULT)
         GLib.idle_add(self.InstallTextBuffer.set_text,
                       self.StatusText,
                       priority=GLib.PRIORITY_DEFAULT)
 
-        self.TransactionProgress = args[2]
+        self.TransactionProgress = progress  # FIXME: Fix PyCharm warning
         self.TransactionProgress.set_update_frequency(200)
         self.handler_id_progress = self.TransactionProgress.connect(
-                                      "changed",
-                                      self.ProgressBarUpdate)
+            "changed",
+            self.progress_bar_update)  # FIXME: Fix PyCharm warning
 
-    def InstallProgressCallbackDisconnect(self, *args):
+    def install_progress_callback_disconnect(self, transaction, operation, commit, result):
         self.TransactionProgress.disconnect(self.handler_id_progress)
 
-    def InstallProgressCallbackError(self, *args):
-        self.RefToInstall = Flatpak.Ref.parse(args[1].get_ref())
-        self.RefToInstallRealName = self.RefToInstall.get_name()
+    def install_progress_callback_error(self, transaction, operation, error, details):
+        ref_to_install = Flatpak.Ref.parse(operation.get_ref())
+        ref_to_install_real_name = ref_to_install.get_name()
 
-        statustext = _("Not installed: ") + self.RefToInstallRealName
-        self.StatusText = self.StatusText + "\n" + statustext
+        status_text = _("Not installed: ") + ref_to_install_real_name
+        self.StatusText = self.StatusText + "\n" + status_text
         GLib.idle_add(self.InstallLabel.set_text,
-                      statustext,
+                      status_text,
                       priority=GLib.PRIORITY_DEFAULT)
         GLib.idle_add(self.InstallTextBuffer.set_text,
                       self.StatusText,
                       priority=GLib.PRIORITY_DEFAULT)
 
-        if self.RefToInstallRealName != self.AppToInstallRealName:
+        if ref_to_install_real_name != self.RealName:
             return True
         else:
             return False
 
-    def ProgressBarUpdate(self, transaction_progress):
+    def progress_bar_update(self, transaction_progress):
         GLib.idle_add(self.InstallProgressBar.set_fraction,
                       float(transaction_progress.get_progress()) / 100.0,
                       priority=GLib.PRIORITY_DEFAULT)
 
-    def onDestroy(self, *args):
-        self.InstallWindow.destroy()
+    def on_delete_action_window(self, widget, event):
+        widget.hide_on_delete()

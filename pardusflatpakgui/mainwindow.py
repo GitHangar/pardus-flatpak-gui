@@ -569,9 +569,7 @@ class MainWindow(object):
                       remote, tree_model, tree_iter, selection, self.SearchFilter)
 
     def on_install_from_entry(self, menu_item):
-        InstallFromEntryWindow(self.Application, self.FlatpakInstallation,
-                               self.TreeViewMain, self.RunMenuItem,
-                               self.InstallMenuItem, self.UninstallMenuItem)
+        InstallFromEntryWindow(self.Application, self.FlatpakInstallation, self.TreeViewMain, self.SearchFilter)
 
     def on_install_from_file(self, menu_item):
         InstallFromFileWindow(self.Application, self.FlatpakInstallation,

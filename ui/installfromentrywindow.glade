@@ -41,6 +41,10 @@ Author: Erdem Ersoy
     <property name="default_height">400</property>
     <property name="icon_name">document-save</property>
     <property name="type_hint">dialog</property>
+    <signal name="delete-event" handler="on_destroy" swapped="no"/>
+    <child>
+      <placeholder/>
+    </child>
     <child>
       <object class="GtkBox" id="InstallInputBox">
         <property name="visible">True</property>
@@ -102,7 +106,7 @@ Author: Erdem Ersoy
                 <property name="image">InstallInputImage</property>
                 <property name="use_underline">True</property>
                 <property name="always_show_image">True</property>
-                <signal name="clicked" handler="onInstallAtInstall" swapped="no"/>
+                <signal name="clicked" handler="on_install_at_install" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>

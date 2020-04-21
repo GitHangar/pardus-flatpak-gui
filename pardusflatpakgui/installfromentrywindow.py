@@ -25,7 +25,8 @@ gi.require_version('Gtk', '3.0')
 gi.require_version('Flatpak', '1.0')
 gi.require_version('GLib', '2.0')
 gi.require_version('Gio', '2.0')
-from gi.repository import Gtk, Flatpak, GLib, Gio
+gi.require_version('Gdk', '3.0')
+from gi.repository import Gtk, Flatpak, GLib, Gio, Gdk
 
 locale.setlocale(locale.LC_ALL, "")
 gettext.bindtextdomain("pardus-flatpak-gui", "po/")
@@ -35,61 +36,61 @@ gettext.install("pardus-flatpak-gui", "po/")
 
 
 class InstallFromEntryWindow(object):
-    def __init__(self, application, flatpakinstallation, treeview,
-                 runmenuitem, installmenuitem, uninstallmenuitem):
+    def __init__(self, application, flatpak_installation, tree_view, search_filter):
         self.Application = application
-        self.FlatpakInstallation = flatpakinstallation
-        self.TreeViewMain = treeview
-        self.RunMenuItem = runmenuitem
-        self.InstallMenuItem = installmenuitem
-        self.UninstallMenuItem = uninstallmenuitem
+        self.FlatpakInstallation = flatpak_installation
+        self.TreeViewMain = tree_view
+        self.SearchFilter = search_filter
 
         try:
-            InstallInputGUIFile = "ui/installinputwindow.glade"
-            self.InstallInputBuilder = Gtk.Builder.new_from_file(
-                                           InstallInputGUIFile)
-            self.InstallInputBuilder.connect_signals(self)
+            install_input_gui_file = "ui/installfromentrywindow.glade"
+            self.install_input_builder = Gtk.Builder.new_from_file(
+                                           install_input_gui_file)
+            self.install_input_builder.connect_signals(self)
         except GLib.GError:
-            print(_("Error reading GUI file: ") + InstallInputGUIFile)
+            print(_("Error reading GUI file: ") + install_input_gui_file)
             raise
 
         try:
-            MessagesGUIFile = "ui/messagedialogs.glade"
-            MessagesBuilder = Gtk.Builder.new_from_file(MessagesGUIFile)
-            MessagesBuilder.connect_signals(self)
+            messages_gui_file = "ui/messagedialogs.glade"
+            messages_builder = Gtk.Builder.new_from_file(messages_gui_file)
+            messages_builder.connect_signals(self)
         except GLib.GError:
             print(_("Error reading message dialogs GUI file: ") +
-                  MessagesGUIFile)
+                  messages_gui_file)
             raise
 
-        self.MessageDialogError = MessagesBuilder.get_object(
+        self.MessageDialogError = messages_builder.get_object(
             "MessageDialogError")
 
-        self.InstallInputLabel = self.InstallInputBuilder.get_object(
+        self.InstallInputLabel = self.install_input_builder.get_object(
             "InstallInputLabel")
         self.InstallInputLabel.set_text(
-            _("Please enter an application name (Ex: org.libreoffice.LibreOffice) what you want to install from Flathub."))
+            _("Please enter an application name (Ex: org.libreoffice.LibreOffice) what you want to install from "
+              "Flathub."))
 
-        self.InstallInputLabel2 = self.InstallInputBuilder.get_object(
+        self.InstallInputLabel2 = self.install_input_builder.get_object(
             "InstallInputLabel2")
         self.InstallInputLabel2.set_text(
-            _("NOTE: Installing an application from third party remote repositories isn't secured as installing an application from official repositories of your distribution."))
+            _("NOTE: Installing an application from third party remote repositories isn't secured as installing an "
+              "application from official repositories of your distribution."))
 
-        self.InstallInputButton = self.InstallInputBuilder.get_object(
+        self.InstallInputButton = self.install_input_builder.get_object(
             "InstallInputButton")
         self.InstallInputButton.set_label(_("I_nstall"))
 
+        self.InstallInputEntry = self.install_input_builder.get_object(
+            "InstallInputEntry")
+
         self.InstallInputWindow = \
-            self.InstallInputBuilder.get_object("InstallInputWindow")
+            self.install_input_builder.get_object("InstallInputWindow")
         self.InstallInputWindow.set_title(_("Enter an application name"))
         self.InstallInputWindow.set_application(application)
         self.InstallInputWindow.show()
 
-    def onInstallAtInstall(self, button):
-        self.InstallInputEntry = self.InstallInputBuilder.get_object(
-                                     "InstallInputEntry")
-        self.AppToInstallRealName = self.InstallInputEntry.get_text()
-        if len(self.AppToInstallRealName.split(".")) < 3:
+    def on_install_at_install(self, button):
+        real_name = self.InstallInputEntry.get_text()
+        if len(real_name.split(".")) < 3:
             self.MessageDialogError.set_markup(
                 _("<big><b>Input Error</b></big>"))
             self.MessageDialogError.format_secondary_text(
@@ -98,30 +99,19 @@ class InstallFromEntryWindow(object):
             self.MessageDialogError.hide()
             return None
 
-        self.FlatpakRefsList = \
-            self.FlatpakInstallation.list_installed_refs()
-        self.FlatHubRefsList = \
-            self.FlatpakInstallation.list_remote_refs_sync(
-                                   "flathub", Gio.Cancellable.new())
+        flathub_refs_list = self.FlatpakInstallation.list_remote_refs_sync("flathub", Gio.Cancellable.new())
+        installed_refs_list = self.FlatpakInstallation.list_installed_refs()
 
-        for item in self.FlatpakRefsList:
-            for item2 in self.FlatHubRefsList:
-                if item.get_name() == item2.get_name():
-                    self.FlatHubRefsList.remove(item2)
+        for item in flathub_refs_list:
+            if item.get_name() == real_name and \
+              item.get_arch() == Flatpak.get_default_arch() and \
+              item not in installed_refs_list:
+                ref = item
 
-        self.FlatpakRefsList = self.FlatpakRefsList + self.FlatHubRefsList
+        InstallFromEntryWindow2(self.Application, ref, self.FlatpakInstallation,
+                                self.TreeViewMain, self.SearchFilter)
+        self.on_destroy(self.InstallInputWindow, Gdk.Event.new(0))
 
-        for listitem in self.FlatpakRefsList:
-            if listitem.get_name() == self.AppToInstallRealName and \
-              listitem.get_arch() == Flatpak.get_default_arch():
-                self.AppToInstall = listitem
-
+    def on_destroy(self, widget, event):
         self.InstallInputEntry.set_text("")
-        InstallFromEntryWindow2(self.Application, self.AppToInstall,
-                                self.FlatpakInstallation, self.TreeViewMain,
-                                self.RunMenuItem, self.InstallMenuItem,
-                                self.UninstallMenuItem)
-        self.onDestroy()
-
-    def onDestroy(self, *args):
-        self.InstallInputWindow.destroy()
+        widget.destroy()
