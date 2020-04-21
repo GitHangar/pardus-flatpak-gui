@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-17 15:15+0300\n"
-"PO-Revision-Date: 2020-04-17 11:49+0300\n"
+"POT-Creation-Date: 2020-04-21 15:14+0300\n"
+"PO-Revision-Date: 2020-04-21 15:17+0300\n"
 "Last-Translator: Erdem Ersoy <<erdem.ersoy@pardus.org.tr>>\n"
 "Language-Team: \n"
 "Language: tr\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: pardusflatpakgui/flatpakguiapp.py:49
-#: pardusflatpakgui/installfromentrywindow.py:61
+#: pardusflatpakgui/installfromentrywindow.py:59
 #: pardusflatpakgui/mainwindow.py:70
 msgid "Error reading message dialogs GUI file: "
 msgstr "İleti pencereleri GUI dosyasını okumada hata: "
@@ -49,11 +49,11 @@ msgid "There are too many arguments. Argument count: "
 msgstr "Çok fazla argüman var. Argüman sayısı: "
 
 #: pardusflatpakgui/infowindow.py:45
-#: pardusflatpakgui/installfromentrywindow_2.py:86
-#: pardusflatpakgui/installfromentrywindow.py:53
+#: pardusflatpakgui/installfromentrywindow_2.py:93
+#: pardusflatpakgui/installfromentrywindow.py:51
 #: pardusflatpakgui/installfromfilewindow_2.py:73
 #: pardusflatpakgui/installfromfilewindow.py:48
-#: pardusflatpakgui/installwindow.py:84 pardusflatpakgui/mainwindow.py:54
+#: pardusflatpakgui/installwindow.py:87 pardusflatpakgui/mainwindow.py:54
 #: pardusflatpakgui/uninstallwindow.py:77
 #: pardusflatpakgui/updateallwindow.py:69
 msgid "Error reading GUI file: "
@@ -67,38 +67,38 @@ msgstr "_Panoya Kopyala"
 msgid "Info About "
 msgstr "Hakkında Bilgi: "
 
-#: pardusflatpakgui/installfromentrywindow_2.py:91
-#: pardusflatpakgui/installfromentrywindow_2.py:104
-#: pardusflatpakgui/installwindow.py:89 pardusflatpakgui/installwindow.py:102
+#: pardusflatpakgui/installfromentrywindow_2.py:98
+#: pardusflatpakgui/installfromentrywindow_2.py:111
+#: pardusflatpakgui/installwindow.py:92 pardusflatpakgui/installwindow.py:104
 msgid "Installing..."
-msgstr "Kuruluyor..."
+msgstr "Yükleniyor..."
 
-#: pardusflatpakgui/installfromentrywindow_2.py:127
+#: pardusflatpakgui/installfromentrywindow_2.py:125
 #: pardusflatpakgui/installfromfilewindow_2.py:116
-#: pardusflatpakgui/installwindow.py:125
+#: pardusflatpakgui/installwindow.py:118
 msgid "Error at installation!"
-msgstr "Kurulumda hata!"
+msgstr "Yüklemede hata!"
 
-#: pardusflatpakgui/installfromentrywindow_2.py:136
+#: pardusflatpakgui/installfromentrywindow_2.py:134
 #: pardusflatpakgui/installfromfilewindow_2.py:125
-#: pardusflatpakgui/installwindow.py:134
+#: pardusflatpakgui/installwindow.py:127
 #: pardusflatpakgui/updateallwindow.py:119
 msgid "Installing completed!"
-msgstr "Kurulum tamamlandı!"
+msgstr "Yükleme tamamlandı!"
 
-#: pardusflatpakgui/installfromentrywindow_2.py:200
+#: pardusflatpakgui/installfromentrywindow_2.py:192
 #: pardusflatpakgui/installfromfilewindow_2.py:191
-#: pardusflatpakgui/installwindow.py:198
+#: pardusflatpakgui/installwindow.py:185
 msgid "Installing: "
-msgstr "Kuruluyor: "
+msgstr "Yükleniyor: "
 
-#: pardusflatpakgui/installfromentrywindow_2.py:222
+#: pardusflatpakgui/installfromentrywindow_2.py:214
 #: pardusflatpakgui/installfromfilewindow_2.py:213
-#: pardusflatpakgui/installwindow.py:220
+#: pardusflatpakgui/installwindow.py:207
 msgid "Not installed: "
-msgstr "Kurulmadı: "
+msgstr "Yüklenmedi: "
 
-#: pardusflatpakgui/installfromentrywindow.py:71
+#: pardusflatpakgui/installfromentrywindow.py:69
 msgid ""
 "Please enter an application name (Ex: org.libreoffice.LibreOffice) what you "
 "want to install from Flathub."
@@ -106,7 +106,7 @@ msgstr ""
 "Lütfen Flathub'tan yüklemek istediğiniz bir uygulama adı (Ör: org."
 "libreoffice.LibreOffice) giriniz."
 
-#: pardusflatpakgui/installfromentrywindow.py:76
+#: pardusflatpakgui/installfromentrywindow.py:75
 #: pardusflatpakgui/installfromfilewindow.py:61
 msgid ""
 "NOTE: Installing an application from third party remote repositories isn't "
@@ -120,24 +120,24 @@ msgstr ""
 #: pardusflatpakgui/installfromfilewindow.py:66
 #: pardusflatpakgui/mainwindow.py:170
 msgid "I_nstall"
-msgstr "_Kur"
+msgstr "_Yükle"
 
-#: pardusflatpakgui/installfromentrywindow.py:84
+#: pardusflatpakgui/installfromentrywindow.py:87
 msgid "Enter an application name"
 msgstr "Bir uygulama adı giriniz"
 
-#: pardusflatpakgui/installfromentrywindow.py:94
+#: pardusflatpakgui/installfromentrywindow.py:95
 msgid "<big><b>Input Error</b></big>"
 msgstr "<big><b>Girdi Hatası</b></big>"
 
-#: pardusflatpakgui/installfromentrywindow.py:96
+#: pardusflatpakgui/installfromentrywindow.py:97
 msgid "Input entered is invalid."
 msgstr "Girilen girdi geçersiz."
 
 #: pardusflatpakgui/installfromfilewindow_2.py:79
 #: pardusflatpakgui/installfromfilewindow_2.py:93
 msgid "Installing from file..."
-msgstr "Dosyadan kuruluyor..."
+msgstr "Dosyadan yükleniyor..."
 
 #: pardusflatpakgui/installfromfilewindow.py:55
 msgid "Please choose a Flatpak reference file."
@@ -183,11 +183,11 @@ msgstr "Ka_ldır"
 
 #: pardusflatpakgui/mainwindow.py:176
 msgid "Install From _File"
-msgstr "_Dosyadan Kur"
+msgstr "_Dosyadan Yükle"
 
 #: pardusflatpakgui/mainwindow.py:179
 msgid "Install From _Entry"
-msgstr "_Girdiden Kur"
+msgstr "_Girdiden Yükle"
 
 #: pardusflatpakgui/mainwindow.py:182
 msgid "_Update All"
@@ -215,7 +215,7 @@ msgstr "Uzak Adı"
 
 #: pardusflatpakgui/mainwindow.py:203
 msgid "Installed Size"
-msgstr "Kurulu Boyutu"
+msgstr "Yüklü Boyutu"
 
 #: pardusflatpakgui/mainwindow.py:207
 msgid "Download Size"
@@ -231,7 +231,7 @@ msgstr "Aramak için tıklayınız"
 
 #: pardusflatpakgui/mainwindow.py:221
 msgid "Show Installed Apps"
-msgstr "Kurulu Uygulamaları Göster"
+msgstr "Yüklü Uygulamaları Göster"
 
 #: pardusflatpakgui/mainwindow.py:224
 msgid "Flatpak GUI for Pardus"
@@ -304,7 +304,7 @@ msgstr "Değişiklik: "
 
 #: pardusflatpakgui/mainwindow.py:472 pardusflatpakgui/mainwindow.py:512
 msgid "Is Installed: "
-msgstr "Kurulu mu: "
+msgstr "Yüklü mü: "
 
 #: pardusflatpakgui/mainwindow.py:473
 msgid "License: "
@@ -336,7 +336,7 @@ msgstr "Süresinin Bitme Yeniden Tanımlanmış Adı: "
 
 #: pardusflatpakgui/mainwindow.py:480 pardusflatpakgui/mainwindow.py:516
 msgid "Installed Size: "
-msgstr "Kurulu Boyutu: "
+msgstr "Yükleme Boyutu: "
 
 #: pardusflatpakgui/mainwindow.py:481
 msgid "Is Current: "

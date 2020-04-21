@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-17 15:15+0300\n"
+"POT-Creation-Date: 2020-04-21 15:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: pardusflatpakgui/flatpakguiapp.py:49
-#: pardusflatpakgui/installfromentrywindow.py:61
+#: pardusflatpakgui/installfromentrywindow.py:59
 #: pardusflatpakgui/mainwindow.py:70
 msgid "Error reading message dialogs GUI file: "
 msgstr ""
@@ -48,11 +48,11 @@ msgid "There are too many arguments. Argument count: "
 msgstr ""
 
 #: pardusflatpakgui/infowindow.py:45
-#: pardusflatpakgui/installfromentrywindow_2.py:86
-#: pardusflatpakgui/installfromentrywindow.py:53
+#: pardusflatpakgui/installfromentrywindow_2.py:93
+#: pardusflatpakgui/installfromentrywindow.py:51
 #: pardusflatpakgui/installfromfilewindow_2.py:73
 #: pardusflatpakgui/installfromfilewindow.py:48
-#: pardusflatpakgui/installwindow.py:84 pardusflatpakgui/mainwindow.py:54
+#: pardusflatpakgui/installwindow.py:87 pardusflatpakgui/mainwindow.py:54
 #: pardusflatpakgui/uninstallwindow.py:77
 #: pardusflatpakgui/updateallwindow.py:69
 msgid "Error reading GUI file: "
@@ -66,44 +66,44 @@ msgstr ""
 msgid "Info About "
 msgstr ""
 
-#: pardusflatpakgui/installfromentrywindow_2.py:91
-#: pardusflatpakgui/installfromentrywindow_2.py:104
-#: pardusflatpakgui/installwindow.py:89 pardusflatpakgui/installwindow.py:102
+#: pardusflatpakgui/installfromentrywindow_2.py:98
+#: pardusflatpakgui/installfromentrywindow_2.py:111
+#: pardusflatpakgui/installwindow.py:92 pardusflatpakgui/installwindow.py:104
 msgid "Installing..."
 msgstr ""
 
-#: pardusflatpakgui/installfromentrywindow_2.py:127
+#: pardusflatpakgui/installfromentrywindow_2.py:125
 #: pardusflatpakgui/installfromfilewindow_2.py:116
-#: pardusflatpakgui/installwindow.py:125
+#: pardusflatpakgui/installwindow.py:118
 msgid "Error at installation!"
 msgstr ""
 
-#: pardusflatpakgui/installfromentrywindow_2.py:136
+#: pardusflatpakgui/installfromentrywindow_2.py:134
 #: pardusflatpakgui/installfromfilewindow_2.py:125
-#: pardusflatpakgui/installwindow.py:134
+#: pardusflatpakgui/installwindow.py:127
 #: pardusflatpakgui/updateallwindow.py:119
 msgid "Installing completed!"
 msgstr ""
 
-#: pardusflatpakgui/installfromentrywindow_2.py:200
+#: pardusflatpakgui/installfromentrywindow_2.py:192
 #: pardusflatpakgui/installfromfilewindow_2.py:191
-#: pardusflatpakgui/installwindow.py:198
+#: pardusflatpakgui/installwindow.py:185
 msgid "Installing: "
 msgstr ""
 
-#: pardusflatpakgui/installfromentrywindow_2.py:222
+#: pardusflatpakgui/installfromentrywindow_2.py:214
 #: pardusflatpakgui/installfromfilewindow_2.py:213
-#: pardusflatpakgui/installwindow.py:220
+#: pardusflatpakgui/installwindow.py:207
 msgid "Not installed: "
 msgstr ""
 
-#: pardusflatpakgui/installfromentrywindow.py:71
+#: pardusflatpakgui/installfromentrywindow.py:69
 msgid ""
 "Please enter an application name (Ex: org.libreoffice.LibreOffice) what you "
 "want to install from Flathub."
 msgstr ""
 
-#: pardusflatpakgui/installfromentrywindow.py:76
+#: pardusflatpakgui/installfromentrywindow.py:75
 #: pardusflatpakgui/installfromfilewindow.py:61
 msgid ""
 "NOTE: Installing an application from third party remote repositories isn't "
@@ -117,15 +117,15 @@ msgstr ""
 msgid "I_nstall"
 msgstr ""
 
-#: pardusflatpakgui/installfromentrywindow.py:84
+#: pardusflatpakgui/installfromentrywindow.py:87
 msgid "Enter an application name"
 msgstr ""
 
-#: pardusflatpakgui/installfromentrywindow.py:94
+#: pardusflatpakgui/installfromentrywindow.py:95
 msgid "<big><b>Input Error</b></big>"
 msgstr ""
 
-#: pardusflatpakgui/installfromentrywindow.py:96
+#: pardusflatpakgui/installfromentrywindow.py:97
 msgid "Input entered is invalid."
 msgstr ""
 

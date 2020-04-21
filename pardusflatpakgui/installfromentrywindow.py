@@ -63,33 +63,33 @@ class InstallFromEntryWindow(object):
         self.MessageDialogError = messages_builder.get_object(
             "MessageDialogError")
 
-        self.InstallInputLabel = self.install_input_builder.get_object(
-            "InstallInputLabel")
-        self.InstallInputLabel.set_text(
+        self.InstallEntryLabel = self.install_input_builder.get_object(
+            "InstallEntryLabel")
+        self.InstallEntryLabel.set_text(
             _("Please enter an application name (Ex: org.libreoffice.LibreOffice) what you want to install from "
               "Flathub."))
 
-        self.InstallInputLabel2 = self.install_input_builder.get_object(
-            "InstallInputLabel2")
-        self.InstallInputLabel2.set_text(
+        self.InstallEntryLabel2 = self.install_input_builder.get_object(
+            "InstallEntryLabel2")
+        self.InstallEntryLabel2.set_text(
             _("NOTE: Installing an application from third party remote repositories isn't secured as installing an "
               "application from official repositories of your distribution."))
 
-        self.InstallInputButton = self.install_input_builder.get_object(
-            "InstallInputButton")
-        self.InstallInputButton.set_label(_("I_nstall"))
+        self.InstallEntryButton = self.install_input_builder.get_object(
+            "InstallEntryButton")
+        self.InstallEntryButton.set_label(_("I_nstall"))
 
-        self.InstallInputEntry = self.install_input_builder.get_object(
-            "InstallInputEntry")
+        self.InstallEntry = self.install_input_builder.get_object(
+            "InstallEntry")
 
-        self.InstallInputWindow = \
-            self.install_input_builder.get_object("InstallInputWindow")
-        self.InstallInputWindow.set_title(_("Enter an application name"))
-        self.InstallInputWindow.set_application(application)
-        self.InstallInputWindow.show()
+        self.InstallEntryWindow = \
+            self.install_input_builder.get_object("InstallEntryWindow")
+        self.InstallEntryWindow.set_title(_("Enter an application name"))
+        self.InstallEntryWindow.set_application(application)
+        self.InstallEntryWindow.show()
 
     def on_install_at_install(self, button):
-        real_name = self.InstallInputEntry.get_text()
+        real_name = self.InstallEntry.get_text()
         if len(real_name.split(".")) < 3:
             self.MessageDialogError.set_markup(
                 _("<big><b>Input Error</b></big>"))
@@ -110,8 +110,8 @@ class InstallFromEntryWindow(object):
 
         InstallFromEntryWindow2(self.Application, ref, self.FlatpakInstallation,
                                 self.TreeViewMain, self.SearchFilter)
-        self.on_destroy(self.InstallInputWindow, Gdk.Event.new(0))
+        self.on_destroy(self.InstallEntryWindow, Gdk.Event.new(0))
 
     def on_destroy(self, widget, event):
-        self.InstallInputEntry.set_text("")
+        self.InstallEntry.set_text("")
         widget.destroy()
