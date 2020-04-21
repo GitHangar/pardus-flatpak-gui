@@ -38,16 +38,6 @@ Author: Erdem Ersoy
     <property name="can_focus">False</property>
     <property name="stock">gtk-info</property>
   </object>
-  <object class="GtkImage" id="InstallFromEntryImage">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-save</property>
-  </object>
-  <object class="GtkImage" id="InstallFromFileImage">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-save</property>
-  </object>
   <object class="GtkImage" id="InstallImage">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -140,28 +130,6 @@ Author: Erdem Ersoy
   <object class="GtkMenu" id="HeaderBarMenu">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <child>
-      <object class="GtkImageMenuItem" id="InstallFromEntryMenuItem">
-        <property name="label" translatable="yes">Install From _File</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="use_underline">True</property>
-        <property name="image">InstallFromEntryImage</property>
-        <property name="use_stock">False</property>
-        <signal name="activate" handler="on_install_from_entry" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkImageMenuItem" id="InstallFromFileMenuItem">
-        <property name="label" translatable="yes">Install From _Entry</property>
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="use_underline">True</property>
-        <property name="image">InstallFromFileImage</property>
-        <property name="use_stock">False</property>
-        <signal name="activate" handler="on_install_from_file" swapped="no"/>
-      </object>
-    </child>
     <child>
       <object class="GtkImageMenuItem" id="UpdateAllMenuItem">
         <property name="label" translatable="yes">_Update All</property>

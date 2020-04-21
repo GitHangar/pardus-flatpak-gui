@@ -18,8 +18,6 @@
 
 from pardusflatpakgui.infowindow import InfoWindow
 from pardusflatpakgui.installwindow import InstallWindow
-from pardusflatpakgui.installfromentrywindow import InstallFromEntryWindow
-from pardusflatpakgui.installfromfilewindow import InstallFromFileWindow
 from pardusflatpakgui.uninstallwindow import UninstallWindow
 from pardusflatpakgui.updateallwindow import UpdateAllWindow
 from pardusflatpakgui.version import Version
@@ -170,13 +168,6 @@ class MainWindow(object):
         self.InstallMenuItem.set_label(_("I_nstall"))
 
         self.ActionsMenu = main_builder.get_object("ActionsMenu")
-
-        self.InstallFromFileMenuItem = main_builder.get_object(
-            "InstallFromFileMenuItem")
-        self.InstallFromFileMenuItem.set_label(_("Install From _File"))
-
-        self.InstallFromEntryMenuItem = main_builder.get_object("InstallFromEntryMenuItem")
-        self.InstallFromEntryMenuItem.set_label(_("Install From _Entry"))
 
         self.UpdateAllMenuItem = main_builder.get_object("UpdateAllMenuItem")
         self.UpdateAllMenuItem.set_label(_("_Update All"))
@@ -567,13 +558,6 @@ class MainWindow(object):
 
         InstallWindow(self.Application, self.FlatpakInstallation, real_name, arch, branch,
                       remote, tree_model, tree_iter, selection, self.SearchFilter)
-
-    def on_install_from_entry(self, menu_item):
-        InstallFromEntryWindow(self.Application, self.FlatpakInstallation, self.TreeViewMain, self.SearchFilter)
-
-    def on_install_from_file(self, menu_item):
-        InstallFromFileWindow(self.Application, self.FlatpakInstallation,
-                              self.ListStoreMain)
 
     def on_update_all(self, menu_item):
         UpdateAllWindow(self.Application, self.FlatpakInstallation,
