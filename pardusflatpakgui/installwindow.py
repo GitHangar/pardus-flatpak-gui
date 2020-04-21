@@ -69,6 +69,16 @@ class InstallWindow(object):
         self.Selection = selection
         self.SearchFilter = search_filter
 
+        self.handler_id = self.FlatpakTransaction.connect(
+            "new-operation",
+            self.install_progress_callback)
+        self.handler_id_2 = self.FlatpakTransaction.connect(
+            "operation-done",
+            self.install_progress_callback_disconnect)
+        self.handler_id_error = self.FlatpakTransaction.connect(
+            "operation-error",
+            self.install_progress_callback_error)
+
         try:
             install_gui_file = "ui/actionwindow.glade"
             install_builder = Gtk.Builder.new_from_file(install_gui_file)
@@ -102,15 +112,6 @@ class InstallWindow(object):
         GLib.threads_init()
 
     def install(self):
-        self.handler_id = self.FlatpakTransaction.connect(
-                        "new-operation",
-                        self.InstallProgressCallback)
-        self.handler_id_2 = self.FlatpakTransaction.connect(
-                        "operation-done",
-                        self.InstallProgressCallbackDisconnect)
-        self.handler_id_error = self.FlatpakTransaction.connect(
-                        "operation-error",
-                        self.InstallProgressCallbackError)
         try:
             self.FlatpakTransaction.run(Gio.Cancellable.new())
         except GLib.Error:
@@ -136,6 +137,7 @@ class InstallWindow(object):
         self.FlatpakTransaction.disconnect(self.handler_id_error)
         time.sleep(0.5)
 
+        installed_ref = Flatpak.InstalledRef()
         for ref in self.FlatpakInstallation.list_installed_refs():
             if ref.get_name() == self.Ref.get_name() and \
                ref.get_arch() == self.Arch and \
@@ -176,11 +178,11 @@ class InstallWindow(object):
 
         self.SearchFilter.refilter()
 
-    def InstallProgressCallback(self, *args):
-        self.RefToInstall = Flatpak.Ref.parse(args[1].get_ref())
-        self.RefToInstallRealName = self.RefToInstall.get_name()
+    def install_progress_callback(self, transaction, operation, progress):
+        ref_to_install = Flatpak.Ref.parse(operation.get_ref())
+        ref_to_install_real_name = ref_to_install.get_name()
 
-        status_text = _("Installing: ") + self.RefToInstallRealName
+        status_text = _("Installing: ") + ref_to_install_real_name
         self.StatusText = self.StatusText + "\n" + status_text
         GLib.idle_add(self.InstallLabel.set_text,
                       status_text,
@@ -189,20 +191,20 @@ class InstallWindow(object):
                       self.StatusText,
                       priority=GLib.PRIORITY_DEFAULT)
 
-        self.TransactionProgress = args[2]
+        self.TransactionProgress = progress  # FIXME: Fix PyCharm warning
         self.TransactionProgress.set_update_frequency(200)
         self.handler_id_progress = self.TransactionProgress.connect(
                                       "changed",
-                                      self.ProgressBarUpdate)
+                                      self.progress_bar_update)  # FIXME: Fix PyCharm warning
 
-    def InstallProgressCallbackDisconnect(self, *args):
+    def install_progress_callback_disconnect(self, transaction, operation, commit, result):
         self.TransactionProgress.disconnect(self.handler_id_progress)
 
-    def InstallProgressCallbackError(self, *args):
-        self.RefToInstall = Flatpak.Ref.parse(args[1].get_ref())
-        self.RefToInstallRealName = self.RefToInstall.get_name()
+    def install_progress_callback_error(self, transaction, operation, error, details):
+        ref_to_install = Flatpak.Ref.parse(operation.get_ref())
+        ref_to_install_real_name = ref_to_install.get_name()
 
-        status_text = _("Not installed: ") + self.RefToInstallRealName
+        status_text = _("Not installed: ") + ref_to_install_real_name
         self.StatusText = self.StatusText + "\n" + status_text
         GLib.idle_add(self.InstallLabel.set_text,
                       status_text,
@@ -211,12 +213,12 @@ class InstallWindow(object):
                       self.StatusText,
                       priority=GLib.PRIORITY_DEFAULT)
 
-        if self.RefToInstallRealName != self.RealName:
+        if ref_to_install_real_name != self.RealName:
             return True
         else:
             return False
 
-    def ProgressBarUpdate(self, transaction_progress):
+    def progress_bar_update(self, transaction_progress):
         GLib.idle_add(self.InstallProgressBar.set_fraction,
                       float(transaction_progress.get_progress()) / 100.0,
                       priority=GLib.PRIORITY_DEFAULT)
