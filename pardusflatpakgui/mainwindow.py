@@ -533,11 +533,8 @@ class MainWindow(object):
         arch = tree_model.get_value(tree_iter, 1)
         branch = tree_model.get_value(tree_iter, 2)
 
-        UninstallWindow(self.Application, real_name,
-                        arch, branch,
-                        self.FlatpakInstallation, self.TreeViewMain,
-                        self.RunMenuItem, self.InstallMenuItem,
-                        self.UninstallMenuItem)
+        UninstallWindow(self.Application, self.FlatpakInstallation, real_name,
+                        arch, branch, tree_model, tree_iter, selection, self.SearchFilter)
 
     def on_install(self, menu_item):
         selection = self.TreeViewMain.get_selection()
