@@ -38,61 +38,43 @@ gettext.install("pardus-flatpak-gui", "po/")
 
 class FlatpakGUIApp(Gtk.Application):
     def __init__(self, application_id, flags):
-        Gtk.Application.__init__(self, application_id=application_id,
-                                 flags=flags)
+        Gtk.Application.__init__(self, application_id=application_id, flags=flags)
 
         try:
-            MessagesGUIFile = "ui/messagedialogs.glade"
-            MessagesBuilder = Gtk.Builder.new_from_file(MessagesGUIFile)
-            MessagesBuilder.connect_signals(self)
+            messages_gui_file = "ui/messagedialogs.glade"
+            messages_builder = Gtk.Builder.new_from_file(messages_gui_file)
+            messages_builder.connect_signals(self)
         except GLib.GError:
             print(_("Error reading message dialogs GUI file: ")
-                  + MessagesGUIFile)
+                  + messages_gui_file)
             raise
 
-        self.MessageDialogError = MessagesBuilder.get_object(
+        self.MessageDialogError = messages_builder.get_object(
             "MessageDialogError")
 
         self.connect("activate", self.new_window)
 
-    def new_window(self, *args):
+    def new_window(self, application):
         if len(sys.argv) == 1:
             MainWindow(self)
-        elif len(sys.argv) == 2:  # FIXME: Fix running when argument count is 2.
-            self.FlatpakInstallation = Flatpak.Installation.new_system()
-
-            self.FileFlatpakRefName = sys.argv[1]
+        elif len(sys.argv) == 2:
+            file_name = sys.argv[1]
             try:
-                self.FileFlatpakRef = open(self.FileFlatpakRefName, "r")
+                file = open(file_name, "r")
             except FileNotFoundError:
                 self.MessageDialogError.set_markup(
                     _("<big><b>File Not Found Error</b></big>"))
                 self.MessageDialogError.format_secondary_text(
-                    _("File not found: ") + self.FileFlatpakRefName)
+                    _("File not found: ") + file_name)
                 self.MessageDialogError.run()
                 self.MessageDialogError.hide()
                 return None
             else:
-                self.FileFlatpakRefContents = self.FileFlatpakRef.read(-1)
-                self.FileFlatpakRefContentsAsBytes = bytes(
-                    self.FileFlatpakRefContents, "utf-8")
-                self.FileFlatpakRefContentsAsGLibBytes = GLib.Bytes.new(
-                    self.FileFlatpakRefContentsAsBytes)
+                file_contents = file.read(-1)
+                file_contents_bytes = bytes(file_contents, "utf-8")
+                file_contents_glib_bytes = GLib.Bytes.new(file_contents_bytes)
 
-                self.AppToInstall = self.FlatpakInstallation.install_ref_file(
-                    self.FileFlatpakRefContentsAsGLibBytes,
-                    Gio.Cancellable.new())
-                if not self.AppToInstall.get_kind() == Flatpak.RefKind.APP:
-                    self.MessageDialogError.set_markup(
-                        _("<big><b>Installing Error</b></big>"))
-                    self.MessageDialogError.format_secondary_text(
-                        _("The selected file doesn't indicate a Flatpak application: ") +
-                        self.FileFlatpakRefName)
-                    self.MessageDialogError.run()
-                    self.MessageDialogError.hide()
-                    return None
-
-                InstallWindow(self, self.AppToInstall, self.FlatpakInstallation, None)
+                InstallWindow(self, application, file_contents_glib_bytes)
         else:
             self.MessageDialogError.set_markup(
                 _("<big><b>Argument Error</b></big>"))

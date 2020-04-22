@@ -35,9 +35,8 @@ _ = gettext.gettext
 gettext.install("pardus-flatpak-gui", "po/")
 
 
-class InstallFromFileWindow2(object):
-    def __init__(self, application, flatpakinstallation, fileflatpakrefname,
-                 liststore):
+class InstallFromFileWindow(object):
+    def __init__(self, application, file_contents):
         self.Application = application
         self.FlatpakInstallation = flatpakinstallation
 
