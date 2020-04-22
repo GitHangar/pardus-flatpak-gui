@@ -24,7 +24,6 @@ from pardusflatpakgui.version import Version
 
 import gettext
 import locale
-import sys
 import gi
 
 gi.require_version('Gtk', '3.0')
