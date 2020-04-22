@@ -154,6 +154,7 @@ class UninstallWindow(object):
 
         name = ""
 
+        # FIXME: Fix assertion 'filter_iter->stamp == filter->priv->stamp'
         GLib.idle_add(self.TreeModel.set_row,
                       self.TreeIter, [uninstalled_ref_real_name,
                                       uninstalled_ref_arch,
