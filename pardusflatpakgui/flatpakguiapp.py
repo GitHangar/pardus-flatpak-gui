@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from pardusflatpakgui.mainwindow import MainWindow
-from pardusflatpakgui.installwindow import InstallWindow
+from pardusflatpakgui.installfromfilewindow import InstallFromFileWindow
 
 import gettext
 import locale
@@ -74,7 +74,7 @@ class FlatpakGUIApp(Gtk.Application):
                 file_contents_bytes = bytes(file_contents, "utf-8")
                 file_contents_glib_bytes = GLib.Bytes.new(file_contents_bytes)
 
-                InstallWindow(self, application, file_contents_glib_bytes)
+                InstallFromFileWindow(application, file_contents_glib_bytes)
         else:
             self.MessageDialogError.set_markup(
                 _("<big><b>Argument Error</b></big>"))
