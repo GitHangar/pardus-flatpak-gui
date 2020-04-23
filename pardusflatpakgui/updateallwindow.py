@@ -134,7 +134,7 @@ class UpdateAllWindow(object):
                           self.StatusText,
                           priority=GLib.PRIORITY_DEFAULT)
         else:
-            status_text = _("Installing completed!")
+            status_text = _("Updating completed!")
             self.StatusText = self.StatusText + "\n" + status_text
             GLib.idle_add(self.UpdateAllLabel.set_text,
                           status_text,
@@ -164,7 +164,7 @@ class UpdateAllWindow(object):
         ref_to_update = Flatpak.Ref.parse(operation.get_ref())
         ref_to_update_real_name = ref_to_update.get_name()
 
-        status_text = _("Installing: ") + ref_to_update_real_name
+        status_text = _("Updating: ") + ref_to_update_real_name
         self.StatusText = self.StatusText + "\n" + status_text
         GLib.idle_add(self.UpdateAllLabel.set_text,
                       status_text,
@@ -223,7 +223,7 @@ class UpdateAllWindow(object):
         ref_to_update_all = Flatpak.Ref.parse(operation.get_ref())
         ref_to_update_all_real_name = ref_to_update_all.get_name()
 
-        status_text = _("Not installed: ") + ref_to_update_all_real_name
+        status_text = _("Not updated: ") + ref_to_update_all_real_name
         self.StatusText = self.StatusText + "\n" + status_text
         GLib.idle_add(self.UpdateAllLabel.set_text,
                       status_text,

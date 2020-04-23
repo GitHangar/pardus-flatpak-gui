@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-23 10:38+0300\n"
+"POT-Creation-Date: 2020-04-23 13:49+0300\n"
 "PO-Revision-Date: 2020-04-23 09:46+0300\n"
 "Last-Translator: Erdem Ersoy <<erdem.ersoy@pardus.org.tr>>\n"
 "Language-Team: \n"
@@ -42,7 +42,7 @@ msgstr "Çok fazla argüman var. Argüman sayısı: "
 #: pardusflatpakgui/installfromfilewindow.py:73
 #: pardusflatpakgui/installwindow.py:87 pardusflatpakgui/mainwindow.py:51
 #: pardusflatpakgui/uninstallwindow.py:84
-#: pardusflatpakgui/updateallwindow.py:69
+#: pardusflatpakgui/updateallwindow.py:86
 msgid "Error reading GUI file: "
 msgstr "GUI dosyasını okumada hata: "
 
@@ -66,19 +66,16 @@ msgstr "Yüklemede hata!"
 
 #: pardusflatpakgui/installfromfilewindow.py:116
 #: pardusflatpakgui/installwindow.py:127
-#: pardusflatpakgui/updateallwindow.py:119
 msgid "Installing completed!"
 msgstr "Yükleme tamamlandı!"
 
 #: pardusflatpakgui/installfromfilewindow.py:133
 #: pardusflatpakgui/installwindow.py:185
-#: pardusflatpakgui/uninstallwindow.py:192
 msgid "Installing: "
 msgstr "Yükleniyor: "
 
 #: pardusflatpakgui/installfromfilewindow.py:155
 #: pardusflatpakgui/installwindow.py:207
-#: pardusflatpakgui/uninstallwindow.py:214
 msgid "Not installed: "
 msgstr "Yüklenmedi: "
 
@@ -310,23 +307,35 @@ msgstr "Kaldırmada hata!"
 msgid "Uninstalling completed!"
 msgstr "Kaldırma tamamlandı!"
 
-#: pardusflatpakgui/updateallwindow.py:74
+#: pardusflatpakgui/uninstallwindow.py:191
+msgid "Uninstalling: "
+msgstr "Kaldırılıyor: "
+
+#: pardusflatpakgui/uninstallwindow.py:213
+msgid "Not uninstalled: "
+msgstr "Kaldırılmadı: "
+
+#: pardusflatpakgui/updateallwindow.py:91
 msgid "Updating All"
 msgstr "Tümünü Güncelleme"
 
-#: pardusflatpakgui/updateallwindow.py:87
+#: pardusflatpakgui/updateallwindow.py:104
 msgid "Updating..."
 msgstr "Güncelleniyor..."
 
-#: pardusflatpakgui/updateallwindow.py:110
+#: pardusflatpakgui/updateallwindow.py:128
 msgid "Error at updating!"
 msgstr "Güncellemede hata!"
 
-#: pardusflatpakgui/updateallwindow.py:181
+#: pardusflatpakgui/updateallwindow.py:137
+msgid "Updating completed!"
+msgstr "Güncellenme tamamlandı!"
+
+#: pardusflatpakgui/updateallwindow.py:167
 msgid "Updating: "
 msgstr "Güncelleniyor: "
 
-#: pardusflatpakgui/updateallwindow.py:203
+#: pardusflatpakgui/updateallwindow.py:226
 msgid "Not updated: "
 msgstr "Güncellenmedi: "
 
@@ -335,12 +344,6 @@ msgstr "Güncellenmedi: "
 
 #~ msgid "The selected file doesn't indicate a Flatpak application: "
 #~ msgstr "Seçili dosya bir Flatpak uygulamasını belirtmiyor: "
-
-#~ msgid "Uninstalling: "
-#~ msgstr "Kaldırılıyor: "
-
-#~ msgid "Not uninstalled: "
-#~ msgstr "Kaldırılmadı: "
 
 #~ msgid "Install From _File"
 #~ msgstr "_Dosyadan Yükle"
@@ -380,9 +383,6 @@ msgstr "Güncellenmedi: "
 
 #~ msgid "Updated: "
 #~ msgstr "Güncellendi: "
-
-#~ msgid "Updating completed!"
-#~ msgstr "Güncellenme tamamlandı!"
 
 #~ msgid "Uninstalling "
 #~ msgstr "Kaldırılıyor: "

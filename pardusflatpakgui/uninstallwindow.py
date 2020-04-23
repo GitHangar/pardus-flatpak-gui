@@ -188,7 +188,7 @@ class UninstallWindow(object):
         ref_to_uninstall = Flatpak.Ref.parse(operation.get_ref())
         ref_to_uninstall_real_name = ref_to_uninstall.get_name()
 
-        status_text = _("Installing: ") + ref_to_uninstall_real_name
+        status_text = _("Uninstalling: ") + ref_to_uninstall_real_name
         self.StatusText = self.StatusText + "\n" + status_text
         GLib.idle_add(self.UninstallLabel.set_text,
                       status_text,
@@ -210,7 +210,7 @@ class UninstallWindow(object):
         ref_to_uninstall = Flatpak.Ref.parse(operation.get_ref())
         ref_to_uninstall_real_name = ref_to_uninstall.get_name()
 
-        status_text = _("Not installed: ") + ref_to_uninstall_real_name
+        status_text = _("Not uninstalled: ") + ref_to_uninstall_real_name
         self.StatusText = self.StatusText + "\n" + status_text
         GLib.idle_add(self.UninstallLabel.set_text,
                       status_text,
