@@ -35,8 +35,10 @@ gettext.install("pardus-flatpak-gui", "po/")
 
 
 class UninstallWindow(object):
+    at_uninstallation = False
+
     def __init__(self, application, flatpak_installation, real_name, arch, branch,
-                 tree_model, tree_iter, selection, search_filter):
+                 tree_model, tree_iter, selection, search_filter, show_button):
         self.Application = application
 
         self.RealName = real_name
@@ -62,6 +64,7 @@ class UninstallWindow(object):
         self.TreeIter = tree_iter
         self.Selection = selection
         self.SearchFilter = search_filter
+        self.HeaderBarShowButton = show_button
 
         self.handler_id = self.FlatpakTransaction.connect(
             "new-operation",
@@ -166,12 +169,21 @@ class UninstallWindow(object):
                       priority=GLib.PRIORITY_DEFAULT)
         time.sleep(0.2)
 
-        GLib.idle_add(self.Selection.unselect_iter,
-                      self.TreeIter,
-                      priority=GLib.PRIORITY_DEFAULT)
-        time.sleep(0.2)
-
         self.SearchFilter.refilter()
+        time.sleep(0.3)
+
+        UninstallWindow.at_uninstallation = False
+
+        if self.HeaderBarShowButton.get_active():
+            GLib.idle_add(self.HeaderBarShowButton.set_active,
+                          False,
+                          priority=GLib.PRIORITY_DEFAULT)
+            time.sleep(0.2)
+
+            GLib.idle_add(self.HeaderBarShowButton.set_active,
+                          True,
+                          priority=GLib.PRIORITY_DEFAULT)
+            time.sleep(0.2)
 
     def uninstall_progress_callback(self, transaction, operation, progress):
         ref_to_uninstall = Flatpak.Ref.parse(operation.get_ref())

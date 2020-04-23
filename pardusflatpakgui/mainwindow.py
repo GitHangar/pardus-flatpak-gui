@@ -235,13 +235,19 @@ class MainWindow(object):
         if len(search_entry_text) == 0 and not self.HeaderBarShowButton.get_active():
             return True
         if len(search_entry_text) == 0 and self.HeaderBarShowButton.get_active():
-            return is_installed
+            if UninstallWindow.at_uninstallation:
+                return True
+            else:
+                return is_installed
         elif (real_name.lower().count(search_entry_text.lower()) > 0 or name.lower().count(
                 search_entry_text.lower()) > 0) and not self.HeaderBarShowButton.get_active():
             return True
         elif (real_name.lower().count(search_entry_text.lower()) > 0 or name.lower().count(
                 search_entry_text.lower()) > 0) and self.HeaderBarShowButton.get_active():
-            return is_installed
+            if UninstallWindow.at_uninstallation:
+                return True
+            else:
+                return is_installed
         else:
             return False
 
@@ -517,6 +523,9 @@ class MainWindow(object):
         InfoWindow(self.Application, info_str, ref)
 
     def on_uninstall(self, menu_item):
+        UninstallWindow.at_uninstallation = True
+        self.SearchFilter.refilter()
+
         selection = self.TreeViewMain.get_selection()
         tree_model, tree_iter = selection.get_selected()
         if tree_iter is None:
@@ -533,7 +542,7 @@ class MainWindow(object):
         branch = tree_model.get_value(tree_iter, 2)
 
         UninstallWindow(self.Application, self.FlatpakInstallation, real_name,
-                        arch, branch, tree_model, tree_iter, selection, self.SearchFilter)
+                        arch, branch, tree_model, tree_iter, selection, self.SearchFilter, self.HeaderBarShowButton)
 
     def on_install(self, menu_item):
         selection = self.TreeViewMain.get_selection()

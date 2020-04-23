@@ -194,6 +194,7 @@ Author: Erdem Ersoy
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <signal name="activate" handler="on_press_show_button" swapped="no"/>
             <signal name="toggled" handler="on_press_show_button" swapped="no"/>
           </object>
           <packing>

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flatpak GUI 1.0-rc1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-23 09:45+0300\n"
+"POT-Creation-Date: 2020-04-23 10:38+0300\n"
 "PO-Revision-Date: 2020-04-23 09:46+0300\n"
 "Last-Translator: Erdem Ersoy <<erdem.ersoy@pardus.org.tr>>\n"
 "Language-Team: Erdem Ersoy <erdem.ersoy@pardus.org.tr>\n"
@@ -42,7 +42,7 @@ msgstr "There are too many arguments. Argument count: "
 #: pardusflatpakgui/infowindow.py:45
 #: pardusflatpakgui/installfromfilewindow.py:73
 #: pardusflatpakgui/installwindow.py:87 pardusflatpakgui/mainwindow.py:51
-#: pardusflatpakgui/uninstallwindow.py:81
+#: pardusflatpakgui/uninstallwindow.py:84
 #: pardusflatpakgui/updateallwindow.py:69
 msgid "Error reading GUI file: "
 msgstr "Error reading GUI file: "
@@ -73,13 +73,13 @@ msgstr "Installing completed!"
 
 #: pardusflatpakgui/installfromfilewindow.py:133
 #: pardusflatpakgui/installwindow.py:185
-#: pardusflatpakgui/uninstallwindow.py:180
+#: pardusflatpakgui/uninstallwindow.py:192
 msgid "Installing: "
 msgstr "Installing: "
 
 #: pardusflatpakgui/installfromfilewindow.py:155
 #: pardusflatpakgui/installwindow.py:207
-#: pardusflatpakgui/uninstallwindow.py:202
+#: pardusflatpakgui/uninstallwindow.py:214
 msgid "Not installed: "
 msgstr "Not installed: "
 
@@ -91,13 +91,13 @@ msgstr "Installing..."
 msgid "Error reading About dialog GUI file: "
 msgstr "Error reading About dialog GUI file: "
 
-#: pardusflatpakgui/mainwindow.py:136 pardusflatpakgui/mainwindow.py:382
-#: pardusflatpakgui/mainwindow.py:510
+#: pardusflatpakgui/mainwindow.py:136 pardusflatpakgui/mainwindow.py:388
+#: pardusflatpakgui/mainwindow.py:516
 msgid "<big><b>Invalid Flatpak Reference Error</b></big>"
 msgstr "<big><b>Invalid Flatpak Reference Error</b></big>"
 
-#: pardusflatpakgui/mainwindow.py:138 pardusflatpakgui/mainwindow.py:384
-#: pardusflatpakgui/mainwindow.py:512
+#: pardusflatpakgui/mainwindow.py:138 pardusflatpakgui/mainwindow.py:390
+#: pardusflatpakgui/mainwindow.py:518
 msgid "Invalid Flatpak reference is: "
 msgstr "Invalid Flatpak reference is: "
 
@@ -181,133 +181,133 @@ msgstr "Copyright (C) 2020 Erdem Ersoy"
 msgid "Pardus Flatpak GUI Web Site"
 msgstr "Pardus Flatpak GUI Web Site"
 
-#: pardusflatpakgui/mainwindow.py:300 pardusflatpakgui/mainwindow.py:346
-#: pardusflatpakgui/mainwindow.py:524 pardusflatpakgui/mainwindow.py:543
+#: pardusflatpakgui/mainwindow.py:306 pardusflatpakgui/mainwindow.py:352
+#: pardusflatpakgui/mainwindow.py:533 pardusflatpakgui/mainwindow.py:552
 msgid "<big><b>Selection Error</b></big>"
 msgstr "<big><b>Selection Error</b></big>"
 
-#: pardusflatpakgui/mainwindow.py:302 pardusflatpakgui/mainwindow.py:348
-#: pardusflatpakgui/mainwindow.py:526 pardusflatpakgui/mainwindow.py:545
+#: pardusflatpakgui/mainwindow.py:308 pardusflatpakgui/mainwindow.py:354
+#: pardusflatpakgui/mainwindow.py:535 pardusflatpakgui/mainwindow.py:554
 msgid "None of the applications are selected."
 msgstr "None of the applications are selected."
 
-#: pardusflatpakgui/mainwindow.py:325 pardusflatpakgui/mainwindow.py:335
+#: pardusflatpakgui/mainwindow.py:331 pardusflatpakgui/mainwindow.py:341
 msgid "<big><b>Running Error</b></big>"
 msgstr "<big><b>Running Error</b></big>"
 
-#: pardusflatpakgui/mainwindow.py:327 pardusflatpakgui/mainwindow.py:337
+#: pardusflatpakgui/mainwindow.py:333 pardusflatpakgui/mainwindow.py:343
 msgid "The selected application couldn't run."
 msgstr "The selected application couldn't run."
 
-#: pardusflatpakgui/mainwindow.py:391 pardusflatpakgui/mainwindow.py:404
-#: pardusflatpakgui/mainwindow.py:408 pardusflatpakgui/mainwindow.py:412
-#: pardusflatpakgui/mainwindow.py:416 pardusflatpakgui/mainwindow.py:420
-#: pardusflatpakgui/mainwindow.py:424 pardusflatpakgui/mainwindow.py:428
-#: pardusflatpakgui/mainwindow.py:442 pardusflatpakgui/mainwindow.py:446
-#: pardusflatpakgui/mainwindow.py:450 pardusflatpakgui/mainwindow.py:483
-#: pardusflatpakgui/mainwindow.py:487 pardusflatpakgui/mainwindow.py:495
+#: pardusflatpakgui/mainwindow.py:397 pardusflatpakgui/mainwindow.py:410
+#: pardusflatpakgui/mainwindow.py:414 pardusflatpakgui/mainwindow.py:418
+#: pardusflatpakgui/mainwindow.py:422 pardusflatpakgui/mainwindow.py:426
+#: pardusflatpakgui/mainwindow.py:430 pardusflatpakgui/mainwindow.py:434
+#: pardusflatpakgui/mainwindow.py:448 pardusflatpakgui/mainwindow.py:452
+#: pardusflatpakgui/mainwindow.py:456 pardusflatpakgui/mainwindow.py:489
+#: pardusflatpakgui/mainwindow.py:493 pardusflatpakgui/mainwindow.py:501
 msgid "None"
 msgstr "None"
 
-#: pardusflatpakgui/mainwindow.py:436 pardusflatpakgui/mainwindow.py:462
-#: pardusflatpakgui/mainwindow.py:502
+#: pardusflatpakgui/mainwindow.py:442 pardusflatpakgui/mainwindow.py:468
+#: pardusflatpakgui/mainwindow.py:508
 msgid "Yes"
 msgstr "Yes"
 
-#: pardusflatpakgui/mainwindow.py:438
+#: pardusflatpakgui/mainwindow.py:444
 msgid "No"
 msgstr "No"
 
-#: pardusflatpakgui/mainwindow.py:457 pardusflatpakgui/mainwindow.py:497
+#: pardusflatpakgui/mainwindow.py:463 pardusflatpakgui/mainwindow.py:503
 msgid "Real Name: "
 msgstr "Real Name: "
 
-#: pardusflatpakgui/mainwindow.py:458 pardusflatpakgui/mainwindow.py:498
+#: pardusflatpakgui/mainwindow.py:464 pardusflatpakgui/mainwindow.py:504
 msgid "Arch: "
 msgstr "Arch: "
 
-#: pardusflatpakgui/mainwindow.py:459 pardusflatpakgui/mainwindow.py:499
+#: pardusflatpakgui/mainwindow.py:465 pardusflatpakgui/mainwindow.py:505
 msgid "Branch: "
 msgstr "Branch: "
 
-#: pardusflatpakgui/mainwindow.py:460 pardusflatpakgui/mainwindow.py:500
+#: pardusflatpakgui/mainwindow.py:466 pardusflatpakgui/mainwindow.py:506
 msgid "Collection ID: "
 msgstr "Collection ID: "
 
-#: pardusflatpakgui/mainwindow.py:461 pardusflatpakgui/mainwindow.py:501
+#: pardusflatpakgui/mainwindow.py:467 pardusflatpakgui/mainwindow.py:507
 msgid "Commit: "
 msgstr "Commit: "
 
-#: pardusflatpakgui/mainwindow.py:462 pardusflatpakgui/mainwindow.py:502
+#: pardusflatpakgui/mainwindow.py:468 pardusflatpakgui/mainwindow.py:508
 msgid "Is Installed: "
 msgstr "Is Installed: "
 
-#: pardusflatpakgui/mainwindow.py:463
+#: pardusflatpakgui/mainwindow.py:469
 msgid "License: "
 msgstr "License: "
 
-#: pardusflatpakgui/mainwindow.py:464
+#: pardusflatpakgui/mainwindow.py:470
 msgid "Name: "
 msgstr "Name: "
 
-#: pardusflatpakgui/mainwindow.py:465
+#: pardusflatpakgui/mainwindow.py:471
 msgid "Summary: "
 msgstr "Summary: "
 
-#: pardusflatpakgui/mainwindow.py:466
+#: pardusflatpakgui/mainwindow.py:472
 msgid "Version: "
 msgstr "Version: "
 
-#: pardusflatpakgui/mainwindow.py:467
+#: pardusflatpakgui/mainwindow.py:473
 msgid "Deploy Dir: "
 msgstr "Deploy Dir: "
 
-#: pardusflatpakgui/mainwindow.py:468 pardusflatpakgui/mainwindow.py:504
+#: pardusflatpakgui/mainwindow.py:474 pardusflatpakgui/mainwindow.py:510
 msgid "EOL Reason: "
 msgstr "EOL Reason: "
 
-#: pardusflatpakgui/mainwindow.py:469 pardusflatpakgui/mainwindow.py:505
+#: pardusflatpakgui/mainwindow.py:475 pardusflatpakgui/mainwindow.py:511
 msgid "EOL Rebased: "
 msgstr "EOL Rebased: "
 
-#: pardusflatpakgui/mainwindow.py:470 pardusflatpakgui/mainwindow.py:506
+#: pardusflatpakgui/mainwindow.py:476 pardusflatpakgui/mainwindow.py:512
 msgid "Installed Size: "
 msgstr "Installed Size: "
 
-#: pardusflatpakgui/mainwindow.py:471
+#: pardusflatpakgui/mainwindow.py:477
 msgid "Is Current: "
 msgstr "Is Current: "
 
-#: pardusflatpakgui/mainwindow.py:472
+#: pardusflatpakgui/mainwindow.py:478
 msgid "Latest Commit: "
 msgstr "Latest Commit: "
 
-#: pardusflatpakgui/mainwindow.py:473
+#: pardusflatpakgui/mainwindow.py:479
 msgid "Origin: "
 msgstr "Origin: "
 
-#: pardusflatpakgui/mainwindow.py:474
+#: pardusflatpakgui/mainwindow.py:480
 msgid "Subpaths: "
 msgstr "Subpaths: "
 
-#: pardusflatpakgui/mainwindow.py:503
+#: pardusflatpakgui/mainwindow.py:509
 msgid "Download Size: "
 msgstr "Download Size: "
 
-#: pardusflatpakgui/mainwindow.py:507
+#: pardusflatpakgui/mainwindow.py:513
 msgid "Remote Name: "
 msgstr "Remote Name: "
 
-#: pardusflatpakgui/uninstallwindow.py:86
-#: pardusflatpakgui/uninstallwindow.py:99
+#: pardusflatpakgui/uninstallwindow.py:89
+#: pardusflatpakgui/uninstallwindow.py:102
 msgid "Uninstalling..."
 msgstr "Uninstalling..."
 
-#: pardusflatpakgui/uninstallwindow.py:113
+#: pardusflatpakgui/uninstallwindow.py:116
 msgid "Error at uninstalling!"
 msgstr "Error at uninstalling!"
 
-#: pardusflatpakgui/uninstallwindow.py:122
+#: pardusflatpakgui/uninstallwindow.py:125
 msgid "Uninstalling completed!"
 msgstr "Uninstalling completed!"
 
@@ -349,11 +349,21 @@ msgstr "Not updated: "
 #~ msgid "Install From _Entry"
 #~ msgstr "Install From _Entry"
 
-#~ msgid "Please enter an application name (Ex: org.libreoffice.LibreOffice) what you want to install from Flathub."
-#~ msgstr "Please enter an application name (Ex: org.libreoffice.LibreOffice) what you want to install from Flathub."
+#~ msgid ""
+#~ "Please enter an application name (Ex: org.libreoffice.LibreOffice) what "
+#~ "you want to install from Flathub."
+#~ msgstr ""
+#~ "Please enter an application name (Ex: org.libreoffice.LibreOffice) what "
+#~ "you want to install from Flathub."
 
-#~ msgid "NOTE: Installing an application from third party remote repositories isn't secured as installing an application from official repositories of your distribution."
-#~ msgstr "NOTE: Installing an application from third party remote repositories isn't secured as installing an application from official repositories of your distribution."
+#~ msgid ""
+#~ "NOTE: Installing an application from third party remote repositories "
+#~ "isn't secured as installing an application from official repositories of "
+#~ "your distribution."
+#~ msgstr ""
+#~ "NOTE: Installing an application from third party remote repositories "
+#~ "isn't secured as installing an application from official repositories of "
+#~ "your distribution."
 
 #~ msgid "Enter an application name"
 #~ msgstr "Enter an application name"
