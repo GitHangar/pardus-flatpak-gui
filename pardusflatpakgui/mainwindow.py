@@ -566,7 +566,7 @@ class MainWindow(object):
 
     def on_update_all(self, menu_item):
         UpdateAllWindow(self.Application, self.FlatpakInstallation,
-                        self.ListStoreMain)
+                        self.SearchFilter)
 
     def on_about(self, menu_item):
         self.AboutDialog.run()
