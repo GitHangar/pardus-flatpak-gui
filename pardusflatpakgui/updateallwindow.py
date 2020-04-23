@@ -163,15 +163,26 @@ class UpdateAllWindow(object):
     def update_all_progress_callback(self, transaction, operation, progress):
         ref_to_update = Flatpak.Ref.parse(operation.get_ref())
         ref_to_update_real_name = ref_to_update.get_name()
+        operation_type = operation.get_operation_type()
 
-        status_text = _("Updating: ") + ref_to_update_real_name
-        self.StatusText = self.StatusText + "\n" + status_text
-        GLib.idle_add(self.UpdateAllLabel.set_text,
-                      status_text,
-                      priority=GLib.PRIORITY_DEFAULT)
-        GLib.idle_add(self.UpdateAllTextBuffer.set_text,
-                      self.StatusText,
-                      priority=GLib.PRIORITY_DEFAULT)
+        if operation_type == Flatpak.TransactionOperationType.UPDATE:
+            status_text = _("Updating: ") + ref_to_update_real_name
+            self.StatusText = self.StatusText + "\n" + status_text
+            GLib.idle_add(self.UpdateAllLabel.set_text,
+                          status_text,
+                          priority=GLib.PRIORITY_DEFAULT)
+            GLib.idle_add(self.UpdateAllTextBuffer.set_text,
+                          self.StatusText,
+                          priority=GLib.PRIORITY_DEFAULT)
+        elif operation_type == Flatpak.TransactionOperationType.INSTALL:
+            status_text = _("Installing: ") + ref_to_update_real_name
+            self.StatusText = self.StatusText + "\n" + status_text
+            GLib.idle_add(self.UpdateAllLabel.set_text,
+                          status_text,
+                          priority=GLib.PRIORITY_DEFAULT)
+            GLib.idle_add(self.UpdateAllTextBuffer.set_text,
+                          self.StatusText,
+                          priority=GLib.PRIORITY_DEFAULT)
 
         self.TransactionProgress = progress  # FIXME: Fix PyCharm warning
         self.TransactionProgress.set_update_frequency(200)
@@ -222,15 +233,26 @@ class UpdateAllWindow(object):
     def update_all_progress_callback_error(self, transaction, operation, error, details):
         ref_to_update_all = Flatpak.Ref.parse(operation.get_ref())
         ref_to_update_all_real_name = ref_to_update_all.get_name()
+        operation_type = operation.get_operation_type()
 
-        status_text = _("Not updated: ") + ref_to_update_all_real_name
-        self.StatusText = self.StatusText + "\n" + status_text
-        GLib.idle_add(self.UpdateAllLabel.set_text,
-                      status_text,
-                      priority=GLib.PRIORITY_DEFAULT)
-        GLib.idle_add(self.UpdateAllTextBuffer.set_text,
-                      self.StatusText,
-                      priority=GLib.PRIORITY_DEFAULT)
+        if operation_type == Flatpak.TransactionOperationType.UPDATE:
+            status_text = _("Not updated: ") + ref_to_update_all_real_name
+            self.StatusText = self.StatusText + "\n" + status_text
+            GLib.idle_add(self.UpdateAllLabel.set_text,
+                          status_text,
+                          priority=GLib.PRIORITY_DEFAULT)
+            GLib.idle_add(self.UpdateAllTextBuffer.set_text,
+                          self.StatusText,
+                          priority=GLib.PRIORITY_DEFAULT)
+        elif operation_type == Flatpak.TransactionOperationType.INSTALL:
+            status_text = _("Not installed: ") + ref_to_update_all_real_name
+            self.StatusText = self.StatusText + "\n" + status_text
+            GLib.idle_add(self.UpdateAllLabel.set_text,
+                          status_text,
+                          priority=GLib.PRIORITY_DEFAULT)
+            GLib.idle_add(self.UpdateAllTextBuffer.set_text,
+                          self.StatusText,
+                          priority=GLib.PRIORITY_DEFAULT)
 
         return True
 
