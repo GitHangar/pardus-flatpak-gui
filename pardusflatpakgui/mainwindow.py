@@ -235,7 +235,7 @@ class MainWindow(object):
         if len(search_entry_text) == 0 and not self.HeaderBarShowButton.get_active():
             return True
         if len(search_entry_text) == 0 and self.HeaderBarShowButton.get_active():
-            if UninstallWindow.at_uninstallation:
+            if UninstallWindow.at_uninstallation or UpdateAllWindow.at_updating:
                 return True
             else:
                 return is_installed
@@ -244,7 +244,7 @@ class MainWindow(object):
             return True
         elif (real_name.lower().count(search_entry_text.lower()) > 0 or name.lower().count(
                 search_entry_text.lower()) > 0) and self.HeaderBarShowButton.get_active():
-            if UninstallWindow.at_uninstallation:
+            if UninstallWindow.at_uninstallation or UpdateAllWindow.at_updating:
                 return True
             else:
                 return is_installed
@@ -565,8 +565,10 @@ class MainWindow(object):
                       remote, tree_model, tree_iter, selection, self.SearchFilter)
 
     def on_update_all(self, menu_item):
+        UpdateAllWindow.at_updating = True
+        tree_model = self.TreeViewMain.get_model()
         UpdateAllWindow(self.Application, self.FlatpakInstallation,
-                        self.SearchFilter)
+                        tree_model, self.HeaderBarShowButton)
 
     def on_about(self, menu_item):
         self.AboutDialog.run()

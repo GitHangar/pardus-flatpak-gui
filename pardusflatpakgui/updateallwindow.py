@@ -35,11 +35,29 @@ gettext.install("pardus-flatpak-gui", "po/")
 
 
 class UpdateAllWindow(object):
-    def __init__(self, application, flatpak_installation, search_filter):
+    at_updating = False
+
+    def __init__(self, application, flatpak_installation, tree_model, show_button):
         self.Application = application
 
         self.FlatpakInstallation = flatpak_installation
         self.RefsToUpdate = flatpak_installation.list_installed_refs_for_update(Gio.Cancellable.new())
+        self.InstalledRefsList = self.FlatpakInstallation.list_installed_refs()
+        self.FlatHubRefsList = self.FlatpakInstallation.list_remote_refs_sync(
+            "flathub", Gio.Cancellable.new())
+        self.NonInstalledRefsList = []
+
+        for item in self.FlatHubRefsList:
+            self.NonInstalledRefsList.append(item)
+            for item_2 in self.InstalledRefsList:
+                if item.get_name() == item_2.get_name() and \
+                        item.get_arch() == item_2.get_arch() and \
+                        item.get_branch() == item_2.get_branch():
+                    if len(self.NonInstalledRefsList) != 0:
+                        self.NonInstalledRefsList.pop(len(self.NonInstalledRefsList) - 1)
+                    else:
+                        self.NonInstalledRefsList = []
+
         self.FlatpakTransaction = \
             Flatpak.Transaction.new_for_installation(
                 self.FlatpakInstallation,
@@ -57,7 +75,8 @@ class UpdateAllWindow(object):
                 None,
                 None)
 
-        self.SearchFilter = search_filter
+        self.TreeModel = tree_model
+        self.HeaderBarShowButton = show_button
 
         try:
             update_all_gui_file = "ui/actionwindow.glade"
@@ -91,7 +110,7 @@ class UpdateAllWindow(object):
             self.update_all_progress_callback)
         self.handler_id_2 = self.FlatpakTransaction.connect(
             "operation-done",
-            self.update_all_progress_callback_disconnect)
+            self.update_all_progress_callback_done)
         self.handler_id_error = self.FlatpakTransaction.connect(
             "operation-error",
             self.update_all_progress_callback_error)
@@ -128,6 +147,19 @@ class UpdateAllWindow(object):
         self.FlatpakTransaction.disconnect(self.handler_id_error)
         time.sleep(0.5)
 
+        UpdateAllWindow.at_updating = False
+
+        if self.HeaderBarShowButton.get_active():
+            GLib.idle_add(self.HeaderBarShowButton.set_active,
+                          False,
+                          priority=GLib.PRIORITY_DEFAULT)
+            time.sleep(0.2)
+
+            GLib.idle_add(self.HeaderBarShowButton.set_active,
+                          True,
+                          priority=GLib.PRIORITY_DEFAULT)
+            time.sleep(0.2)
+
     def update_all_progress_callback(self, transaction, operation, progress):
         ref_to_update = Flatpak.Ref.parse(operation.get_ref())
         ref_to_update_real_name = ref_to_update.get_name()
@@ -147,8 +179,45 @@ class UpdateAllWindow(object):
             "changed",
             self.progress_bar_update)  # FIXME: Fix PyCharm warning
 
-    def update_all_progress_callback_disconnect(self, transaction, operation, commit, result):
+    def update_all_progress_callback_done(self, transaction, operation, commit, result):
         self.TransactionProgress.disconnect(self.handler_id_progress)
+
+        operation_ref = Flatpak.Ref.parse(operation.get_ref())
+        operation_ref_real_name = operation_ref.get_name()
+        operation_ref_arch = operation_ref.get_arch()
+        operation_ref_branch = operation_ref.get_branch()
+        for updated_ref in self.RefsToUpdate:
+            if updated_ref.get_name() == operation_ref_real_name and \
+               updated_ref.get_arch() == operation_ref_arch and \
+               updated_ref.get_branch() == operation_ref_branch:
+                updated_ref_real_name = updated_ref.get_name()
+                updated_ref_arch = updated_ref.get_arch()
+                updated_ref_branch = updated_ref.get_branch()
+                updated_ref_remote = "flathub"
+
+                installed_size = updated_ref.get_installed_size()
+                installed_size_mib = installed_size / 1048576
+                installed_size_mib_str = \
+                    f"{installed_size_mib:.2f}" + " MiB"
+
+                download_size_mib_str = ""
+                name = updated_ref.get_appdata_name()
+
+                tree_iter = self.TreeModel.get_model().get_iter_first()
+                while tree_iter:
+                    GLib.idle_add(self.TreeModel.set_row,
+                                  tree_iter, [updated_ref_real_name,
+                                              updated_ref_arch,
+                                              updated_ref_branch,
+                                              updated_ref_remote,
+                                              installed_size_mib_str,
+                                              download_size_mib_str,
+                                              name],
+                                  priority=GLib.PRIORITY_DEFAULT)
+                    time.sleep(0.2)
+
+                    self.TreeModel.refilter()
+                    time.sleep(0.3)
 
     def update_all_progress_callback_error(self, transaction, operation, error, details):
         ref_to_update_all = Flatpak.Ref.parse(operation.get_ref())
