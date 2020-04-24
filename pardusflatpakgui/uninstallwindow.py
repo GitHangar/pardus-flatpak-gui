@@ -168,6 +168,11 @@ class UninstallWindow(object):
                       priority=GLib.PRIORITY_DEFAULT)
         time.sleep(0.2)
 
+        GLib.idle_add(self.Selection.unselect_iter,
+                      self.TreeIter,
+                      priority=GLib.PRIORITY_DEFAULT)
+        time.sleep(0.2)
+
         self.SearchFilter.refilter()
         time.sleep(0.3)
 
