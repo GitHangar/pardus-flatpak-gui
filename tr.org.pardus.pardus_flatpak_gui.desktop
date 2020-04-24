@@ -12,4 +12,4 @@ Exec=pardus-flatpak-gui %f
 Icon=applications-system
 MimeType=application/vnd.flatpak.ref
 Terminal=false
-Categories=Settings;Utility;PackageManager;GTK;
+Categories=Utility;GTK;
