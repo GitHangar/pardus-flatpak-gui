@@ -37,7 +37,7 @@ setup(
     name="Pardus Flatpak GUI",
     version=Version.getVersion(),
     packages=find_packages(),
-    scripts=["pardus-flatpak-store"],
+    scripts=["pardus-flatpak-gui"],
     install_requires=["PyGObject"],
     data_files=data_files,
     author="Erdem Ersoy",
