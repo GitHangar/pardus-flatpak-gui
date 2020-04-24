@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pardusflatpakstore.version import Version
+from pardusflatpakgui.version import Version
 
 from setuptools import setup, find_packages
 from os import listdir
