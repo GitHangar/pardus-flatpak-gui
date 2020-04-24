@@ -70,10 +70,8 @@ class UpdateAllWindow(object):
         self.FlatpakTransaction.set_no_deploy(False)
         self.FlatpakTransaction.set_no_pull(False)
         for ref_to_update in self.RefsToUpdate:
-            self.FlatpakTransaction.add_update(
-                ref_to_update,
-                None,
-                None)
+            ref_str = ref_to_update.format_ref()
+            self.FlatpakTransaction.add_update(ref_str, None, None)
 
         self.TreeModel = tree_model
         self.HeaderBarShowButton = show_button
@@ -200,7 +198,8 @@ class UpdateAllWindow(object):
         for updated_ref in self.RefsToUpdate:
             if updated_ref.get_name() == operation_ref_real_name and \
                updated_ref.get_arch() == operation_ref_arch and \
-               updated_ref.get_branch() == operation_ref_branch:
+               updated_ref.get_branch() == operation_ref_branch and \
+               updated_ref.get_kind() == Flatpak.RefKind.APP:
                 updated_ref_real_name = updated_ref.get_name()
                 updated_ref_arch = updated_ref.get_arch()
                 updated_ref_branch = updated_ref.get_branch()
@@ -216,19 +215,26 @@ class UpdateAllWindow(object):
 
                 tree_iter = self.TreeModel.get_model().get_iter_first()
                 while tree_iter:
-                    GLib.idle_add(self.TreeModel.set_row,
-                                  tree_iter, [updated_ref_real_name,
-                                              updated_ref_arch,
-                                              updated_ref_branch,
-                                              updated_ref_remote,
-                                              installed_size_mib_str,
-                                              download_size_mib_str,
-                                              name],
-                                  priority=GLib.PRIORITY_DEFAULT)
-                    time.sleep(0.2)
+                    real_name = self.TreeModel.get_value(tree_iter, 0)
+                    arch = self.TreeModel.get_value(tree_iter, 1)
+                    branch = self.TreeModel.get_value(tree_iter, 2)
+                    if real_name == updated_ref_real_name and \
+                       arch == updated_ref_arch and \
+                       branch == updated_ref_branch:
+                        GLib.idle_add(self.TreeModel.set_row,
+                                      tree_iter, [updated_ref_real_name,
+                                                  updated_ref_arch,
+                                                  updated_ref_branch,
+                                                  updated_ref_remote,
+                                                  installed_size_mib_str,
+                                                  download_size_mib_str,
+                                                  name],
+                                      priority=GLib.PRIORITY_DEFAULT)
+                        time.sleep(0.2)
 
-                    self.TreeModel.refilter()
-                    time.sleep(0.3)
+                        self.TreeModel.refilter()
+                        time.sleep(0.3)
+                    tree_iter = self.TreeModel.iter_next(tree_iter)
 
     def update_all_progress_callback_error(self, transaction, operation, error, details):
         ref_to_update_all = Flatpak.Ref.parse(operation.get_ref())
