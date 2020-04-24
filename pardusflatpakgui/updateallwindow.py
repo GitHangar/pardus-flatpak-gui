@@ -28,10 +28,10 @@ gi.require_version('Gio', '2.0')
 from gi.repository import Gtk, GLib, Flatpak, Gio
 
 locale.setlocale(locale.LC_ALL, "")
-gettext.bindtextdomain("pardus-flatpak-gui", "po/")
+gettext.bindtextdomain("pardus-flatpak-gui", "/usr/share/locale/")
 gettext.textdomain("pardus-flatpak-gui")
 _ = gettext.gettext
-gettext.install("pardus-flatpak-gui", "po/")
+gettext.install("pardus-flatpak-gui", "/usr/share/locale/")
 
 
 class UpdateAllWindow(object):
@@ -77,7 +77,7 @@ class UpdateAllWindow(object):
         self.HeaderBarShowButton = show_button
 
         try:
-            update_all_gui_file = "ui/actionwindow.glade"
+            update_all_gui_file = "/usr/share/pardus/pardus-flatpak-gui/ui/actionwindow.glade"
             update_all_builder = Gtk.Builder.new_from_file(update_all_gui_file)
             update_all_builder.connect_signals(self)
         except GLib.GError:

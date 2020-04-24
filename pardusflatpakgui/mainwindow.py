@@ -33,10 +33,10 @@ gi.require_version('Gio', '2.0')
 from gi.repository import Gtk, GLib, Flatpak, Gio
 
 locale.setlocale(locale.LC_ALL, "")
-gettext.bindtextdomain("pardus-flatpak-gui", "po/")
+gettext.bindtextdomain("pardus-flatpak-gui", "/usr/share/locale/")
 gettext.textdomain("pardus-flatpak-gui")
 _ = gettext.gettext
-gettext.install("pardus-flatpak-gui", "po/")
+gettext.install("pardus-flatpak-gui", "/usr/share/locale/")
 
 
 class MainWindow(object):
@@ -44,7 +44,7 @@ class MainWindow(object):
         self.Application = application
 
         try:
-            main_gui_file = "ui/mainwindow.glade"
+            main_gui_file = "/usr/share/pardus/pardus-flatpak-gui/ui/mainwindow.glade"
             main_builder = Gtk.Builder.new_from_file(main_gui_file)
             main_builder.connect_signals(self)
         except GLib.GError:
@@ -52,7 +52,7 @@ class MainWindow(object):
             raise
 
         try:
-            about_gui_file = "ui/aboutdialog.glade"
+            about_gui_file = "/usr/share/pardus/pardus-flatpak-gui/ui/aboutdialog.glade"
             about_builder = Gtk.Builder.new_from_file(about_gui_file)
             about_builder.connect_signals(self)
         except GLib.GError:
@@ -60,7 +60,7 @@ class MainWindow(object):
             raise
 
         try:
-            messages_gui_file = "ui/messagedialogs.glade"
+            messages_gui_file = "/usr/share/pardus/pardus-flatpak-gui/ui/messagedialogs.glade"
             messages_builder = Gtk.Builder.new_from_file(messages_gui_file)
             messages_builder.connect_signals(self)
         except GLib.GError:

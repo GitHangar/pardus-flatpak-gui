@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flatpak GUI 1.0-rc1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-23 13:49+0300\n"
+"POT-Creation-Date: 2020-04-24 10:45+0300\n"
 "PO-Revision-Date: 2020-04-23 09:46+0300\n"
 "Last-Translator: Erdem Ersoy <<erdem.ersoy@pardus.org.tr>>\n"
 "Language-Team: Erdem Ersoy <erdem.ersoy@pardus.org.tr>\n"
@@ -43,7 +43,7 @@ msgstr "There are too many arguments. Argument count: "
 #: pardusflatpakgui/installfromfilewindow.py:73
 #: pardusflatpakgui/installwindow.py:87 pardusflatpakgui/mainwindow.py:51
 #: pardusflatpakgui/uninstallwindow.py:84
-#: pardusflatpakgui/updateallwindow.py:86
+#: pardusflatpakgui/updateallwindow.py:84
 msgid "Error reading GUI file: "
 msgstr "Error reading GUI file: "
 
@@ -72,11 +72,13 @@ msgstr "Installing completed!"
 
 #: pardusflatpakgui/installfromfilewindow.py:133
 #: pardusflatpakgui/installwindow.py:185
+#: pardusflatpakgui/updateallwindow.py:176
 msgid "Installing: "
 msgstr "Installing: "
 
 #: pardusflatpakgui/installfromfilewindow.py:155
 #: pardusflatpakgui/installwindow.py:207
+#: pardusflatpakgui/updateallwindow.py:254
 msgid "Not installed: "
 msgstr "Not installed: "
 
@@ -316,19 +318,19 @@ msgstr "Uninstalling: "
 msgid "Not uninstalled: "
 msgstr "Not uninstalled: "
 
-#: pardusflatpakgui/updateallwindow.py:91
+#: pardusflatpakgui/updateallwindow.py:89
 msgid "Updating All"
 msgstr "Updating All"
 
-#: pardusflatpakgui/updateallwindow.py:104
+#: pardusflatpakgui/updateallwindow.py:102
 msgid "Updating..."
 msgstr "Updating..."
 
-#: pardusflatpakgui/updateallwindow.py:128
+#: pardusflatpakgui/updateallwindow.py:126
 msgid "Error at updating!"
 msgstr "Error at updating!"
 
-#: pardusflatpakgui/updateallwindow.py:137
+#: pardusflatpakgui/updateallwindow.py:135
 msgid "Updating completed!"
 msgstr "Updating completed!"
 
@@ -336,7 +338,7 @@ msgstr "Updating completed!"
 msgid "Updating: "
 msgstr "Updating: "
 
-#: pardusflatpakgui/updateallwindow.py:226
+#: pardusflatpakgui/updateallwindow.py:245
 msgid "Not updated: "
 msgstr "Not updated: "
 

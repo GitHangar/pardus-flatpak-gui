@@ -29,10 +29,10 @@ gi.require_version('Gio', '2.0')
 from gi.repository import Gtk, Flatpak, GLib, Gio
 
 locale.setlocale(locale.LC_ALL, "")
-gettext.bindtextdomain("pardus-flatpak-gui", "po/")
+gettext.bindtextdomain("pardus-flatpak-gui", "/usr/share/locale/")
 gettext.textdomain("pardus-flatpak-gui")
 _ = gettext.gettext
-gettext.install("pardus-flatpak-gui", "po/")
+gettext.install("pardus-flatpak-gui", "/usr/share/locale/")
 
 
 class InstallFromFileWindow(object):
@@ -65,7 +65,7 @@ class InstallFromFileWindow(object):
             self.install_progress_callback_error)
 
         try:
-            install_from_file_gui_file = "ui/actionwindow.glade"
+            install_from_file_gui_file = "/usr/share/pardus/pardus-flatpak-gui/ui/actionwindow.glade"
             install_from_file_builder = Gtk.Builder.new_from_file(
                                          install_from_file_gui_file)
             install_from_file_builder.connect_signals(self)

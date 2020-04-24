@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-23 13:49+0300\n"
+"POT-Creation-Date: 2020-04-24 10:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,7 +41,7 @@ msgstr ""
 #: pardusflatpakgui/installfromfilewindow.py:73
 #: pardusflatpakgui/installwindow.py:87 pardusflatpakgui/mainwindow.py:51
 #: pardusflatpakgui/uninstallwindow.py:84
-#: pardusflatpakgui/updateallwindow.py:86
+#: pardusflatpakgui/updateallwindow.py:84
 msgid "Error reading GUI file: "
 msgstr ""
 
@@ -70,11 +70,13 @@ msgstr ""
 
 #: pardusflatpakgui/installfromfilewindow.py:133
 #: pardusflatpakgui/installwindow.py:185
+#: pardusflatpakgui/updateallwindow.py:176
 msgid "Installing: "
 msgstr ""
 
 #: pardusflatpakgui/installfromfilewindow.py:155
 #: pardusflatpakgui/installwindow.py:207
+#: pardusflatpakgui/updateallwindow.py:254
 msgid "Not installed: "
 msgstr ""
 
@@ -314,19 +316,19 @@ msgstr ""
 msgid "Not uninstalled: "
 msgstr ""
 
-#: pardusflatpakgui/updateallwindow.py:91
+#: pardusflatpakgui/updateallwindow.py:89
 msgid "Updating All"
 msgstr ""
 
-#: pardusflatpakgui/updateallwindow.py:104
+#: pardusflatpakgui/updateallwindow.py:102
 msgid "Updating..."
 msgstr ""
 
-#: pardusflatpakgui/updateallwindow.py:128
+#: pardusflatpakgui/updateallwindow.py:126
 msgid "Error at updating!"
 msgstr ""
 
-#: pardusflatpakgui/updateallwindow.py:137
+#: pardusflatpakgui/updateallwindow.py:135
 msgid "Updating completed!"
 msgstr ""
 
@@ -334,6 +336,6 @@ msgstr ""
 msgid "Updating: "
 msgstr ""
 
-#: pardusflatpakgui/updateallwindow.py:226
+#: pardusflatpakgui/updateallwindow.py:245
 msgid "Not updated: "
 msgstr ""
