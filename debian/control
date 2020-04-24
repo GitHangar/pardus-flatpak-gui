@@ -1,0 +1,15 @@
+Source: pardus-flatpak-gui
+Section: utils
+Priority: optional
+Maintainer: Erdem Ersoy <erdem.ersoy@pardus.org.tr>
+Build-Depends: debhelper (>=11~), dh-python, python3-all, python3-setuptools
+Standards-Version: 4.1.4
+Homepage: https://www.pardus.org.tr/
+X-Python3-Version: >= 3.7
+
+Package: pardus-flatpak-gui
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${python3:Depends}, flatpak, gir1.2-flatpak-1.0
+Description: Manage Flatpak software on Pardus
+ Pardus Flatpak GUI is Flatpak GUI for Pardus.
