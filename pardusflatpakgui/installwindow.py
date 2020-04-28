@@ -87,6 +87,8 @@ class InstallWindow(object):
             print(_("Error reading GUI file: ") + install_gui_file)
             raise
 
+        self.InstallCancellation = Gio.Cancellable.new()
+
         self.InstallWindow = install_builder.get_object("ActionWindow")
         self.InstallWindow.set_application(application)
         self.InstallWindow.set_title(_("Installing..."))
@@ -112,8 +114,9 @@ class InstallWindow(object):
         GLib.threads_init()
 
     def install(self):
+        handler_id_cancel = self.InstallCancellation.connect(self.cancellation_callback, None)
         try:
-            self.FlatpakTransaction.run(Gio.Cancellable.new())
+            self.FlatpakTransaction.run(self.InstallCancellation)
         except GLib.Error:
             status_text = _("Error at installation!")
             self.StatusText = self.StatusText + "\n" + status_text
@@ -123,6 +126,8 @@ class InstallWindow(object):
             GLib.idle_add(self.InstallTextBuffer.set_text,
                           self.StatusText,
                           priority=GLib.PRIORITY_DEFAULT)
+            self.disconnect_handlers(handler_id_cancel)
+            return None
         else:
             status_text = _("Installing completed!")
             self.StatusText = self.StatusText + "\n" + status_text
@@ -132,9 +137,7 @@ class InstallWindow(object):
             GLib.idle_add(self.InstallTextBuffer.set_text,
                           self.StatusText,
                           priority=GLib.PRIORITY_DEFAULT)
-        self.FlatpakTransaction.disconnect(self.handler_id)
-        self.FlatpakTransaction.disconnect(self.handler_id_2)
-        self.FlatpakTransaction.disconnect(self.handler_id_error)
+        self.disconnect_handlers(handler_id_cancel)
         time.sleep(0.5)
 
         installed_ref = Flatpak.InstalledRef()
@@ -223,5 +226,22 @@ class InstallWindow(object):
                       float(transaction_progress.get_progress()) / 100.0,
                       priority=GLib.PRIORITY_DEFAULT)
 
+    def cancellation_callback(self, *data):
+        status_text = _("Installation canceled!")
+        self.StatusText = self.StatusText + "\n" + status_text
+        GLib.idle_add(self.InstallLabel.set_text,
+                      status_text,
+                      priority=GLib.PRIORITY_DEFAULT)
+        GLib.idle_add(self.InstallTextBuffer.set_text,
+                      self.StatusText,
+                      priority=GLib.PRIORITY_DEFAULT)
+
+    def disconnect_handlers(self, handler_id_cancel):
+        self.InstallCancellation.disconnect(handler_id_cancel)
+        self.FlatpakTransaction.disconnect(self.handler_id)
+        self.FlatpakTransaction.disconnect(self.handler_id_2)
+        self.FlatpakTransaction.disconnect(self.handler_id_error)
+
     def on_delete_action_window(self, widget, event):
+        self.InstallCancellation.cancel()
         widget.hide_on_delete()
