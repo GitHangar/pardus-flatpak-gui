@@ -4,11 +4,13 @@ A GUI for Flatpak. You can run, install (from FlatHub and from Flatpak ref file)
 
 ## Versioning
 
-X.Y version number scheme used. X means major version number indicates major changes, Y means minor version number indicates minor changes. 1.0 is the first version. For preview versions, X.Y-rcZ version number scheme used. Z means release candidate version number indicates changes for candidate of X.Y version release.
+X.Y.Z version number scheme used. X means main version number, Y means major version number, Z means minor vesrion number.
 
-## Roadmap
+0.1.Z -> Alpha versions
 
-See ROADMAP.md file for roadmap.
+0.?.Z and after -> Beta versions
+
+1.Y.Z -> First main stable versions
 
 ## Copyright
 
@@ -16,4 +18,4 @@ Copyright (C) 2020 Erdem Ersoy.
 
 ## Licensing
 
-Licensed under GPLv3. See COPYING file for license.
+Licensed under GPLv3. See COPYING file for the license.
