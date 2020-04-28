@@ -84,6 +84,8 @@ class UpdateAllWindow(object):
             print(_("Error reading GUI file: ") + update_all_gui_file)
             raise
 
+        self.UpdateAllCancellation = Gio.Cancellable.new()
+
         self.UpdateAllWindow = update_all_builder.get_object("ActionWindow")
         self.UpdateAllWindow.set_application(application)
         self.UpdateAllWindow.set_title(_("Updating All"))
@@ -120,8 +122,9 @@ class UpdateAllWindow(object):
         GLib.threads_init()
 
     def update_all(self):
+        handler_id_cancel = self.UpdateAllCancellation.connect(self.cancellation_callback, None)
         try:
-            self.FlatpakTransaction.run(Gio.Cancellable.new())
+            self.FlatpakTransaction.run(self.UpdateAllCancellation)
         except GLib.Error:
             status_text = _("Error at updating!")
             self.StatusText = self.StatusText + "\n" + status_text
@@ -131,6 +134,9 @@ class UpdateAllWindow(object):
             GLib.idle_add(self.UpdateAllTextBuffer.set_text,
                           self.StatusText,
                           priority=GLib.PRIORITY_DEFAULT)
+            self.disconnect_handlers(handler_id_cancel)
+            UpdateAllWindow.at_updating = False
+            return None
         else:
             status_text = _("Updating completed!")
             self.StatusText = self.StatusText + "\n" + status_text
@@ -140,9 +146,7 @@ class UpdateAllWindow(object):
             GLib.idle_add(self.UpdateAllTextBuffer.set_text,
                           self.StatusText,
                           priority=GLib.PRIORITY_DEFAULT)
-        self.FlatpakTransaction.disconnect(self.handler_id)
-        self.FlatpakTransaction.disconnect(self.handler_id_2)
-        self.FlatpakTransaction.disconnect(self.handler_id_error)
+        self.disconnect_handlers(handler_id_cancel)
         time.sleep(0.5)
 
         UpdateAllWindow.at_updating = False
@@ -267,5 +271,22 @@ class UpdateAllWindow(object):
                       float(transaction_progress.get_progress()) / 100.0,
                       priority=GLib.PRIORITY_DEFAULT)
 
+    def cancellation_callback(self, *data):
+        status_text = _("Updating canceled!")
+        self.StatusText = self.StatusText + "\n" + status_text
+        GLib.idle_add(self.UpdateAllLabel.set_text,
+                      status_text,
+                      priority=GLib.PRIORITY_DEFAULT)
+        GLib.idle_add(self.UpdateAllTextBuffer.set_text,
+                      self.StatusText,
+                      priority=GLib.PRIORITY_DEFAULT)
+
+    def disconnect_handlers(self, handler_id_cancel):
+        self.UpdateAllCancellation.disconnect(handler_id_cancel)
+        self.FlatpakTransaction.disconnect(self.handler_id)
+        self.FlatpakTransaction.disconnect(self.handler_id_2)
+        self.FlatpakTransaction.disconnect(self.handler_id_error)
+
     def on_delete_action_window(self, widget, event):
+        self.UpdateAllCancellation.cancel()
         widget.hide_on_delete()
