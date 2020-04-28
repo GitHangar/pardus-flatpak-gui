@@ -230,7 +230,7 @@ class UninstallWindow(object):
             return False
 
     def progress_bar_update(self, transaction_progress):
-        GLib.idle_add(self.InstallProgressBar.set_fraction,
+        GLib.idle_add(self.UninstallProgressBar.set_fraction,
                       float(transaction_progress.get_progress()) / 100.0,
                       priority=GLib.PRIORITY_DEFAULT)
 
