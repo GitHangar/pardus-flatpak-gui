@@ -242,7 +242,7 @@ class UninstallWindow(object):
                       priority=GLib.PRIORITY_DEFAULT)
 
     def cancellation_callback(self, *data):
-        status_text = _("Uninstallation canceled!")
+        status_text = _("Uninstalling canceled!")
         self.StatusText = self.StatusText + "\n" + status_text
         GLib.idle_add(self.UninstallLabel.set_text,
                       status_text,

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flatpak GUI 1.0-rc1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-24 10:45+0300\n"
-"PO-Revision-Date: 2020-04-23 09:46+0300\n"
+"POT-Creation-Date: 2020-04-28 18:08+0300\n"
+"PO-Revision-Date: 2020-04-28 18:09+0300\n"
 "Last-Translator: Erdem Ersoy <<erdem.ersoy@pardus.org.tr>>\n"
 "Language-Team: Erdem Ersoy <erdem.ersoy@pardus.org.tr>\n"
 "Language: en\n"
@@ -61,30 +61,34 @@ msgid "Installing from file..."
 msgstr "Installing from file..."
 
 #: pardusflatpakgui/installfromfilewindow.py:107
-#: pardusflatpakgui/installwindow.py:118
+#: pardusflatpakgui/installwindow.py:121
 msgid "Error at installation!"
 msgstr "Error at installation!"
 
 #: pardusflatpakgui/installfromfilewindow.py:116
-#: pardusflatpakgui/installwindow.py:127
+#: pardusflatpakgui/installwindow.py:132
 msgid "Installing completed!"
 msgstr "Installing completed!"
 
 #: pardusflatpakgui/installfromfilewindow.py:133
-#: pardusflatpakgui/installwindow.py:185
-#: pardusflatpakgui/updateallwindow.py:176
+#: pardusflatpakgui/installwindow.py:188
+#: pardusflatpakgui/updateallwindow.py:180
 msgid "Installing: "
 msgstr "Installing: "
 
 #: pardusflatpakgui/installfromfilewindow.py:155
-#: pardusflatpakgui/installwindow.py:207
-#: pardusflatpakgui/updateallwindow.py:254
+#: pardusflatpakgui/installwindow.py:210
+#: pardusflatpakgui/updateallwindow.py:258
 msgid "Not installed: "
 msgstr "Not installed: "
 
-#: pardusflatpakgui/installwindow.py:92 pardusflatpakgui/installwindow.py:104
+#: pardusflatpakgui/installwindow.py:94 pardusflatpakgui/installwindow.py:106
 msgid "Installing..."
 msgstr "Installing..."
+
+#: pardusflatpakgui/installwindow.py:230
+msgid "Installing canceled!"
+msgstr "Installing canceled!"
 
 #: pardusflatpakgui/mainwindow.py:59
 msgid "Error reading About dialog GUI file: "
@@ -297,50 +301,58 @@ msgstr "Download Size: "
 msgid "Remote Name: "
 msgstr "Remote Name: "
 
-#: pardusflatpakgui/uninstallwindow.py:89
-#: pardusflatpakgui/uninstallwindow.py:102
+#: pardusflatpakgui/uninstallwindow.py:91
+#: pardusflatpakgui/uninstallwindow.py:104
 msgid "Uninstalling..."
 msgstr "Uninstalling..."
 
-#: pardusflatpakgui/uninstallwindow.py:116
+#: pardusflatpakgui/uninstallwindow.py:119
 msgid "Error at uninstalling!"
 msgstr "Error at uninstalling!"
 
-#: pardusflatpakgui/uninstallwindow.py:125
+#: pardusflatpakgui/uninstallwindow.py:131
 msgid "Uninstalling completed!"
 msgstr "Uninstalling completed!"
 
-#: pardusflatpakgui/uninstallwindow.py:191
+#: pardusflatpakgui/uninstallwindow.py:203
 msgid "Uninstalling: "
 msgstr "Uninstalling: "
 
-#: pardusflatpakgui/uninstallwindow.py:213
+#: pardusflatpakgui/uninstallwindow.py:225
 msgid "Not uninstalled: "
 msgstr "Not uninstalled: "
 
-#: pardusflatpakgui/updateallwindow.py:89
+#: pardusflatpakgui/uninstallwindow.py:245
+msgid "Uninstalling canceled!"
+msgstr "Uninstalling canceled!"
+
+#: pardusflatpakgui/updateallwindow.py:91
 msgid "Updating All"
 msgstr "Updating All"
 
-#: pardusflatpakgui/updateallwindow.py:102
+#: pardusflatpakgui/updateallwindow.py:104
 msgid "Updating..."
 msgstr "Updating..."
 
-#: pardusflatpakgui/updateallwindow.py:126
+#: pardusflatpakgui/updateallwindow.py:129
 msgid "Error at updating!"
 msgstr "Error at updating!"
 
-#: pardusflatpakgui/updateallwindow.py:135
+#: pardusflatpakgui/updateallwindow.py:141
 msgid "Updating completed!"
 msgstr "Updating completed!"
 
-#: pardusflatpakgui/updateallwindow.py:167
+#: pardusflatpakgui/updateallwindow.py:171
 msgid "Updating: "
 msgstr "Updating: "
 
-#: pardusflatpakgui/updateallwindow.py:245
+#: pardusflatpakgui/updateallwindow.py:249
 msgid "Not updated: "
 msgstr "Not updated: "
+
+#: pardusflatpakgui/updateallwindow.py:275
+msgid "Updating canceled!"
+msgstr "Updating canceled!"
 
 #~ msgid "<big><b>Installing Error</b></big>"
 #~ msgstr "<big><b>Installing Error</b></big>"
@@ -354,21 +366,11 @@ msgstr "Not updated: "
 #~ msgid "Install From _Entry"
 #~ msgstr "Install From _Entry"
 
-#~ msgid ""
-#~ "Please enter an application name (Ex: org.libreoffice.LibreOffice) what "
-#~ "you want to install from Flathub."
-#~ msgstr ""
-#~ "Please enter an application name (Ex: org.libreoffice.LibreOffice) what "
-#~ "you want to install from Flathub."
+#~ msgid "Please enter an application name (Ex: org.libreoffice.LibreOffice) what you want to install from Flathub."
+#~ msgstr "Please enter an application name (Ex: org.libreoffice.LibreOffice) what you want to install from Flathub."
 
-#~ msgid ""
-#~ "NOTE: Installing an application from third party remote repositories "
-#~ "isn't secured as installing an application from official repositories of "
-#~ "your distribution."
-#~ msgstr ""
-#~ "NOTE: Installing an application from third party remote repositories "
-#~ "isn't secured as installing an application from official repositories of "
-#~ "your distribution."
+#~ msgid "NOTE: Installing an application from third party remote repositories isn't secured as installing an application from official repositories of your distribution."
+#~ msgstr "NOTE: Installing an application from third party remote repositories isn't secured as installing an application from official repositories of your distribution."
 
 #~ msgid "Enter an application name"
 #~ msgstr "Enter an application name"

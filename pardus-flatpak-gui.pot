@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-24 10:47+0300\n"
+"POT-Creation-Date: 2020-04-28 18:08+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,29 +59,33 @@ msgid "Installing from file..."
 msgstr ""
 
 #: pardusflatpakgui/installfromfilewindow.py:107
-#: pardusflatpakgui/installwindow.py:118
+#: pardusflatpakgui/installwindow.py:121
 msgid "Error at installation!"
 msgstr ""
 
 #: pardusflatpakgui/installfromfilewindow.py:116
-#: pardusflatpakgui/installwindow.py:127
+#: pardusflatpakgui/installwindow.py:132
 msgid "Installing completed!"
 msgstr ""
 
 #: pardusflatpakgui/installfromfilewindow.py:133
-#: pardusflatpakgui/installwindow.py:185
-#: pardusflatpakgui/updateallwindow.py:176
+#: pardusflatpakgui/installwindow.py:188
+#: pardusflatpakgui/updateallwindow.py:180
 msgid "Installing: "
 msgstr ""
 
 #: pardusflatpakgui/installfromfilewindow.py:155
-#: pardusflatpakgui/installwindow.py:207
-#: pardusflatpakgui/updateallwindow.py:254
+#: pardusflatpakgui/installwindow.py:210
+#: pardusflatpakgui/updateallwindow.py:258
 msgid "Not installed: "
 msgstr ""
 
-#: pardusflatpakgui/installwindow.py:92 pardusflatpakgui/installwindow.py:104
+#: pardusflatpakgui/installwindow.py:94 pardusflatpakgui/installwindow.py:106
 msgid "Installing..."
+msgstr ""
+
+#: pardusflatpakgui/installwindow.py:230
+msgid "Installing canceled!"
 msgstr ""
 
 #: pardusflatpakgui/mainwindow.py:59
@@ -295,47 +299,55 @@ msgstr ""
 msgid "Remote Name: "
 msgstr ""
 
-#: pardusflatpakgui/uninstallwindow.py:89
-#: pardusflatpakgui/uninstallwindow.py:102
+#: pardusflatpakgui/uninstallwindow.py:91
+#: pardusflatpakgui/uninstallwindow.py:104
 msgid "Uninstalling..."
 msgstr ""
 
-#: pardusflatpakgui/uninstallwindow.py:116
+#: pardusflatpakgui/uninstallwindow.py:119
 msgid "Error at uninstalling!"
 msgstr ""
 
-#: pardusflatpakgui/uninstallwindow.py:125
+#: pardusflatpakgui/uninstallwindow.py:131
 msgid "Uninstalling completed!"
 msgstr ""
 
-#: pardusflatpakgui/uninstallwindow.py:191
+#: pardusflatpakgui/uninstallwindow.py:203
 msgid "Uninstalling: "
 msgstr ""
 
-#: pardusflatpakgui/uninstallwindow.py:213
+#: pardusflatpakgui/uninstallwindow.py:225
 msgid "Not uninstalled: "
 msgstr ""
 
-#: pardusflatpakgui/updateallwindow.py:89
+#: pardusflatpakgui/uninstallwindow.py:245
+msgid "Uninstalling canceled!"
+msgstr ""
+
+#: pardusflatpakgui/updateallwindow.py:91
 msgid "Updating All"
 msgstr ""
 
-#: pardusflatpakgui/updateallwindow.py:102
+#: pardusflatpakgui/updateallwindow.py:104
 msgid "Updating..."
 msgstr ""
 
-#: pardusflatpakgui/updateallwindow.py:126
+#: pardusflatpakgui/updateallwindow.py:129
 msgid "Error at updating!"
 msgstr ""
 
-#: pardusflatpakgui/updateallwindow.py:135
+#: pardusflatpakgui/updateallwindow.py:141
 msgid "Updating completed!"
 msgstr ""
 
-#: pardusflatpakgui/updateallwindow.py:167
+#: pardusflatpakgui/updateallwindow.py:171
 msgid "Updating: "
 msgstr ""
 
-#: pardusflatpakgui/updateallwindow.py:245
+#: pardusflatpakgui/updateallwindow.py:249
 msgid "Not updated: "
+msgstr ""
+
+#: pardusflatpakgui/updateallwindow.py:275
+msgid "Updating canceled!"
 msgstr ""

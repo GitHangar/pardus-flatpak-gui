@@ -227,7 +227,7 @@ class InstallWindow(object):
                       priority=GLib.PRIORITY_DEFAULT)
 
     def cancellation_callback(self, *data):
-        status_text = _("Installation canceled!")
+        status_text = _("Installing canceled!")
         self.StatusText = self.StatusText + "\n" + status_text
         GLib.idle_add(self.InstallLabel.set_text,
                       status_text,

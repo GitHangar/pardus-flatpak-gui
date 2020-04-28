@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-24 10:45+0300\n"
-"PO-Revision-Date: 2020-04-23 09:46+0300\n"
+"POT-Creation-Date: 2020-04-28 18:08+0300\n"
+"PO-Revision-Date: 2020-04-28 18:10+0300\n"
 "Last-Translator: Erdem Ersoy <<erdem.ersoy@pardus.org.tr>>\n"
 "Language-Team: \n"
 "Language: tr\n"
@@ -60,30 +60,34 @@ msgid "Installing from file..."
 msgstr "Dosyadan yükleniyor..."
 
 #: pardusflatpakgui/installfromfilewindow.py:107
-#: pardusflatpakgui/installwindow.py:118
+#: pardusflatpakgui/installwindow.py:121
 msgid "Error at installation!"
 msgstr "Yüklemede hata!"
 
 #: pardusflatpakgui/installfromfilewindow.py:116
-#: pardusflatpakgui/installwindow.py:127
+#: pardusflatpakgui/installwindow.py:132
 msgid "Installing completed!"
 msgstr "Yükleme tamamlandı!"
 
 #: pardusflatpakgui/installfromfilewindow.py:133
-#: pardusflatpakgui/installwindow.py:185
-#: pardusflatpakgui/updateallwindow.py:176
+#: pardusflatpakgui/installwindow.py:188
+#: pardusflatpakgui/updateallwindow.py:180
 msgid "Installing: "
 msgstr "Yükleniyor: "
 
 #: pardusflatpakgui/installfromfilewindow.py:155
-#: pardusflatpakgui/installwindow.py:207
-#: pardusflatpakgui/updateallwindow.py:254
+#: pardusflatpakgui/installwindow.py:210
+#: pardusflatpakgui/updateallwindow.py:258
 msgid "Not installed: "
 msgstr "Yüklenmedi: "
 
-#: pardusflatpakgui/installwindow.py:92 pardusflatpakgui/installwindow.py:104
+#: pardusflatpakgui/installwindow.py:94 pardusflatpakgui/installwindow.py:106
 msgid "Installing..."
 msgstr "Yükleniyor..."
+
+#: pardusflatpakgui/installwindow.py:230
+msgid "Installing canceled!"
+msgstr "Yükleme iptal edildi!"
 
 #: pardusflatpakgui/mainwindow.py:59
 msgid "Error reading About dialog GUI file: "
@@ -296,50 +300,58 @@ msgstr "İndirme Boyutu: "
 msgid "Remote Name: "
 msgstr "Uzak Adı: "
 
-#: pardusflatpakgui/uninstallwindow.py:89
-#: pardusflatpakgui/uninstallwindow.py:102
+#: pardusflatpakgui/uninstallwindow.py:91
+#: pardusflatpakgui/uninstallwindow.py:104
 msgid "Uninstalling..."
 msgstr "Kaldırılıyor..."
 
-#: pardusflatpakgui/uninstallwindow.py:116
+#: pardusflatpakgui/uninstallwindow.py:119
 msgid "Error at uninstalling!"
 msgstr "Kaldırmada hata!"
 
-#: pardusflatpakgui/uninstallwindow.py:125
+#: pardusflatpakgui/uninstallwindow.py:131
 msgid "Uninstalling completed!"
 msgstr "Kaldırma tamamlandı!"
 
-#: pardusflatpakgui/uninstallwindow.py:191
+#: pardusflatpakgui/uninstallwindow.py:203
 msgid "Uninstalling: "
 msgstr "Kaldırılıyor: "
 
-#: pardusflatpakgui/uninstallwindow.py:213
+#: pardusflatpakgui/uninstallwindow.py:225
 msgid "Not uninstalled: "
 msgstr "Kaldırılmadı: "
 
-#: pardusflatpakgui/updateallwindow.py:89
+#: pardusflatpakgui/uninstallwindow.py:245
+msgid "Uninstalling canceled!"
+msgstr "Kaldırma iptal edildi!"
+
+#: pardusflatpakgui/updateallwindow.py:91
 msgid "Updating All"
 msgstr "Tümünü Güncelleme"
 
-#: pardusflatpakgui/updateallwindow.py:102
+#: pardusflatpakgui/updateallwindow.py:104
 msgid "Updating..."
 msgstr "Güncelleniyor..."
 
-#: pardusflatpakgui/updateallwindow.py:126
+#: pardusflatpakgui/updateallwindow.py:129
 msgid "Error at updating!"
 msgstr "Güncellemede hata!"
 
-#: pardusflatpakgui/updateallwindow.py:135
+#: pardusflatpakgui/updateallwindow.py:141
 msgid "Updating completed!"
 msgstr "Güncellenme tamamlandı!"
 
-#: pardusflatpakgui/updateallwindow.py:167
+#: pardusflatpakgui/updateallwindow.py:171
 msgid "Updating: "
 msgstr "Güncelleniyor: "
 
-#: pardusflatpakgui/updateallwindow.py:245
+#: pardusflatpakgui/updateallwindow.py:249
 msgid "Not updated: "
 msgstr "Güncellenmedi: "
+
+#: pardusflatpakgui/updateallwindow.py:275
+msgid "Updating canceled!"
+msgstr "Güncellenme iptal edildi!"
 
 #~ msgid "<big><b>Installing Error</b></big>"
 #~ msgstr "<big><b>Yükleme Hatası</b></big>"
@@ -353,20 +365,11 @@ msgstr "Güncellenmedi: "
 #~ msgid "Install From _Entry"
 #~ msgstr "_Girdiden Yükle"
 
-#~ msgid ""
-#~ "Please enter an application name (Ex: org.libreoffice.LibreOffice) what "
-#~ "you want to install from Flathub."
-#~ msgstr ""
-#~ "Lütfen Flathub'tan yüklemek istediğiniz bir uygulama adı (Ör: org."
-#~ "libreoffice.LibreOffice) giriniz."
+#~ msgid "Please enter an application name (Ex: org.libreoffice.LibreOffice) what you want to install from Flathub."
+#~ msgstr "Lütfen Flathub'tan yüklemek istediğiniz bir uygulama adı (Ör: org.libreoffice.LibreOffice) giriniz."
 
-#~ msgid ""
-#~ "NOTE: Installing an application from third party remote repositories "
-#~ "isn't secured as installing an application from official repositories of "
-#~ "your distribution."
-#~ msgstr ""
-#~ "NOT: Üçüncü parti uzak depolardan bir uygulama yüklemek dağıtımınızın "
-#~ "resmî depolarından bir uygulama yükleme kadar güvenli değildir."
+#~ msgid "NOTE: Installing an application from third party remote repositories isn't secured as installing an application from official repositories of your distribution."
+#~ msgstr "NOT: Üçüncü parti uzak depolardan bir uygulama yüklemek dağıtımınızın resmî depolarından bir uygulama yükleme kadar güvenli değildir."
 
 #~ msgid "Enter an application name"
 #~ msgstr "Bir uygulama adı giriniz"
