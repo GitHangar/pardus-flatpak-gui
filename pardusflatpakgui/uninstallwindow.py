@@ -84,6 +84,8 @@ class UninstallWindow(object):
             print(_("Error reading GUI file: ") + uninstall_gui_file)
             raise
 
+        self.UninstallCancellation = Gio.Cancellable.new()
+
         self.UninstallWindow = uninstall_builder.get_object("ActionWindow")
         self.UninstallWindow.set_application(self.Application)
         self.UninstallWindow.set_title(_("Uninstalling..."))
@@ -110,8 +112,9 @@ class UninstallWindow(object):
         GLib.threads_init()
 
     def uninstall(self):
+        handler_id_cancel = self.UninstallCancellation.connect(self.cancellation_callback, None)
         try:
-            self.FlatpakTransaction.run(Gio.Cancellable.new())
+            self.FlatpakTransaction.run(self.UninstallCancellation)
         except GLib.Error:
             status_text = _("Error at uninstalling!")
             self.StatusText = self.StatusText + "\n" + status_text
@@ -121,6 +124,9 @@ class UninstallWindow(object):
             GLib.idle_add(self.UninstallTextBuffer.set_text,
                           self.StatusText,
                           priority=GLib.PRIORITY_DEFAULT)
+            self.disconnect_handlers(handler_id_cancel)
+            UninstallWindow.at_uninstallation = False
+            return None
         else:
             status_text = _("Uninstalling completed!")
             self.StatusText = self.StatusText + "\n" + status_text
@@ -130,9 +136,7 @@ class UninstallWindow(object):
             GLib.idle_add(self.UninstallTextBuffer.set_text,
                           self.StatusText,
                           priority=GLib.PRIORITY_DEFAULT)
-        self.FlatpakTransaction.disconnect(self.handler_id)
-        self.FlatpakTransaction.disconnect(self.handler_id_2)
-        self.FlatpakTransaction.disconnect(self.handler_id_error)
+        self.disconnect_handlers(handler_id_cancel)
         time.sleep(0.5)
 
         uninstalled_ref = Flatpak.RemoteRef()
@@ -237,5 +241,22 @@ class UninstallWindow(object):
                       float(transaction_progress.get_progress()) / 100.0,
                       priority=GLib.PRIORITY_DEFAULT)
 
+    def cancellation_callback(self, *data):
+        status_text = _("Uninstallation canceled!")
+        self.StatusText = self.StatusText + "\n" + status_text
+        GLib.idle_add(self.UninstallLabel.set_text,
+                      status_text,
+                      priority=GLib.PRIORITY_DEFAULT)
+        GLib.idle_add(self.UninstallTextBuffer.set_text,
+                      self.StatusText,
+                      priority=GLib.PRIORITY_DEFAULT)
+
+    def disconnect_handlers(self, handler_id_cancel):
+        self.UninstallCancellation.disconnect(handler_id_cancel)
+        self.FlatpakTransaction.disconnect(self.handler_id)
+        self.FlatpakTransaction.disconnect(self.handler_id_2)
+        self.FlatpakTransaction.disconnect(self.handler_id_error)
+
     def on_delete_action_window(self, widget, event):
+        self.UninstallCancellation.cancel()
         widget.hide_on_delete()
