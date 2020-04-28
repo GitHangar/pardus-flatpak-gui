@@ -135,7 +135,7 @@ class UninstallWindow(object):
         self.FlatpakTransaction.disconnect(self.handler_id_error)
         time.sleep(0.5)
 
-        uninstalled_ref = Flatpak.InstalledRef()
+        uninstalled_ref = Flatpak.RemoteRef()
         for ref in self.FlatpakInstallation.list_remote_refs_sync("flathub", Gio.Cancellable.new()):
             if ref.get_name() == self.RealName and \
                     ref.get_arch() == self.Arch and \
@@ -149,7 +149,10 @@ class UninstallWindow(object):
         uninstalled_ref_arch = uninstalled_ref.get_arch()
         uninstalled_ref_branch = uninstalled_ref.get_branch()
         uninstalled_ref_remote = "flathub"
-        installed_size_mib_str = ""
+
+        installed_size = uninstalled_ref.get_installed_size()
+        installed_size_mib = installed_size / 1048576
+        installed_size_mib_str = f"{installed_size_mib:.2f}" + " MiB"
 
         download_size = uninstalled_ref.get_download_size()
         download_size_mib = download_size / 1048576
