@@ -5,3 +5,6 @@ pardusflatpakgui/__pycache__/
 # For PyCharm IDE
 venv/
 .idea/
+
+# For Visual Studio Code IDE
+.vscode/
