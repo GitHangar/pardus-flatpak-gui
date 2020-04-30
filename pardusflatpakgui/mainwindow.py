@@ -44,7 +44,7 @@ class MainWindow(object):
         self.Application = application
 
         try:
-            main_gui_file = "/usr/share/pardus/pardus-flatpak-gui/ui/mainwindow.glade"
+            main_gui_file = "ui/mainwindow.glade"
             main_builder = Gtk.Builder.new_from_file(main_gui_file)
             main_builder.connect_signals(self)
         except GLib.GError:
@@ -207,6 +207,15 @@ class MainWindow(object):
         self.SearchFilter = main_builder.get_object("SearchFilter")
         self.SearchFilter.set_visible_func(self.search_filter_function)
 
+        self.SortModel = main_builder.get_object("SortModel")
+        self.SortModel.set_sort_func(0, self.sorting_compare_function, (self.TreeViewColumnRealName, 0))
+        self.SortModel.set_sort_func(1, self.sorting_compare_function, (self.TreeViewColumnArch, 1))
+        self.SortModel.set_sort_func(2, self.sorting_compare_function, (self.TreeViewColumnBranch, 2))
+        self.SortModel.set_sort_func(3, self.sorting_compare_function, (self.TreeViewColumnRemoteName, 3))
+        self.SortModel.set_sort_func(4, self.sorting_float_compare_function, (self.TreeViewColumnInstalledSize, 4))
+        self.SortModel.set_sort_func(5, self.sorting_float_compare_function, (self.TreeViewColumnDownloadSize, 5))
+        self.SortModel.set_sort_func(6, self.sorting_compare_function, (self.TreeViewColumnName, 6))
+
         self.HeaderBarShowButton = main_builder.get_object("HeaderBarShowButton")
         self.HeaderBarShowButton.set_label(_("Show Installed Apps"))
 
@@ -251,6 +260,47 @@ class MainWindow(object):
         else:
             return False
 
+    def sorting_compare_function(self, tree_model_filter, row1, row2, data):
+        sorting_column, id_number = data
+        value1 = tree_model_filter.get_value(row1, id_number)
+        value2 = tree_model_filter.get_value(row2, id_number)
+
+        if value1 == "" and value2 == "":
+            return 0
+        elif value1 == "" and value2 != "":
+            return -1
+        elif value1 != "" and value2 == "":
+            return 1
+
+        if value1 < value2:
+            return -1
+        elif value1 == value2:
+            return 0
+        else:
+            return 1
+
+    def sorting_float_compare_function(self, tree_model_filter, row1, row2, data):
+        sorting_column, id_number = data
+        value1 = tree_model_filter.get_value(row1, id_number)[:-4]
+        value2 = tree_model_filter.get_value(row2, id_number)[:-4]
+
+        if value1 == "" and value2 == "":
+            return 0
+        elif value1 == "" and value2 != "":
+            return -1
+        elif value1 != "" and value2 == "":
+            return 1
+
+        value1_float = float(value1)
+        value2_float = float(value2)
+
+        if value1_float < value2_float:
+            return -1
+        elif value1_float == value2_float:
+            return 0
+        else:
+            return 1
+
     def on_delete_main_window(self, widget, event):
         widget.hide_on_delete()
 
@@ -290,6 +340,9 @@ class MainWindow(object):
             self.InstallMenuItem.set_sensitive(True)
 
     def on_search_changed(self, search_entry):
+        self.SearchFilter.refilter()
+
+    def on_resorted(self, tree_sortable):
         self.SearchFilter.refilter()
 
     def on_press_show_button(self, toggle_button):

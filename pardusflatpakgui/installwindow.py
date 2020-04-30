@@ -163,23 +163,24 @@ class InstallWindow(object):
         download_size_mib_str = ""
         name = installed_ref.get_appdata_name()
 
-        GLib.idle_add(self.TreeModel.set_row,
-                      self.TreeIter, [installed_ref_real_name,
-                                      installed_ref_arch,
-                                      installed_ref_branch,
-                                      installed_ref_remote,
-                                      installed_size_mib_str,
-                                      download_size_mib_str,
-                                      name],
+        tree_iter = self.TreeModel.convert_iter_to_child_iter(self.TreeIter)
+        tree_model = self.TreeModel.get_model()
+
+        GLib.idle_add(tree_model.set_row,
+                      tree_iter, [installed_ref_real_name,
+                                  installed_ref_arch,
+                                  installed_ref_branch,
+                                  installed_ref_remote,
+                                  installed_size_mib_str,
+                                  download_size_mib_str,
+                                  name],
                       priority=GLib.PRIORITY_DEFAULT)
         time.sleep(0.2)
 
-        GLib.idle_add(self.Selection.unselect_iter,
-                      self.TreeIter,
+        GLib.idle_add(self.Selection.unselect_all,
+                      data=None,
                       priority=GLib.PRIORITY_DEFAULT)
         time.sleep(0.2)
-
-        self.SearchFilter.refilter()
 
     def install_progress_callback(self, transaction, operation, progress):
         ref_to_install = Flatpak.Ref.parse(operation.get_ref())
