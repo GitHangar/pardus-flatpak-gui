@@ -244,7 +244,7 @@ class MainWindow(object):
         if len(search_entry_text) == 0 and not self.HeaderBarShowButton.get_active():
             return True
         if len(search_entry_text) == 0 and self.HeaderBarShowButton.get_active():
-            if UninstallWindow.at_uninstallation or UpdateAllWindow.at_updating:
+            if UpdateAllWindow.at_updating:
                 return True
             else:
                 return is_installed
@@ -253,7 +253,7 @@ class MainWindow(object):
             return True
         elif (real_name.lower().count(search_entry_text.lower()) > 0 or name.lower().count(
                 search_entry_text.lower()) > 0) and self.HeaderBarShowButton.get_active():
-            if UninstallWindow.at_uninstallation or UpdateAllWindow.at_updating:
+            if UpdateAllWindow.at_updating:
                 return True
             else:
                 return is_installed
@@ -576,8 +576,12 @@ class MainWindow(object):
         InfoWindow(self.Application, info_str, ref)
 
     def on_uninstall(self, menu_item):
-        UninstallWindow.at_uninstallation = True
-        self.SearchFilter.refilter()
+        if not self.HeaderBarShowButton.get_active():
+            button_not_pressed_already = True
+        elif self.HeaderBarShowButton.get_active():
+            button_not_pressed_already = False
+            self.HeaderBarShowButton.set_active(False)
+            self.SearchFilter.refilter()
 
         selection = self.TreeViewMain.get_selection()
         tree_model, tree_iter = selection.get_selected()
@@ -595,7 +599,8 @@ class MainWindow(object):
         branch = tree_model.get_value(tree_iter, 2)
 
         UninstallWindow(self.Application, self.FlatpakInstallation, real_name,
-                        arch, branch, tree_model, tree_iter, selection, self.SearchFilter, self.HeaderBarShowButton)
+                        arch, branch, tree_model, tree_iter, selection, self.SearchFilter, self.HeaderBarShowButton,
+                        button_not_pressed_already)
 
     def on_install(self, menu_item):
         selection = self.TreeViewMain.get_selection()

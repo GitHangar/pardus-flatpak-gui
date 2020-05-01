@@ -35,10 +35,9 @@ gettext.install("pardus-flatpak-gui", "/usr/share/locale/")
 
 
 class UninstallWindow(object):
-    at_uninstallation = False
-
     def __init__(self, application, flatpak_installation, real_name, arch, branch,
-                 tree_model, tree_iter, selection, search_filter, show_button):
+                 tree_model, tree_iter, selection, search_filter, show_button,
+                 button_not_pressed_already):
         self.Application = application
 
         self.RealName = real_name
@@ -65,6 +64,7 @@ class UninstallWindow(object):
         self.Selection = selection
         self.SearchFilter = search_filter
         self.HeaderBarShowButton = show_button
+        self.ButtonNotPressedAlready = button_not_pressed_already
 
         self.handler_id = self.FlatpakTransaction.connect(
             "new-operation",
@@ -164,33 +164,28 @@ class UninstallWindow(object):
 
         name = ""
 
-        GLib.idle_add(self.TreeModel.set_row,
-                      self.TreeIter, [uninstalled_ref_real_name,
-                                      uninstalled_ref_arch,
-                                      uninstalled_ref_branch,
-                                      uninstalled_ref_remote,
-                                      installed_size_mib_str,
-                                      download_size_mib_str,
-                                      name],
+        tree_iter = self.TreeModel.convert_iter_to_child_iter(self.TreeIter)
+        tree_model = self.TreeModel.get_model()
+
+        GLib.idle_add(tree_model.set_row,
+                      tree_iter, [uninstalled_ref_real_name,
+                                  uninstalled_ref_arch,
+                                  uninstalled_ref_branch,
+                                  uninstalled_ref_remote,
+                                  installed_size_mib_str,
+                                  download_size_mib_str,
+                                  name],
                       priority=GLib.PRIORITY_DEFAULT)
         time.sleep(0.2)
 
-        GLib.idle_add(self.Selection.unselect_iter,
-                      self.TreeIter,
+        GLib.idle_add(self.Selection.unselect_all,
+                      data=None,
                       priority=GLib.PRIORITY_DEFAULT)
         time.sleep(0.2)
 
-        self.SearchFilter.refilter()
-        time.sleep(0.3)
-
-        UninstallWindow.at_uninstallation = False
-
-        if self.HeaderBarShowButton.get_active():
-            GLib.idle_add(self.HeaderBarShowButton.set_active,
-                          False,
-                          priority=GLib.PRIORITY_DEFAULT)
-            time.sleep(0.2)
-
+        if self.ButtonNotPressedAlready:
+            pass
+        elif not self.HeaderBarShowButton.get_active():
             GLib.idle_add(self.HeaderBarShowButton.set_active,
                           True,
                           priority=GLib.PRIORITY_DEFAULT)
