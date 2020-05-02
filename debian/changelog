@@ -1,3 +1,15 @@
+pardus-flatpak-gui (0.2.0) unstable; urgency=medium
+
+  * Implement column sorting
+  * Update documentation
+  * Show installed size after uninstalling for a reference
+  * Make installing/uninstalling/updating cancellable
+  * Fix corrupting realted row after installing/uninstalling/updating error
+  * Fix an error when uninstalling error
+  * Update translations
+  
+ -- Erdem Ersoy <erdem.ersoy@pardus.org.tr>  Sat, 02 May 2020 07:17:47 +0300
+
 pardus-flatpak-gui (0.1.0) unstable; urgency=medium
 
   * Initial alpha release.
