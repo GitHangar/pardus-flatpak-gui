@@ -44,7 +44,7 @@ class MainWindow(object):
         self.Application = application
 
         try:
-            main_gui_file = "ui/mainwindow.glade"
+            main_gui_file = "/usr/share/pardus/pardus-flatpak-gui/ui/mainwindow.glade"
             main_builder = Gtk.Builder.new_from_file(main_gui_file)
             main_builder.connect_signals(self)
         except GLib.GError:
