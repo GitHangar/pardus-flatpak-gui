@@ -192,7 +192,7 @@ class UpdateAllWindow(object):
             "changed",
             self.progress_bar_update)  # FIXME: Fix PyCharm warning
 
-    def update_all_progress_callback_done(self, transaction, operation, commit, result):
+    def update_all_progress_callback_done(self, transaction, operation, commit, result):  # FIXME: Test and review
         self.TransactionProgress.disconnect(self.handler_id_progress)
 
         operation_ref = Flatpak.Ref.parse(operation.get_ref())
