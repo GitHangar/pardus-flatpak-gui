@@ -143,7 +143,6 @@ class InstallWindow(object):
                           self.StatusText,
                           priority=GLib.PRIORITY_DEFAULT)
         self.disconnect_handlers(handler_id_cancel)
-        time.sleep(0.5)
 
     def install_progress_callback(self, transaction, operation, progress):
         ref_to_install = Flatpak.Ref.parse(operation.get_ref())
