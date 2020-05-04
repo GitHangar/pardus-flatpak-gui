@@ -44,7 +44,8 @@ class MainWindow(object):
         self.Application = application
 
         try:
-            main_gui_file = "/usr/share/pardus/pardus-flatpak-gui/ui/mainwindow.glade"
+            main_gui_file = "ui/mainwindow.glade"
+            # main_gui_file = "/usr/share/pardus/pardus-flatpak-gui/ui/mainwindow.glade"
             main_builder = Gtk.Builder.new_from_file(main_gui_file)
             main_builder.connect_signals(self)
         except GLib.GError:
@@ -201,6 +202,8 @@ class MainWindow(object):
 
         self.TreeViewMain = main_builder.get_object("TreeViewMain")
 
+        self.TreeSelectionMain = main_builder.get_object("TreeSelectionMain")
+
         self.SearchEntryMain = main_builder.get_object("SearchEntryMain")
         self.SearchEntryMain.set_placeholder_text(_("Click here for search"))
 
@@ -348,8 +351,17 @@ class MainWindow(object):
     def on_press_show_button(self, toggle_button):
         self.SearchFilter.refilter()
 
-    def on_show_actions_menu(self, tree_view, path, column):
-        self.ActionsMenu.popup_at_pointer(None)
+    def on_show_actions_menu(self, widget, event):
+        if event.button == 3:  # 3 == Right mouse button
+            x = event.x
+            y = event.y
+            path_info = self.TreeViewMain.get_path_at_pos(x, y)
+            if path_info != None:
+                path = path_info[0]
+                self.TreeSelectionMain.select_path(path)
+                self.ActionsMenu.popup_at_pointer(None)
+            else:
+                pass
 
     def on_run(self, menu_item):
         selection = self.TreeViewMain.get_selection()
