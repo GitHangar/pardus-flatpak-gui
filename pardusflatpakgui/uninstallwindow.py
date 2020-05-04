@@ -66,12 +66,14 @@ class UninstallWindow(object):
         self.HeaderBarShowButton = show_button
         self.ButtonNotPressedAlready = button_not_pressed_already
 
+        self.FlatHubRefs = self.FlatpakInstallation.list_remote_refs_sync("flathub", Gio.Cancellable.new())
+
         self.handler_id = self.FlatpakTransaction.connect(
             "new-operation",
             self.uninstall_progress_callback)
         self.handler_id_2 = self.FlatpakTransaction.connect(
             "operation-done",
-            self.uninstall_progress_callback_disconnect)
+            self.uninstall_progress_callback_done)
         self.handler_id_error = self.FlatpakTransaction.connect(
             "operation-error",
             self.uninstall_progress_callback_error)
@@ -112,6 +114,11 @@ class UninstallWindow(object):
         GLib.threads_init()
 
     def uninstall(self):
+        GLib.idle_add(self.Selection.unselect_all,
+                      data=None,
+                      priority=GLib.PRIORITY_DEFAULT)
+        time.sleep(0.2)
+
         handler_id_cancel = self.UninstallCancellation.connect(self.cancellation_callback, None)
         try:
             self.FlatpakTransaction.run(self.UninstallCancellation)
@@ -139,56 +146,17 @@ class UninstallWindow(object):
         self.disconnect_handlers(handler_id_cancel)
         time.sleep(0.5)
 
-        uninstalled_ref = Flatpak.RemoteRef()
-        for ref in self.FlatpakInstallation.list_remote_refs_sync("flathub", Gio.Cancellable.new()):
-            if ref.get_name() == self.RealName and \
-                    ref.get_arch() == self.Arch and \
-                    ref.get_branch() == self.Branch:
-                uninstalled_ref = ref
-                break
-            else:
-                continue
-
-        uninstalled_ref_real_name = uninstalled_ref.get_name()
-        uninstalled_ref_arch = uninstalled_ref.get_arch()
-        uninstalled_ref_branch = uninstalled_ref.get_branch()
-        uninstalled_ref_remote = "flathub"
-
-        installed_size = uninstalled_ref.get_installed_size()
-        installed_size_mib = installed_size / 1048576
-        installed_size_mib_str = f"{installed_size_mib:.2f}" + " MiB"
-
-        download_size = uninstalled_ref.get_download_size()
-        download_size_mib = download_size / 1048576
-        download_size_mib_str = f"{download_size_mib:.2f}" + " MiB"
-
-        name = ""
-
-        tree_iter = self.TreeModel.convert_iter_to_child_iter(self.TreeIter)
-        tree_model = self.TreeModel.get_model()
-
-        GLib.idle_add(tree_model.set_row,
-                      tree_iter, [uninstalled_ref_real_name,
-                                  uninstalled_ref_arch,
-                                  uninstalled_ref_branch,
-                                  uninstalled_ref_remote,
-                                  installed_size_mib_str,
-                                  download_size_mib_str,
-                                  name],
-                      priority=GLib.PRIORITY_DEFAULT)
-        time.sleep(0.2)
-
-        GLib.idle_add(self.Selection.unselect_all,
-                      data=None,
-                      priority=GLib.PRIORITY_DEFAULT)
-        time.sleep(0.2)
-
         if self.ButtonNotPressedAlready:
             pass
         elif not self.HeaderBarShowButton.get_active():
             GLib.idle_add(self.HeaderBarShowButton.set_active,
                           True,
                           priority=GLib.PRIORITY_DEFAULT)
+            time.sleep(0.2)
+
+            GLib.idle_add(self.Selection.unselect_all,
+                      data=None,
+                      priority=GLib.PRIORITY_DEFAULT)
             time.sleep(0.2)
 
     def uninstall_progress_callback(self, transaction, operation, progress):
@@ -210,8 +178,57 @@ class UninstallWindow(object):
             "changed",
             self.progress_bar_update)  # FIXME: Fix PyCharm warning
 
-    def uninstall_progress_callback_disconnect(self, transaction, operation, commit, result):
+    def uninstall_progress_callback_done(self, transaction, operation, commit, result):
         self.TransactionProgress.disconnect(self.handler_id_progress)
+
+        operation_ref = Flatpak.Ref.parse(operation.get_ref())
+        operation_ref_real_name = operation_ref.get_name()
+        operation_ref_arch = operation_ref.get_arch()
+        operation_ref_branch = operation_ref.get_branch()
+        for uninstalled_ref in self.FlatHubRefs:
+            if uninstalled_ref.get_name() == operation_ref_real_name and \
+               uninstalled_ref.get_arch() == operation_ref_arch and \
+               uninstalled_ref.get_branch() == operation_ref_branch and \
+               uninstalled_ref.get_kind() == Flatpak.RefKind.APP:
+                uninstalled_ref_real_name = uninstalled_ref.get_name()
+                uninstalled_ref_arch = uninstalled_ref.get_arch()
+                uninstalled_ref_branch = uninstalled_ref.get_branch()
+                uninstalled_ref_remote = "flathub"
+
+                installed_size = uninstalled_ref.get_installed_size()
+                installed_size_mib = installed_size / 1048576
+                installed_size_mib_str = \
+                    f"{installed_size_mib:.2f}" + " MiB"
+
+                download_size = uninstalled_ref.get_download_size()
+                download_size_mib = download_size / 1048576
+                download_size_mib_str = f"{download_size_mib:.2f}" + " MiB"
+
+                name = ""
+
+                tree_model = self.TreeModel.get_model()
+                tree_iter = tree_model.get_iter_first()
+                while tree_iter:
+                    real_name = tree_model.get_value(tree_iter, 0)
+                    arch = tree_model.get_value(tree_iter, 1)
+                    branch = tree_model.get_value(tree_iter, 2)
+                    if real_name == uninstalled_ref_real_name and \
+                       arch == uninstalled_ref_arch and \
+                       branch == uninstalled_ref_branch:
+                        GLib.idle_add(tree_model.set_row,
+                                      tree_iter, [uninstalled_ref_real_name,
+                                                  uninstalled_ref_arch,
+                                                  uninstalled_ref_branch,
+                                                  uninstalled_ref_remote,
+                                                  installed_size_mib_str,
+                                                  download_size_mib_str,
+                                                  name],
+                                      priority=GLib.PRIORITY_DEFAULT)
+                        time.sleep(0.2)
+
+                        tree_model.refilter()
+                        time.sleep(0.3)
+                    tree_iter = tree_model.iter_next(tree_iter)
 
     def uninstall_progress_callback_error(self, transaction, operation, error, details):
         ref_to_uninstall = Flatpak.Ref.parse(operation.get_ref())
