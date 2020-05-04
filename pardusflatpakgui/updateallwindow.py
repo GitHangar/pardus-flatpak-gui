@@ -160,7 +160,6 @@ class UpdateAllWindow(object):
             GLib.idle_add(self.HeaderBarShowButton.set_active,
                           True,
                           priority=GLib.PRIORITY_DEFAULT)
-            time.sleep(0.2)
 
     def update_all_progress_callback(self, transaction, operation, progress):
         ref_to_update = Flatpak.Ref.parse(operation.get_ref())
