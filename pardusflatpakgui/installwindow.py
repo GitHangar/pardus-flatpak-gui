@@ -74,7 +74,7 @@ class InstallWindow(object):
             self.install_progress_callback)
         self.handler_id_2 = self.FlatpakTransaction.connect(
             "operation-done",
-            self.install_progress_callback_disconnect)
+            self.install_progress_callback_done)
         self.handler_id_error = self.FlatpakTransaction.connect(
             "operation-error",
             self.install_progress_callback_error)
@@ -114,6 +114,11 @@ class InstallWindow(object):
         GLib.threads_init()
 
     def install(self):
+        GLib.idle_add(self.Selection.unselect_all,
+                      data=None,
+                      priority=GLib.PRIORITY_DEFAULT)
+        time.sleep(0.2)
+
         handler_id_cancel = self.InstallCancellation.connect(self.cancellation_callback, None)
         try:
             self.FlatpakTransaction.run(self.InstallCancellation)
@@ -140,48 +145,6 @@ class InstallWindow(object):
         self.disconnect_handlers(handler_id_cancel)
         time.sleep(0.5)
 
-        installed_ref = Flatpak.InstalledRef()
-        for ref in self.FlatpakInstallation.list_installed_refs():
-            if ref.get_name() == self.Ref.get_name() and \
-               ref.get_arch() == self.Arch and \
-               ref.get_branch() == self.Branch:
-                installed_ref = ref
-                break
-            else:
-                continue
-
-        installed_ref_real_name = installed_ref.get_name()
-        installed_ref_arch = installed_ref.get_arch()
-        installed_ref_branch = installed_ref.get_branch()
-        installed_ref_remote = "flathub"
-
-        installed_size = installed_ref.get_installed_size()
-        installed_size_mib = installed_size / 1048576
-        installed_size_mib_str = \
-            f"{installed_size_mib:.2f}" + " MiB"
-
-        download_size_mib_str = ""
-        name = installed_ref.get_appdata_name()
-
-        tree_iter = self.TreeModel.convert_iter_to_child_iter(self.TreeIter)
-        tree_model = self.TreeModel.get_model()
-
-        GLib.idle_add(tree_model.set_row,
-                      tree_iter, [installed_ref_real_name,
-                                  installed_ref_arch,
-                                  installed_ref_branch,
-                                  installed_ref_remote,
-                                  installed_size_mib_str,
-                                  download_size_mib_str,
-                                  name],
-                      priority=GLib.PRIORITY_DEFAULT)
-        time.sleep(0.2)
-
-        GLib.idle_add(self.Selection.unselect_all,
-                      data=None,
-                      priority=GLib.PRIORITY_DEFAULT)
-        time.sleep(0.2)
-
     def install_progress_callback(self, transaction, operation, progress):
         ref_to_install = Flatpak.Ref.parse(operation.get_ref())
         ref_to_install_real_name = ref_to_install.get_name()
@@ -201,8 +164,54 @@ class InstallWindow(object):
                                       "changed",
                                       self.progress_bar_update)  # FIXME: Fix PyCharm warning
 
-    def install_progress_callback_disconnect(self, transaction, operation, commit, result):
+    def install_progress_callback_done(self, transaction, operation, commit, result):
         self.TransactionProgress.disconnect(self.handler_id_progress)
+
+        operation_ref = Flatpak.Ref.parse(operation.get_ref())
+        operation_ref_real_name = operation_ref.get_name()
+        operation_ref_arch = operation_ref.get_arch()
+        operation_ref_branch = operation_ref.get_branch()
+        for installed_ref in self.FlatpakInstallation.list_installed_refs():
+            if installed_ref.get_name() == operation_ref_real_name and \
+               installed_ref.get_arch() == operation_ref_arch and \
+               installed_ref.get_branch() == operation_ref_branch and \
+               installed_ref.get_kind() == Flatpak.RefKind.APP:
+                installed_ref_real_name = installed_ref.get_name()
+                installed_ref_arch = installed_ref.get_arch()
+                installed_ref_branch = installed_ref.get_branch()
+                installed_ref_remote = "flathub"
+
+                installed_size = installed_ref.get_installed_size()
+                installed_size_mib = installed_size / 1048576
+                installed_size_mib_str = \
+                    f"{installed_size_mib:.2f}" + " MiB"
+
+                download_size_mib_str = ""
+                name = installed_ref.get_appdata_name()
+
+                tree_model = self.TreeModel.get_model()
+                tree_iter = tree_model.get_iter_first()
+                while tree_iter:
+                    real_name = tree_model.get_value(tree_iter, 0)
+                    arch = tree_model.get_value(tree_iter, 1)
+                    branch = tree_model.get_value(tree_iter, 2)
+                    if real_name == installed_ref_real_name and \
+                       arch == installed_ref_arch and \
+                       branch == installed_ref_branch:
+                        GLib.idle_add(tree_model.set_row,
+                                      tree_iter, [installed_ref_real_name,
+                                                  installed_ref_arch,
+                                                  installed_ref_branch,
+                                                  installed_ref_remote,
+                                                  installed_size_mib_str,
+                                                  download_size_mib_str,
+                                                  name],
+                                      priority=GLib.PRIORITY_DEFAULT)
+                        time.sleep(0.2)
+
+                        tree_model.refilter()
+                        time.sleep(0.3)
+                    tree_iter = tree_model.iter_next(tree_iter)
 
     def install_progress_callback_error(self, transaction, operation, error, details):
         ref_to_install = Flatpak.Ref.parse(operation.get_ref())
