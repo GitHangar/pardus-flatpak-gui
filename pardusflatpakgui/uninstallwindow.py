@@ -157,7 +157,6 @@ class UninstallWindow(object):
             GLib.idle_add(self.Selection.unselect_all,
                       data=None,
                       priority=GLib.PRIORITY_DEFAULT)
-            time.sleep(0.2)
 
     def uninstall_progress_callback(self, transaction, operation, progress):
         ref_to_uninstall = Flatpak.Ref.parse(operation.get_ref())
