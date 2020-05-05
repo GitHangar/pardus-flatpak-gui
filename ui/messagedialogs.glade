@@ -30,7 +30,7 @@ Author: Erdem Ersoy
   <!-- interface-authors Erdem Ersoy -->
   <object class="GtkMessageDialog" id="MessageDialogError">
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">Flatpak GUI Error</property>
+    <property name="title" translatable="yes">Pardus Flatpak GUI Error Dialog</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
     <property name="icon_name">dialog-error</property>
@@ -70,5 +70,43 @@ Author: Erdem Ersoy
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-dialog-error</property>
+  </object>
+  <object class="GtkMessageDialog" id="MessageDialogQuestion">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Pardus Flatpak GUI Question Dialog</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <property name="icon_name">dialog-information</property>
+    <property name="type_hint">dialog</property>
+    <property name="message_type">question</property>
+    <property name="buttons">yes-no</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child internal-child="vbox">
+      <object class="GtkBox">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox">
+            <property name="can_focus">False</property>
+            <property name="homogeneous">True</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
   </object>
 </interface>

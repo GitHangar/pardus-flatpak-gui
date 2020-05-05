@@ -44,8 +44,7 @@ class MainWindow(object):
         self.Application = application
 
         try:
-            main_gui_file = "ui/mainwindow.glade"
-            # main_gui_file = "/usr/share/pardus/pardus-flatpak-gui/ui/mainwindow.glade"
+            main_gui_file = "/usr/share/pardus/pardus-flatpak-gui/ui/mainwindow.glade"
             main_builder = Gtk.Builder.new_from_file(main_gui_file)
             main_builder.connect_signals(self)
         except GLib.GError:
@@ -91,6 +90,10 @@ class MainWindow(object):
         self.ListStoreMain = main_builder.get_object("ListStoreMain")
 
         self.MessageDialogError = messages_builder.get_object("MessageDialogError")
+        self.MessageDialogError.set_title(_("Pardus Flatpak GUI Error Dialog"))
+
+        self.MessageDialogQuestion = messages_builder.get_object("MessageDialogQuestion")
+        self.MessageDialogQuestion.set_title(_("Pardus Flatpak GUI Question Dialog"))
 
         # Debug print()'s:
         # print("self.FlatHubRefsList:", len(self.FlatHubRefsList))
@@ -609,10 +612,21 @@ class MainWindow(object):
         real_name = tree_model.get_value(tree_iter, 0)
         arch = tree_model.get_value(tree_iter, 1)
         branch = tree_model.get_value(tree_iter, 2)
+        name = tree_model.get_value(tree_iter, 6)
 
-        UninstallWindow(self.Application, self.FlatpakInstallation, real_name,
-                        arch, branch, tree_model, tree_iter, selection, self.SearchFilter, self.HeaderBarShowButton,
-                        button_not_pressed_already)
+        self.MessageDialogQuestion.set_markup(
+            _("<big><b>Uninstalling ") + name + "(" + real_name + ")" + "</b></big>")
+        self.MessageDialogQuestion.format_secondary_text(
+            _("Are you sure to uninstall ") + name + "?")
+        answer = self.MessageDialogQuestion.run()
+        self.MessageDialogQuestion.hide()
+
+        if answer == Gtk.ResponseType.YES:
+            UninstallWindow(self.Application, self.FlatpakInstallation, real_name,
+                            arch, branch, tree_model, tree_iter, selection, self.SearchFilter, self.HeaderBarShowButton,
+                            button_not_pressed_already)
+        elif answer == Gtk.ResponseType.NO:
+            return None
 
     def on_install(self, menu_item):
         selection = self.TreeViewMain.get_selection()
@@ -631,8 +645,18 @@ class MainWindow(object):
         branch = tree_model.get_value(tree_iter, 2)
         remote = tree_model.get_value(tree_iter, 3)
 
-        InstallWindow(self.Application, self.FlatpakInstallation, real_name, arch, branch,
-                      remote, tree_model, tree_iter, selection, self.SearchFilter)
+        self.MessageDialogQuestion.set_markup(
+            _("<big><b>Installing ") + real_name + "</b></big>")
+        self.MessageDialogQuestion.format_secondary_text(
+            _("Are you sure to install ") + real_name + "?")
+        answer = self.MessageDialogQuestion.run()
+        self.MessageDialogQuestion.hide()
+
+        if answer == Gtk.ResponseType.YES:
+            InstallWindow(self.Application, self.FlatpakInstallation, real_name, arch, branch,
+                          remote, tree_model, tree_iter, selection, self.SearchFilter)
+        elif answer == Gtk.ResponseType.NO:
+            return None
 
     def on_update_all(self, menu_item):
         UpdateAllWindow.at_updating = True

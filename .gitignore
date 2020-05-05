@@ -1,3 +1,6 @@
+build/
+dist/
+Pardus_Flatpak_GUI.egg-info/
 pardusflatpakgui/__pycache__/
 *.po~
 *.glade~
