@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-05 09:19+0300\n"
-"PO-Revision-Date: 2020-05-05 09:23+0300\n"
+"POT-Creation-Date: 2020-05-05 09:43+0300\n"
+"PO-Revision-Date: 2020-05-05 09:39+0300\n"
 "Last-Translator: Erdem Ersoy <<erdem.ersoy@pardus.org.tr>>\n"
 "Language-Team: \n"
 "Language: tr\n"
@@ -38,7 +38,7 @@ msgstr "<big><b>Argüman Hatası</b></big>"
 msgid "There are too many arguments. Argument count: "
 msgstr "Çok fazla argüman var. Argüman sayısı: "
 
-#: pardusflatpakgui/infowindow.py:45
+#: pardusflatpakgui/infowindow.py:46
 #: pardusflatpakgui/installfromfilewindow.py:73
 #: pardusflatpakgui/installwindow.py:87 pardusflatpakgui/mainwindow.py:51
 #: pardusflatpakgui/uninstallwindow.py:86
@@ -46,11 +46,15 @@ msgstr "Çok fazla argüman var. Argüman sayısı: "
 msgid "Error reading GUI file: "
 msgstr "GUI dosyasını okumada hata: "
 
-#: pardusflatpakgui/infowindow.py:53
+#: pardusflatpakgui/infowindow.py:54
 msgid "_Copy to Clipboard"
 msgstr "_Panoya Kopyala"
 
 #: pardusflatpakgui/infowindow.py:57
+msgid "_FlatHub Page"
+msgstr "_FlatHub Sayfası"
+
+#: pardusflatpakgui/infowindow.py:61
 msgid "Info About "
 msgstr "Hakkında Bilgi: "
 
@@ -389,11 +393,20 @@ msgstr "Güncellenme iptal edildi!"
 #~ msgid "Install From _Entry"
 #~ msgstr "_Girdiden Yükle"
 
-#~ msgid "Please enter an application name (Ex: org.libreoffice.LibreOffice) what you want to install from Flathub."
-#~ msgstr "Lütfen Flathub'tan yüklemek istediğiniz bir uygulama adı (Ör: org.libreoffice.LibreOffice) giriniz."
+#~ msgid ""
+#~ "Please enter an application name (Ex: org.libreoffice.LibreOffice) what "
+#~ "you want to install from Flathub."
+#~ msgstr ""
+#~ "Lütfen Flathub'tan yüklemek istediğiniz bir uygulama adı (Ör: org."
+#~ "libreoffice.LibreOffice) giriniz."
 
-#~ msgid "NOTE: Installing an application from third party remote repositories isn't secured as installing an application from official repositories of your distribution."
-#~ msgstr "NOT: Üçüncü parti uzak depolardan bir uygulama yüklemek dağıtımınızın resmî depolarından bir uygulama yükleme kadar güvenli değildir."
+#~ msgid ""
+#~ "NOTE: Installing an application from third party remote repositories "
+#~ "isn't secured as installing an application from official repositories of "
+#~ "your distribution."
+#~ msgstr ""
+#~ "NOT: Üçüncü parti uzak depolardan bir uygulama yüklemek dağıtımınızın "
+#~ "resmî depolarından bir uygulama yükleme kadar güvenli değildir."
 
 #~ msgid "Enter an application name"
 #~ msgstr "Bir uygulama adı giriniz"

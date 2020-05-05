@@ -28,6 +28,11 @@ Author: Erdem Ersoy
   <!-- interface-description A GUI for Flatpak -->
   <!-- interface-copyright 2020 Erdem Ersoy -->
   <!-- interface-authors Erdem Ersoy -->
+  <object class="GtkImage" id="CopyToClipboardButtonImage">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-go-forward</property>
+  </object>
   <object class="GtkImage" id="InfoButtonImage">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -43,8 +48,41 @@ Author: Erdem Ersoy
     <property name="icon_name">dialog-information</property>
     <property name="type_hint">dialog</property>
     <signal name="delete-event" handler="on_delete_info_window" swapped="no"/>
-    <child>
-      <placeholder/>
+    <child type="titlebar">
+      <object class="GtkHeaderBar" id="InfoHeader">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="show_close_button">True</property>
+        <child>
+          <object class="GtkButton" id="InfoButtonCopyToClipboard">
+            <property name="label" translatable="yes">_Copy to Clipboard</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="image">InfoButtonImage</property>
+            <property name="use_underline">True</property>
+            <signal name="clicked" handler="on_copy_to_clipboard" swapped="no"/>
+          </object>
+          <packing>
+            <property name="pack_type">end</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="InfoButtonFlatHubPage">
+            <property name="label" translatable="yes">_FlatHub Page</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="image">CopyToClipboardButtonImage</property>
+            <property name="use_underline">True</property>
+            <signal name="clicked" handler="on_flathub_page" swapped="no"/>
+          </object>
+          <packing>
+            <property name="pack_type">end</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
     </child>
     <child>
       <object class="GtkBox" id="InfoBox">
@@ -72,34 +110,6 @@ Author: Erdem Ersoy
             <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButtonBox" id="InfoButtonBox">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="InfoButton">
-                <property name="label" translatable="yes">_Copy to Clipboard</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="image">InfoButtonImage</property>
-                <property name="use_underline">True</property>
-                <signal name="clicked" handler="on_copy_to_clipboard" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
           </packing>
         </child>
       </object>

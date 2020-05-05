@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Flatpak GUI 1.0-rc1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-05 09:19+0300\n"
-"PO-Revision-Date: 2020-05-05 09:20+0300\n"
+"POT-Creation-Date: 2020-05-05 09:43+0300\n"
+"PO-Revision-Date: 2020-05-05 09:39+0300\n"
 "Last-Translator: Erdem Ersoy <<erdem.ersoy@pardus.org.tr>>\n"
 "Language-Team: Erdem Ersoy <erdem.ersoy@pardus.org.tr>\n"
 "Language: en\n"
@@ -39,7 +39,7 @@ msgstr "<big><b>Argument Error</b></big>"
 msgid "There are too many arguments. Argument count: "
 msgstr "There are too many arguments. Argument count: "
 
-#: pardusflatpakgui/infowindow.py:45
+#: pardusflatpakgui/infowindow.py:46
 #: pardusflatpakgui/installfromfilewindow.py:73
 #: pardusflatpakgui/installwindow.py:87 pardusflatpakgui/mainwindow.py:51
 #: pardusflatpakgui/uninstallwindow.py:86
@@ -47,11 +47,15 @@ msgstr "There are too many arguments. Argument count: "
 msgid "Error reading GUI file: "
 msgstr "Error reading GUI file: "
 
-#: pardusflatpakgui/infowindow.py:53
+#: pardusflatpakgui/infowindow.py:54
 msgid "_Copy to Clipboard"
 msgstr "_Copy to Clipboard"
 
 #: pardusflatpakgui/infowindow.py:57
+msgid "_FlatHub Page"
+msgstr "_FlatHub Page"
+
+#: pardusflatpakgui/infowindow.py:61
 msgid "Info About "
 msgstr "Info About "
 
@@ -390,11 +394,21 @@ msgstr "Updating canceled!"
 #~ msgid "Install From _Entry"
 #~ msgstr "Install From _Entry"
 
-#~ msgid "Please enter an application name (Ex: org.libreoffice.LibreOffice) what you want to install from Flathub."
-#~ msgstr "Please enter an application name (Ex: org.libreoffice.LibreOffice) what you want to install from Flathub."
+#~ msgid ""
+#~ "Please enter an application name (Ex: org.libreoffice.LibreOffice) what "
+#~ "you want to install from Flathub."
+#~ msgstr ""
+#~ "Please enter an application name (Ex: org.libreoffice.LibreOffice) what "
+#~ "you want to install from Flathub."
 
-#~ msgid "NOTE: Installing an application from third party remote repositories isn't secured as installing an application from official repositories of your distribution."
-#~ msgstr "NOTE: Installing an application from third party remote repositories isn't secured as installing an application from official repositories of your distribution."
+#~ msgid ""
+#~ "NOTE: Installing an application from third party remote repositories "
+#~ "isn't secured as installing an application from official repositories of "
+#~ "your distribution."
+#~ msgstr ""
+#~ "NOTE: Installing an application from third party remote repositories "
+#~ "isn't secured as installing an application from official repositories of "
+#~ "your distribution."
 
 #~ msgid "Enter an application name"
 #~ msgstr "Enter an application name"

@@ -588,7 +588,7 @@ class MainWindow(object):
             self.MessageDialogError.hide()
             return None
 
-        InfoWindow(self.Application, info_str, ref)
+        InfoWindow(self.Application, info_str, ref, real_name)
 
     def on_uninstall(self, menu_item):
         if not self.HeaderBarShowButton.get_active():

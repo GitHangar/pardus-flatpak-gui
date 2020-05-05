@@ -18,6 +18,7 @@
 
 import gettext
 import locale
+import webbrowser
 import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('Gdk', '3.0')
@@ -32,10 +33,11 @@ gettext.install("pardus-flatpak-gui", "/usr/share/locale/")
 
 
 class InfoWindow(object):
-    def __init__(self, application, info_string, app):
+    def __init__(self, application, info_string, app, real_name):
         self.Application = application
         self.InfoString = info_string
         self.App = app
+        self.real_name = real_name
 
         try:
             info_gui_file = "/usr/share/pardus/pardus-flatpak-gui/ui/infowindow.glade"
@@ -49,8 +51,11 @@ class InfoWindow(object):
                                     "InfoTextBuffer")
         info_text_buffer.set_text(info_string)
 
-        info_button = info_builder.get_object("InfoButton")
-        info_button.set_label(_("_Copy to Clipboard"))
+        info_button_copy_to_clipboard = info_builder.get_object("InfoButtonCopyToClipboard")
+        info_button_copy_to_clipboard.set_label(_("_Copy to Clipboard"))
+
+        info_button_flathub_page = info_builder.get_object("InfoButtonFlatHubPage")
+        info_button_flathub_page.set_label(_("_FlatHub Page"))
 
         self.InfoWindow = info_builder.get_object("InfoWindow")
         self.InfoWindow.set_application(application)
@@ -63,3 +68,6 @@ class InfoWindow(object):
     def on_copy_to_clipboard(self, button):
         clipboard_current = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         clipboard_current.set_text(self.InfoString, -1)
+
+    def on_flathub_page(self, button):
+        webbrowser.open_new_tab("https://flathub.org/apps/details/" + self.real_name)

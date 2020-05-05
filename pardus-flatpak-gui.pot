@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-05 09:19+0300\n"
+"POT-Creation-Date: 2020-05-05 09:43+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,7 +37,7 @@ msgstr ""
 msgid "There are too many arguments. Argument count: "
 msgstr ""
 
-#: pardusflatpakgui/infowindow.py:45
+#: pardusflatpakgui/infowindow.py:46
 #: pardusflatpakgui/installfromfilewindow.py:73
 #: pardusflatpakgui/installwindow.py:87 pardusflatpakgui/mainwindow.py:51
 #: pardusflatpakgui/uninstallwindow.py:86
@@ -45,11 +45,15 @@ msgstr ""
 msgid "Error reading GUI file: "
 msgstr ""
 
-#: pardusflatpakgui/infowindow.py:53
+#: pardusflatpakgui/infowindow.py:54
 msgid "_Copy to Clipboard"
 msgstr ""
 
 #: pardusflatpakgui/infowindow.py:57
+msgid "_FlatHub Page"
+msgstr ""
+
+#: pardusflatpakgui/infowindow.py:61
 msgid "Info About "
 msgstr ""
 
