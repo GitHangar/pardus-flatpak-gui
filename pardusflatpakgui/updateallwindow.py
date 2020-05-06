@@ -294,7 +294,7 @@ class UpdateAllWindow(object):
         self.FlatpakTransaction.disconnect(self.handler_id_error)
 
     def on_press_cancel(self, button):
-        self.InstallCancellation.cancel()
+        self.UpdateAllCancellation.cancel()
         self.UpdateAllWindow.hide_on_delete()
 
     def on_delete_action_window(self, widget, event):
