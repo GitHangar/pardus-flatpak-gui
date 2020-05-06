@@ -19,7 +19,7 @@
 
 
 class Version(object):
-    VersionString = "0.2.0"
+    VersionString = "0.3.0"
 
     @classmethod
     def getVersion(cls):
