@@ -12,6 +12,16 @@ X.Y.Z version number scheme used. X means main version number, Y means major ver
 
 1.Y.Z -> First main stable versions
 
+## Installing and Running
+
+Use DEB packages or run setup.py as root:
+
+    python3 setup.py install
+
+And you can run Pardus Flatpak GUI via desktop file or this command:
+
+    pardus-flatpak-gui
+
 ## Copyright
 
 Copyright (C) 2020 Erdem Ersoy.
