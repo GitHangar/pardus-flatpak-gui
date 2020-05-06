@@ -93,6 +93,9 @@ class UninstallWindow(object):
         self.UninstallWindow.set_title(_("Uninstalling..."))
         self.UninstallWindow.show()
 
+        self.UninstallButtonCancel = uninstall_builder.get_object("ActionButtonCancel")
+        self.UninstallButtonCancel.set_sensitive(True)
+
         self.UninstallProgressBar = uninstall_builder.get_object(
                                         "ActionProgressBar")
         self.ProgressBarValue = int(
@@ -143,7 +146,11 @@ class UninstallWindow(object):
             GLib.idle_add(self.UninstallTextBuffer.set_text,
                           self.StatusText,
                           priority=GLib.PRIORITY_DEFAULT)
+        time.sleep(0.2)
         self.disconnect_handlers(handler_id_cancel)
+        GLib.idle_add(self.UninstallButtonCancel.set_sensitive,
+                      False,
+                      priority=GLib.PRIORITY_DEFAULT)
         time.sleep(0.5)
 
         if self.ButtonNotPressedAlready:
@@ -267,6 +274,10 @@ class UninstallWindow(object):
         self.FlatpakTransaction.disconnect(self.handler_id)
         self.FlatpakTransaction.disconnect(self.handler_id_2)
         self.FlatpakTransaction.disconnect(self.handler_id_error)
+
+    def on_press_cancel(self, button):
+        self.InstallCancellation.cancel()
+        self.UninstallWindow.hide_on_delete()
 
     def on_delete_action_window(self, widget, event):
         self.UninstallCancellation.cancel()

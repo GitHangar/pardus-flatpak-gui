@@ -91,6 +91,9 @@ class UpdateAllWindow(object):
         self.UpdateAllWindow.set_title(_("Updating All"))
         self.UpdateAllWindow.show()
 
+        self.UpdateAllButtonCancel = update_all_builder.get_object("ActionButtonCancel")
+        self.UpdateAllButtonCancel.set_sensitive(True)
+
         self.UpdateAllProgressBar = update_all_builder.get_object(
                                         "ActionProgressBar")
         self.ProgressBarValue = int(
@@ -146,7 +149,11 @@ class UpdateAllWindow(object):
             GLib.idle_add(self.UpdateAllTextBuffer.set_text,
                           self.StatusText,
                           priority=GLib.PRIORITY_DEFAULT)
+            time.sleep(0.2)
         self.disconnect_handlers(handler_id_cancel)
+        GLib.idle_add(self.UpdateAllButtonCancel.set_sensitive,
+                      False,
+                      priority=GLib.PRIORITY_DEFAULT)
         time.sleep(0.5)
 
         UpdateAllWindow.at_updating = False
@@ -285,6 +292,10 @@ class UpdateAllWindow(object):
         self.FlatpakTransaction.disconnect(self.handler_id)
         self.FlatpakTransaction.disconnect(self.handler_id_2)
         self.FlatpakTransaction.disconnect(self.handler_id_error)
+
+    def on_press_cancel(self, button):
+        self.InstallCancellation.cancel()
+        self.UpdateAllWindow.hide_on_delete()
 
     def on_delete_action_window(self, widget, event):
         self.UpdateAllCancellation.cancel()

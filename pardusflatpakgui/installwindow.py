@@ -94,6 +94,9 @@ class InstallWindow(object):
         self.InstallWindow.set_title(_("Installing..."))
         self.InstallWindow.show()
 
+        self.InstallButtonCancel = install_builder.get_object("ActionButtonCancel")
+        self.InstallButtonCancel.set_sensitive(True)
+
         self.InstallProgressBar = install_builder.get_object(
                                         "ActionProgressBar")
         self.ProgressBarValue = int(self.InstallProgressBar.get_fraction() * 100)
@@ -142,7 +145,11 @@ class InstallWindow(object):
             GLib.idle_add(self.InstallTextBuffer.set_text,
                           self.StatusText,
                           priority=GLib.PRIORITY_DEFAULT)
+            time.sleep(0.2)
         self.disconnect_handlers(handler_id_cancel)
+        GLib.idle_add(self.InstallButtonCancel.set_sensitive,
+                      False,
+                      priority=GLib.PRIORITY_DEFAULT)
 
     def install_progress_callback(self, transaction, operation, progress):
         ref_to_install = Flatpak.Ref.parse(operation.get_ref())
@@ -250,6 +257,10 @@ class InstallWindow(object):
         self.FlatpakTransaction.disconnect(self.handler_id)
         self.FlatpakTransaction.disconnect(self.handler_id_2)
         self.FlatpakTransaction.disconnect(self.handler_id_error)
+
+    def on_press_cancel(self, button):
+        self.InstallCancellation.cancel()
+        self.InstallWindow.hide_on_delete()
 
     def on_delete_action_window(self, widget, event):
         self.InstallCancellation.cancel()
