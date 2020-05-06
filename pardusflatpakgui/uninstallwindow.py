@@ -192,7 +192,7 @@ class UninstallWindow(object):
                 uninstalled_ref_real_name = uninstalled_ref.get_name()
                 uninstalled_ref_arch = uninstalled_ref.get_arch()
                 uninstalled_ref_branch = uninstalled_ref.get_branch()
-                uninstalled_ref_remote = "flathub"
+                uninstalled_ref_remote = "FlatHub"
 
                 installed_size = uninstalled_ref.get_installed_size()
                 installed_size_mib = installed_size / 1048576

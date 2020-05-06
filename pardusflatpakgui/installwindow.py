@@ -178,7 +178,7 @@ class InstallWindow(object):
                 installed_ref_real_name = installed_ref.get_name()
                 installed_ref_arch = installed_ref.get_arch()
                 installed_ref_branch = installed_ref.get_branch()
-                installed_ref_remote = "flathub"
+                installed_ref_remote = "FlatHub"
 
                 installed_size = installed_ref.get_installed_size()
                 installed_size_mib = installed_size / 1048576

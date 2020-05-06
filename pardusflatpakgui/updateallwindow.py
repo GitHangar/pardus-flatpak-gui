@@ -206,7 +206,7 @@ class UpdateAllWindow(object):
                 updated_ref_real_name = updated_ref.get_name()
                 updated_ref_arch = updated_ref.get_arch()
                 updated_ref_branch = updated_ref.get_branch()
-                updated_ref_remote = "flathub"
+                updated_ref_remote = "FlatHub"
 
                 installed_size = updated_ref.get_installed_size()
                 installed_size_mib = installed_size / 1048576

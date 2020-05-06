@@ -120,7 +120,7 @@ class MainWindow(object):
 
                 if not item_is_installed:
                     if item in self.FlatHubRefsList:
-                        remote_name = "flathub"
+                        remote_name = "FlatHub"
                     else:
                         remote_name = ""
                     download_size = item.get_download_size()
@@ -129,6 +129,8 @@ class MainWindow(object):
                     name = ""
                 elif item_is_installed:
                     remote_name = item.get_origin()
+                    if remote_name == "flathub":
+                        remote_name = "FlatHub"
                     download_size_mib_str = ""
                     name = item.get_appdata_name()
                 else:
@@ -518,6 +520,8 @@ class MainWindow(object):
             origin = ref.get_origin()
             if origin is None:
                 origin = _("None")
+            elif origin == "flathub":
+                origin = "FlatHub"
 
             sub_paths = ref.get_subpaths()
             if sub_paths is None or not sub_paths:
@@ -567,6 +571,8 @@ class MainWindow(object):
             remote = ref.get_remote_name()
             if remote is None:
                 remote = _("None")
+            elif remote == "flathub":
+                remote = "FlatHub"
 
             info_str = _("Real Name: ") + real_name + "\n" + \
                 _("Arch: ") + arch + "\n" + \
@@ -644,6 +650,8 @@ class MainWindow(object):
         arch = tree_model.get_value(tree_iter, 1)
         branch = tree_model.get_value(tree_iter, 2)
         remote = tree_model.get_value(tree_iter, 3)
+        if remote == "FlatHub":
+            remote = "flathub"
 
         self.MessageDialogQuestion.set_markup(
             _("<big><b>Installing ") + real_name + "</b></big>")
