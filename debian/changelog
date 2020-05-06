@@ -1,3 +1,16 @@
+pardus-flatpak-gui (0.3.0) unstable; urgency=medium
+
+  * Improve "Install" and "Uninstall" menu item functions
+  * Popup menu when right click instead of left click
+  * Update Info window appearance and functionality
+  * View remote name as "FlatHub" if it is "flathub"
+  * Add "Cancel" button for installing, uninstalling and updating
+  * Add confirmation dialogs before installing and uninstalling
+  * Update message dialog titles and make them translatable
+  * Update documentation
+
+ -- Erdem Ersoy <erdem.ersoy@pardus.org.tr>  Wed, 06 May 2020 10:59:47 +0300
+
 pardus-flatpak-gui (0.2.0) unstable; urgency=medium
 
   * Implement column sorting
